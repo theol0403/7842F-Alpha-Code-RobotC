@@ -1,4 +1,5 @@
-#pragma config(Sensor, dgtl1,  e_LeftEn,       sensorQuadEncoder)
+#pragma config(Sensor, dgtl1,  s_LeftEn,       sensorQuadEncoder)
+#pragma config(Sensor, dgtl5,  s_FlywheelEn,   sensorQuadEncoder)
 #pragma config(Motor,  port2,           m_Flywheel,    tmotorVex393_MC29, openLoop, reversed)
 #pragma config(Motor,  port3,           m_Intake,      tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port4,           m_RightBase,   tmotorVex393_MC29, openLoop, reversed)

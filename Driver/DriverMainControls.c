@@ -1,6 +1,31 @@
+task flywheelTask()
+{
+	for(int i = 40; i < 127; i++)
+		{
+			setFlywheelPower(i);
+			delay(60);
+		}
+		delay(1000000);
+}
 
 
+long flywheelRPM = 0;
+long lastTime = 0;
+long lastEncoder = 0;
 
+
+int calculateRPM()
+{
+	long timeInterval = time1[T2] - lastTime;
+	lastTime = time1[T2];
+
+	long encoderInterval = SensorValue(s_FlywheelEn) - lastEncoder;
+	lastEncoder = SensorValue(s_FlywheelEn);
+
+	int rpm 60000 / timeInterval * (encoderInterval/360);
+	
+	return rpm;
+}
 
 
 int joystickCh4;
@@ -11,6 +36,8 @@ bool toggle = false;
 
 task DriverMainTask()
 {
+	clearTimer(T2);
+
 	while(true)
 	{
 
@@ -86,6 +113,8 @@ task DriverMainTask()
 			setFlywheelPower(0);
 		}
 		// Flywheel BangBang --------------------------------------------------------------------------------
+
+		flywheelRPM = calculateRPM();
 
 
 
