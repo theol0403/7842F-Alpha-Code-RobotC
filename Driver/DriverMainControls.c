@@ -9,14 +9,16 @@ task flywheelTask()
 }
 
 
-long lastTime = 0;
-long lastEncoder = 0;
+float lastTime = 1;
+float lastEncoder = 1;
+float timeInterval;
+float encoderInterval;
 int calculateRPM()
 {
-	long timeInterval = time1[T2] - lastTime;
+	timeInterval = time1[T2] - lastTime;
 	lastTime = time1[T2];
 
-	long encoderInterval = SensorValue(s_FlywheelEn) - lastEncoder;
+	encoderInterval = SensorValue(s_FlywheelEn) - lastEncoder;
 	lastEncoder = SensorValue(s_FlywheelEn);
 
 	int rpm = 60000 / timeInterval * (encoderInterval/360);
@@ -38,6 +40,9 @@ bool toggle = false;
 task DriverMainTask()
 {
 	clearTimer(T2);
+	lastEncoder = 1;
+	lastTime = 1;
+	SensorValue(s_FlywheelEn) = 0;
 
 	while(true)
 	{
@@ -119,7 +124,7 @@ task DriverMainTask()
 
 
 
-		wait1Msec(20);
+		wait1Msec(50);
 	}
 
 
