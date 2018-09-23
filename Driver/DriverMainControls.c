@@ -21,7 +21,7 @@ int calculateRPM()
 
 	int rpm = 60000 / timeInterval * (encoderInterval/360);
 
-//int rpm = 666.66 * encoderInterval / timeInterval;
+//int rpm = 166.66 * encoderInterval / timeInterval;
 	return rpm;
 }
 
