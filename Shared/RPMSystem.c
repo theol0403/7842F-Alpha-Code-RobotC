@@ -1,4 +1,25 @@
+/* USE CASE
+Somewhere, declare your RPM struct for a sensor/flywheel.
+This will either be global or available to all your RPM calculate functions
+* structRPM mainFlywheelRPM;
+Somewhere, inside your code, so either in init, main, or some task,
+run this function to Instantiate and populate your RPM struct.
+The first param is your RPM struct name, The second is the sensor you are monitoring,
+the third is the timer you are using to measure your RPM, the fourth is the ratio to your flywheel, so
+it can output your flywheel RPM
+* initRPM(mainFlywheelRPM, s_FlywheelEn, T2, 4.8);
+Finally, to read the RPM, you can either read from:
+* x = calculateRPM(mainFlywheelRPM);
+Or you can have calculateRPM in a loop and read from
+* x = mainFlywheelRPM.RPM;
+Every 150 seconds it resets the timer and sensor to avoid overflowing the variables.
+I have set the maximum refresh rate to 10ms.
+Change both of these values in the InitRPM() function.
+*/
 
+
+
+//Structure containing RPM information for a sensor/flywheel pair
 struct structRPM
 {
 	float timeInterval;
@@ -31,8 +52,8 @@ void initRPM(structRPM deviceName, int sensorNum, int timerNum, float flywheelRa
 	deviceName.timeInterval = 0;
 	deviceName.encoderInterval = 0;
 
-	deviceName.lastTime = -1;
-	deviceName.lastEncoder = -1;
+	deviceName.lastTime = 0;
+	deviceName.lastEncoder = 0;
 
 	deviceName.timerNum = timerNum;
 	deviceName.flywheelRatio = flywheelRatio;
@@ -57,8 +78,8 @@ void resetRPM(structRPM deviceName)
 	deviceName.timeInterval = 0;
 	deviceName.encoderInterval = 0;
 
-	deviceName.lastTime = -1;
-	deviceName.lastEncoder = -1;
+	deviceName.lastTime = 0;
+	deviceName.lastEncoder = 0;
 
 	clearTimer(deviceName.timerNum);
 	SensorValue(deviceName.sensorNum) = 0;
@@ -107,19 +128,3 @@ int calculateRPM(structRPM deviceName)
 	return deviceName.RPM;
 
 }
-
-
-/* USE CASE
-Somewhere, declare your RPM struct for a sensor/flywheel.
-This will either be global or available to all your RPM calculate functions
-* structRPM mainFlywheelRPM;
-Somewhere, inside your code, so either in init, main, or some task,
-run this function to Instantiate and populate your RPM struct.
-The first param is your RPM struct name, The second is the sensor you are monitoring,
-the third is the timer you are using to measure your RPM, the fourth is the ratio to your flywheel, so
-it can output your flywheel RPM
-* initRPM(mainFlywheelRPM, s_FlywheelEn, T2, 4.8);
-Finally, to read the RPM, you can either read from:
-* x = calculateRPM(mainFlywheelRPM);
-Or you can have calculateRPM in a loop and read from
-* x = mainFlywheelRPM.RPM;
