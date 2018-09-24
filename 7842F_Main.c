@@ -23,16 +23,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
 #include "Shared/CommonFunctions.c"
-
-
-
-
-
-
-
-
-
+#include "Shared/RPMSystem.c"
 
 
 /*
@@ -71,11 +72,19 @@ void pre_auton()
 #include "Driver/DriverFlywheelTask.c"
 #include "Driver/DriverMainControls.c"
 
+structRPM mainFlywheelRPM;
+
+
+int flywheelRPM;
 
 task usercontrol()
 {
+  initRPM(mainFlywheelRPM, s_FlywheelEn, T2, 4.8);
+
   startTask(DriverMainTask);
   //startTask(DriverFlywheelTask);
+
+flywheelRPM = calculateRPM(mainFlywheelRPM);
   wait1Msec(10000000);
 }
 
