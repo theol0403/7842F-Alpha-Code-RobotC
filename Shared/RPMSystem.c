@@ -5,16 +5,25 @@ This will either be global or available to all your RPM calculate functions
 Somewhere, inside your code, so either in init, main, or some task,
 run this function to Instantiate and populate your RPM struct.
 The first param is your RPM struct name, The second is the sensor you are monitoring,
-the third is the timer you are using to measure your RPM, the fourth is the ratio to your flywheel, so
-it can output your flywheel RPM
-* rpmIinit(rpmMainFlywheel, s_FlywheelEn, T2, 4.8);
+the third is the ratio to your flywheel, so it can output your scaled flywheel RPM
+* rpmIinit(rpmMainFlywheel, s_FlywheelEn, 4.8);
 Finally, to read the RPM, you can either read from:
 * x = rpmCalculate(rpmMainFlywheel);
 Or you can have rpmCalculate in a loop and read from
 * x = rpmMainFlywheel.RPM;
-Every 150 seconds it resets the timer and sensor to avoid overflowing the variables.
-I have set the maximum refresh rate to 10ms.
-Change both of these values in the rpmIinit() function.
+*/
+
+/* EXAMPLE
+rpmStruct rpmMainFlywheel;
+task usercontrol()
+{
+  rpmInit(rpmMainFlywheel, s_FlywheelEn, 4.8);
+  while(true)
+  {
+    rpmCalculate(rpmMainFlywheel);
+    wait1Msec(20);
+  }
+}
 */
 
 
@@ -47,44 +56,22 @@ struct rpmStruct
  * @param flywheelRatio  ratio between rotation of sensor and rotation of flywheel
  *
  */
-void rpmInit(rpmStruct deviceName, int sensorNum, int timerNum, float flywheelRatio)
+void rpmInit(rpmStruct deviceName, int sensorNum, float flywheelRatio)
 {
 	deviceName.timeInterval = 0;
 	deviceName.encoderInterval = 0;
 
-	deviceName.lastTime = 0;
+	deviceName.lastTime = nPgmTime;
 	deviceName.lastEncoder = 0;
 
-	deviceName.timerNum = timerNum;
 	deviceName.flywheelRatio = flywheelRatio;
 	deviceName.sensorNum = sensorNum;
 	deviceName.minRefresh = 10;
-	deviceName.maxTimer = 10000;
 
 	deviceName.RPM = 0;
 
-	clearTimer(timerNum);
 	SensorValue(sensorNum) = 0;
 }
-
-/**
- * Resets RPM values for a sensor / flywheel
- *
- * @param deviceName  instance of RPM structure
- *
- */
-void rpmReset(rpmStruct deviceName)
-{
-	deviceName.timeInterval = 0;
-	deviceName.encoderInterval = 0;
-
-	deviceName.lastTime = 0;
-	deviceName.lastEncoder = 0;
-
-	clearTimer(deviceName.timerNum);
-	SensorValue(deviceName.sensorNum) = 0;
-}
-
 
 
 
@@ -99,7 +86,7 @@ void rpmReset(rpmStruct deviceName)
 int rpmCalculate(rpmStruct deviceName)
 {
 	//Calculate the amount of ms since the last time this function was run
-	deviceName.timeInterval = time1[deviceName.timerNum] - deviceName.lastTime;
+	deviceName.timeInterval = nPgmTime - deviceName.lastTime;
 	//Calculate amount of ticks since the function was last run
 	deviceName.encoderInterval = SensorValue(deviceName.sensorNum) - deviceName.lastEncoder;
 
@@ -117,11 +104,9 @@ int rpmCalculate(rpmStruct deviceName)
 	deviceName.RPM = (60000 / deviceName.timeInterval) * (deviceName.encoderInterval/360) * deviceName.flywheelRatio;
 	//rpm = 166.66 * encoderInterval / timeInterval;
 
-	//If timer is greater than max timer size, reset everything
-	if(time1[deviceName.timerNum] > deviceName.maxTimer) rpmReset(deviceName);
 
 	//Timestamp the last time this function was run, and the encoder position
-	deviceName.lastTime = time1[deviceName.timerNum];
+	deviceName.lastTime = nPgmTime;
 	deviceName.lastEncoder = SensorValue(deviceName.sensorNum);
 
 	//Return the RPM to whatever is calling this function

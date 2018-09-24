@@ -77,7 +77,7 @@ rpmStruct rpmMainFlywheel;
 
 task usercontrol()
 {
-  rpmInit(rpmMainFlywheel, s_FlywheelEn, T2, 4.8);
+  rpmInit(rpmMainFlywheel, s_FlywheelEn, 4.8);
 
   startTask(DriverMainTask);
   //startTask(DriverFlywheelTask);
