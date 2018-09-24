@@ -70,12 +70,9 @@ void pre_auton()
 \\____/  |___/  \___| |_|
 */
 #include "Driver/DriverFlywheelTask.c"
-#include "Driver/DriverMainControls.c"
+#include "Driver/DriverSimpleControls.c"
 
 structRPM mainFlywheelRPM;
-
-
-int flywheelRPM;
 
 task usercontrol()
 {
@@ -84,8 +81,12 @@ task usercontrol()
   startTask(DriverMainTask);
   //startTask(DriverFlywheelTask);
 
-flywheelRPM = calculateRPM(mainFlywheelRPM);
-  wait1Msec(10000000);
+  while(true)
+  {
+    calculateRPM(mainFlywheelRPM);
+    wait1Msec(20);
+  }
+
 }
 
 
