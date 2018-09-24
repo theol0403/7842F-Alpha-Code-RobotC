@@ -1,13 +1,4 @@
 
-
-
-
-structRPM mainFlywheelRPM;
-
-
-int flywheelRPM;
-
-
 int joystickCh4;
 int joystickCh2;
 const int driverBaseThreshold = 20;
@@ -15,8 +6,6 @@ const int driverBaseThreshold = 20;
 
 task DriverMainTask()
 {
-	 initRPM(mainFlywheelRPM, s_FlywheelEn, T2, 4.8);
-
 
 
 	while(true)
@@ -50,9 +39,6 @@ task DriverMainTask()
 
 
 
-
-
-
 		// Intake --------------------------------------------------------------------------------
 		if(vexRT[Btn5U])
 		{
@@ -71,12 +57,7 @@ task DriverMainTask()
 
 
 
-		flywheelRPM = calculateRPM(mainFlywheelRPM);
-
-
-
 		wait1Msec(20);
 	}
-
 
 }
