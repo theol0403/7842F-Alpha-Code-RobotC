@@ -1,32 +1,8 @@
-task flywheelTask()
-{
-	for(int i = 40; i < 127; i++)
-		{
-			setFlywheelPower(i);
-			delay(60);
-		}
-		delay(1000000);
-}
 
 
-float lastTime = 1;
-float lastEncoder = 1;
-int calculateRPM()
-{
-	float timeInterval;
-	float encoderInterval;
 
-	timeInterval = time1[T2] - lastTime;
-	lastTime = time1[T2];
 
-	encoderInterval = SensorValue(s_FlywheelEn) - lastEncoder;
-	lastEncoder = SensorValue(s_FlywheelEn);
-
-	int rpm = 60000 / timeInterval * (encoderInterval/360) * 4.8;
-
-//int rpm = 166.66 * encoderInterval / timeInterval;
-	return rpm;
-}
+structRPM mainFlywheelRPM;
 
 
 int flywheelRPM;
@@ -36,38 +12,22 @@ int joystickCh4;
 int joystickCh2;
 const int driverBaseThreshold = 20;
 
-bool toggle = false;
 
 task DriverMainTask()
 {
-	clearTimer(T2);
-	lastEncoder = 1;
-	lastTime = 1;
-	SensorValue(s_FlywheelEn) = 0;
+	 initRPM(mainFlywheelRPM, s_FlywheelEn, T2, 4.8);
+
+
 
 	while(true)
 	{
 
 		// Base Control --------------------------------------------------------------------------------
-		if(vexRT[Btn7U])
-		{
-			toggle = true;
-		}
-		else if(vexRT[Btn7D])
-		{
-			toggle = false;
-		}
 
-		if (toggle)
-		{
+
 			joystickCh4 = TrueSpeed(vexRT[Ch4]);
 			joystickCh2 = TrueSpeed(vexRT[Ch2]);
-		}
-		else
-		{
-			joystickCh4 = vexRT[Ch4];
-			joystickCh2 = vexRT[Ch2];
-		}
+
 
 		if(abs(joystickCh2) > driverBaseThreshold && !(abs(joystickCh4) > driverBaseThreshold) )
 		{
@@ -109,19 +69,9 @@ task DriverMainTask()
 		// Intake --------------------------------------------------------------------------------
 
 
-		// Flywheel BangBang --------------------------------------------------------------------------------
-		if(vexRT[Btn6U])
-		{
-			startTask(flywheelTask);
-		}
-		else if(vexRT[Btn6D])
-		{
-			stopTask(flywheelTask);
-			setFlywheelPower(0);
-		}
-		// Flywheel BangBang --------------------------------------------------------------------------------
 
-		flywheelRPM = calculateRPM();
+
+		flywheelRPM = calculateRPM(mainFlywheelRPM);
 
 
 
