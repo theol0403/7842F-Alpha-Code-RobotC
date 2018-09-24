@@ -36,6 +36,7 @@
 #include "Shared/RPMSystem.c"
 
 
+
 /*
 _____                                              _
 |  __ \                             /\             | |
@@ -72,18 +73,18 @@ void pre_auton()
 #include "Driver/DriverFlywheelTask.c"
 #include "Driver/DriverSimpleControls.c"
 
-structRPM mainFlywheelRPM;
+rpmStruct rpmMainFlywheel;
 
 task usercontrol()
 {
-  initRPM(mainFlywheelRPM, s_FlywheelEn, T2, 4.8);
+  rpmInit(rpmMainFlywheel, s_FlywheelEn, T2, 4.8);
 
   startTask(DriverMainTask);
   //startTask(DriverFlywheelTask);
 
   while(true)
   {
-    calculateRPM(mainFlywheelRPM);
+    rpmCalculate(rpmMainFlywheel);
     wait1Msec(20);
   }
 

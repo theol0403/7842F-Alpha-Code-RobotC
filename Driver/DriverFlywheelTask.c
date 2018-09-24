@@ -33,6 +33,42 @@
 // 	}
 // }
 //
+// struct PID
+// {
+// 	float Kp;
+// 	float Kd;
+// 	float Ki;
+//
+// 	int totalError;
+// 	int lastError;
+//
+// 	int integralCap;
+//
+// 	int Error;
+//
+// 	int lastTime;
+// }
+//
+// PID flywheelPID
+//
+// void pidInit (PID pid, float Kp, float Ki, float Kd) {
+// 	pid.Kp = Kp;
+// 	pid.Ki = Ki;
+// 	pid.Kd = Kd;
+// 	pid.Kf = 0.0;
+// 	pid.sigma = 0;
+// 	pid.lastValue = 0;
+// 	pid.lastTime = nPgmTime;
+// }
+//
+// task flywheelPIDtask()
+// {
+// 	initPID(flywheelPID, 1, 0, 0);
+// 	while(true)
+// 	{
+// 		motor += calculatePID
+// 	}
+// }
 //
 //
 //
