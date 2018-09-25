@@ -17,7 +17,7 @@ rpmStruct rpmMainFlywheel;
 task pidFlywheelTask()
 {
 	rpmInit(rpmMainFlywheel, s_FlywheelEn, 360, 4.8);
-	pidInit(pidFlywheel, 0.10, 0.0, 0.01, 0.028, 1000, 100, 4000);
+	pidInit(pidFlywheel, 0.10, 0.0, 0.03, 0.028, 1000, 100, 4000);
 
 	int motorPower;
 	int lastPower;

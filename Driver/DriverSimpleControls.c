@@ -1,6 +1,8 @@
 
 int joystickCh4;
 int joystickCh2;
+int trueJoystickCh4;
+int trueJoystickCh2;
 const int driverBaseThreshold = 20;
 
 
@@ -14,21 +16,23 @@ task DriverMainTask()
 		// Base Control --------------------------------------------------------------------------------
 
 
-			joystickCh4 = TrueSpeed(vexRT[Ch4]);
-			joystickCh2 = TrueSpeed(vexRT[Ch2]);
+			joystickCh4 = vexRT[Ch4];
+			joystickCh2 = vexRT[Ch2];
+			trueJoystickCh4 = TrueSpeed(joystickCh4);
+			trueJoystickCh2 = TrueSpeed(joystickCh2);
 
 
 		if(abs(joystickCh2) > driverBaseThreshold && !(abs(joystickCh4) > driverBaseThreshold) )
 		{
-			setBasePower(joystickCh2, joystickCh2);
+			setBasePower(trueJoystickCh2, trueJoystickCh2);
 		}
 		else if(!(abs(joystickCh2) > driverBaseThreshold) && abs(joystickCh4) > driverBaseThreshold )
 		{
-			setBasePower(-joystickCh4, joystickCh4);
+			setBasePower(-trueJoystickCh4, trueJoystickCh4);
 		}
 		else if(abs(joystickCh2) > driverBaseThreshold && abs(joystickCh4) > driverBaseThreshold )
 		{
-			setBasePower(joystickCh2 - joystickCh4, joystickCh2 + joystickCh4);
+			setBasePower(trueJoystickCh2 - trueJoystickCh4, trueJoystickCh2 + trueJoystickCh4);
 		}
 		else
 		{
