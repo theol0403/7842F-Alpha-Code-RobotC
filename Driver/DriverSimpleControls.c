@@ -55,6 +55,23 @@ task DriverMainTask()
 		// Intake --------------------------------------------------------------------------------
 
 
+		if(vexRT[Btn7D])
+		{
+			wantedRPM = 0;
+		}
+		else if(vexRT[Btn7L])
+		{
+			wantedRPM = 1000;
+		}
+		else if(vexRT[Btn7U])
+		{
+			wantedRPM = 2000;
+		}
+		else if(vexRT[Btn7R])
+		{
+			wantedRPM = 3000;
+		}
+
 
 
 		wait1Msec(20);

@@ -38,6 +38,7 @@ struct rpmStruct
 	float lastEncoder;
 
 	float flywheelRatio;
+	float encoderTicks;
 	int sensorNum;
 	int minRefresh;
 	int maxTimer;
@@ -55,7 +56,7 @@ struct rpmStruct
  * @param flywheelRatio  ratio between rotation of sensor and rotation of flywheel
  *
  */
-void rpmInit(rpmStruct deviceName, int sensorNum, float flywheelRatio)
+void rpmInit(rpmStruct deviceName, int sensorNum, float encoderTicks, float flywheelRatio)
 {
 	deviceName.timeInterval = 0;
 	deviceName.encoderInterval = 0;
@@ -64,6 +65,7 @@ void rpmInit(rpmStruct deviceName, int sensorNum, float flywheelRatio)
 	deviceName.lastEncoder = 0;
 
 	deviceName.flywheelRatio = flywheelRatio;
+	deviceName.encoderTicks = encoderTicks;
 	deviceName.sensorNum = sensorNum;
 	deviceName.minRefresh = 10;
 
@@ -100,7 +102,7 @@ int rpmCalculate(rpmStruct deviceName)
 	}
 
 	//Calculate the RPM based off time and tick interval
-	deviceName.RPM = (60000 / deviceName.timeInterval) * (deviceName.encoderInterval/360) * deviceName.flywheelRatio;
+	deviceName.RPM = (60000 / deviceName.timeInterval) * (deviceName.encoderInterval/deviceName.encoderTicks) * deviceName.flywheelRatio;
 	//rpm = 166.66 * encoderInterval / timeInterval;
 
 
