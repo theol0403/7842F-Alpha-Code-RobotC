@@ -73,19 +73,19 @@ void pre_auton()
 #include "Driver/DriverFlywheelTask.c"
 #include "Driver/DriverSimpleControls.c"
 
-rpmStruct rpmMainFlywheel;
+
 
 task usercontrol()
 {
-  rpmInit(rpmMainFlywheel, s_FlywheelEn, 4.8);
 
   startTask(DriverMainTask);
+  startTask(pidFlywheeltask);
+
   //startTask(DriverFlywheelTask);
 
   while(true)
   {
-    rpmCalculate(rpmMainFlywheel);
-    wait1Msec(20);
+    wait1Msec(2000);
   }
 
 }

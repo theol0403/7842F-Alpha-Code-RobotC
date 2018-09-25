@@ -37,7 +37,6 @@ struct rpmStruct
 	float lastTime;
 	float lastEncoder;
 
-	int timerNum;
 	float flywheelRatio;
 	int sensorNum;
 	int minRefresh;
