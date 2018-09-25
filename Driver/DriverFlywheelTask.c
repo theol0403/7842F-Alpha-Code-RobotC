@@ -27,6 +27,13 @@ task pidFlywheeltask()
 		if((motorPower - lastPower) > 5) motorPower = lastPower + 5;
 		setFlywheelPower(motorPower);
 		lastPower = motorPower;
+
+		datalogDataGroupStart();
+ 		datalogAddValue( 0, wantedRPM );
+ 		datalogAddValue( 1,  rpmCalculate(rpmMainFlywheel));
+ 		datalogAddValue( 2, motorPower );
+ 		datalogDataGroupEnd();
+
 		wait1Msec(20);
 	}
 }
