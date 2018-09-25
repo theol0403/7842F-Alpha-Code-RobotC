@@ -71,7 +71,7 @@ void pre_auton()
 | |__| | \__ \ |  __/ | |
 \\____/  |___/  \___| |_|
 */
-int wantedRPM = 0;
+int wantedFLywheelRPM = 0;
 #include "Driver/DriverFlywheelTask.c"
 #include "Driver/DriverSimpleControls.c"
 
@@ -81,7 +81,7 @@ task usercontrol()
 {
 
   startTask(DriverMainTask);
-  startTask(pidFlywheeltask);
+  startTask(pidFlywheelTask);
 
   //startTask(DriverFlywheelTask);
 

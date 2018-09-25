@@ -14,22 +14,26 @@ rpmStruct rpmMainFlywheel;
 
 
 
-task pidFlywheeltask()
+task pidFlywheelTask()
 {
-	int motorPower;
-	int lastPower;
 	rpmInit(rpmMainFlywheel, s_FlywheelEn, 360, 4.8);
 	pidInit(pidFlywheel, 0.10, 0.0, 0.01, 0.028, 1000, 100, 4000);
+
+	int motorPower;
+	int lastPower;
+
 	while(true)
 	{
-		motorPower = pidCalculate(pidFlywheel, wantedRPM, rpmCalculate(rpmMainFlywheel));
+		motorPower = pidCalculate(pidFlywheel, wantedFLywheelRPM, rpmCalculate(rpmMainFlywheel));
+
 		if(motorPower < 0) motorPower = 0;
 		if((motorPower - lastPower) > 5) motorPower = lastPower + 5;
+
 		setFlywheelPower(motorPower);
 		lastPower = motorPower;
 
 		datalogDataGroupStart();
- 		datalogAddValue( 0, wantedRPM );
+ 		datalogAddValue( 0, wantedFLywheelRPM );
  		datalogAddValue( 1,  rpmCalculate(rpmMainFlywheel));
  		datalogAddValue( 2, motorPower );
  		datalogDataGroupEnd();
