@@ -72,7 +72,7 @@ void pre_auton()
 | |__| | \__ \ |  __/ | |
 \\____/  |___/  \___| |_|
 */
-int wantedFLywheelRPM = 0;
+int wantedFlywheelRPM = 0;
 #include "Driver/DriverFlywheelTask.c"
 #include "Driver/DriverSimpleControls.c"
 

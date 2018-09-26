@@ -1,4 +1,4 @@
-struct PID
+struct pidStruct
 {
 	float Kp;
 	float Kd;
@@ -19,7 +19,7 @@ struct PID
 }
 
 
-void pidInit (PID deviceName, float Kp, float Ki, float Kd, float Kf, int Icap, int Iin, int Iout)
+void pidInit (pidStruct deviceName, float Kp, float Ki, float Kd, float Kf, int Icap, int Iin, int Iout)
 {
 	deviceName.Kp = Kp;
 	deviceName.Ki = Ki;
@@ -41,7 +41,7 @@ void pidInit (PID deviceName, float Kp, float Ki, float Kd, float Kf, int Icap, 
 
 
 
-float pidCalculate(PID deviceName, int wantedRPM, int currentRPM)
+float pidCalculate(pidStruct deviceName, int wantedRPM, int currentRPM)
 {
   deviceName.Error = wantedRPM - currentRPM;
 	int deltaTime = nPgmTime - deviceName.lastTime;
