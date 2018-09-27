@@ -19,14 +19,13 @@ Or you can have rpmCalculate in a loop and read from
 */
 
 /* EXAMPLE
-int globalFlywheelRPM;
 rpmStruct rpmMainFlywheel;
 task usercontrol()
 {
   rpmInit(rpmMainFlywheel, s_FlywheelEn, 360, 4.8);
   while(true)
   {
-    globalFlywheelRPM = rpmCalculate(rpmMainFlywheel);
+    rpmCalculate(rpmMainFlywheel);
     wait1Msec(20);
   }
 }
