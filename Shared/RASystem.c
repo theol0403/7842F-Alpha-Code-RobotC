@@ -1,14 +1,17 @@
 
+
 /* USE CASE
 Somewhere, declare your RPM struct for a sensor/flywheel.
 This will either be global or available to all your RPM calculate functions
 * rpmStruct rpmMainFlywheel;
+
 Somewhere, inside your code, so either in init, main, or some task,
 run the following function to Instantiate and populate your RPM struct.
 * rpmIinit(rpmMainFlywheel, s_FlywheelEn, 360, 4.8);
 The first param is your RPM struct name, The second is the sensor you are monitoring,
 the third is the ticks of your sensor per rotation,
 and forth is the ratio from your sensor to your flywheel, so it can output the flywheel RPM
+
 Finally, to read the RPM, you can either read from:
 * x = rpmCalculate(rpmMainFlywheel);
 Or you can have rpmCalculate in a loop and read from
@@ -16,14 +19,13 @@ Or you can have rpmCalculate in a loop and read from
 */
 
 /* EXAMPLE
-int globalFlywheelRPM;
 rpmStruct rpmMainFlywheel;
 task usercontrol()
 {
   rpmInit(rpmMainFlywheel, s_FlywheelEn, 360, 4.8);
   while(true)
   {
-    globalFlywheelRPM = rpmCalculate(rpmMainFlywheel);
+    rpmCalculate(rpmMainFlywheel);
     wait1Msec(20);
   }
 }
@@ -107,6 +109,7 @@ int rpmCalculate(rpmStruct deviceName)
 
 	//Calculate the RPM based off time and tick interval
 	deviceName.RPM = (60000 / deviceName.timeInterval) * (deviceName.encoderInterval/deviceName.encoderTicks) * deviceName.flywheelRatio;
+	//rpm = 166.66 * encoderInterval / timeInterval;
 
 
 	//Timestamp the last time this function was run, and the encoder position
