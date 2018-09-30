@@ -1,26 +1,38 @@
+
 /* USE CASE
 Somewhere, declare your RPM struct for a sensor/flywheel.
 This will either be global or available to all your RPM calculate functions
-* structRPM mainFlywheelRPM;
+* rpmStruct rpmMainFlywheel;
 Somewhere, inside your code, so either in init, main, or some task,
-run this function to Instantiate and populate your RPM struct.
+run the following function to Instantiate and populate your RPM struct.
+* rpmIinit(rpmMainFlywheel, s_FlywheelEn, 360, 4.8);
 The first param is your RPM struct name, The second is the sensor you are monitoring,
-the third is the timer you are using to measure your RPM, the fourth is the ratio to your flywheel, so
-it can output your flywheel RPM
-* initRPM(mainFlywheelRPM, s_FlywheelEn, T2, 4.8);
+the third is the ticks of your sensor per rotation,
+and forth is the ratio from your sensor to your flywheel, so it can output the flywheel RPM
 Finally, to read the RPM, you can either read from:
-* x = calculateRPM(mainFlywheelRPM);
-Or you can have calculateRPM in a loop and read from
-* x = mainFlywheelRPM.RPM;
-Every 150 seconds it resets the timer and sensor to avoid overflowing the variables.
-I have set the maximum refresh rate to 10ms.
-Change both of these values in the InitRPM() function.
+* x = rpmCalculate(rpmMainFlywheel);
+Or you can have rpmCalculate in a loop and read from
+* x = rpmMainFlywheel.RPM;
+*/
+
+/* EXAMPLE
+int globalFlywheelRPM;
+rpmStruct rpmMainFlywheel;
+task usercontrol()
+{
+  rpmInit(rpmMainFlywheel, s_FlywheelEn, 360, 4.8);
+  while(true)
+  {
+    globalFlywheelRPM = rpmCalculate(rpmMainFlywheel);
+    wait1Msec(20);
+  }
+}
 */
 
 
 
 //Structure containing RPM information for a sensor/flywheel pair
-struct structRPM
+struct rpmStruct
 {
 	float timeInterval;
 	float encoderInterval;
@@ -28,8 +40,8 @@ struct structRPM
 	float lastTime;
 	float lastEncoder;
 
-	int timerNum;
 	float flywheelRatio;
+	float encoderTicks;
 	int sensorNum;
 	int minRefresh;
 	int maxTimer;
@@ -44,47 +56,27 @@ struct structRPM
  * @param deviceName  instance of RPM structure
  * @param sensorNum  enumerated value of sensor being read
  * @param timerNum  enumerated value of timer
- * @param flywheelRatio  ratio between rotation of sensor and rotation of flywheel
+ * @param encoderTicks  amount of ticks per rotation for your sensor - QuadEncoders are 360, IME are 4
+ * @param flywheelRatio  ratio between sensor and flywheel
  *
  */
-void initRPM(structRPM deviceName, int sensorNum, int timerNum, float flywheelRatio)
+void rpmInit(rpmStruct &deviceName, int sensorNum, float encoderTicks, float flywheelRatio)
 {
 	deviceName.timeInterval = 0;
 	deviceName.encoderInterval = 0;
 
-	deviceName.lastTime = 0;
+	deviceName.lastTime = nPgmTime;
 	deviceName.lastEncoder = 0;
 
-	deviceName.timerNum = timerNum;
 	deviceName.flywheelRatio = flywheelRatio;
+	deviceName.encoderTicks = encoderTicks;
 	deviceName.sensorNum = sensorNum;
 	deviceName.minRefresh = 10;
-	deviceName.maxTimer = 10000;
 
 	deviceName.RPM = 0;
 
-	clearTimer(timerNum);
 	SensorValue(sensorNum) = 0;
 }
-
-/**
- * Resets RPM values for a sensor / flywheel
- *
- * @param deviceName  instance of RPM structure
- *
- */
-void resetRPM(structRPM deviceName)
-{
-	deviceName.timeInterval = 0;
-	deviceName.encoderInterval = 0;
-
-	deviceName.lastTime = 0;
-	deviceName.lastEncoder = 0;
-
-	clearTimer(deviceName.timerNum);
-	SensorValue(deviceName.sensorNum) = 0;
-}
-
 
 
 
@@ -93,13 +85,13 @@ void resetRPM(structRPM deviceName)
  * Calculate RPM calculation for a sensor / flywheel
  *
  * @param deviceName  instance of RPM structure
- *
+ *S
  * @return  RPM of flywheel
  */
-int calculateRPM(structRPM deviceName)
+int rpmCalculate(rpmStruct &deviceName)
 {
 	//Calculate the amount of ms since the last time this function was run
-	deviceName.timeInterval = time1[deviceName.timerNum] - deviceName.lastTime;
+	deviceName.timeInterval = nPgmTime - deviceName.lastTime;
 	//Calculate amount of ticks since the function was last run
 	deviceName.encoderInterval = SensorValue(deviceName.sensorNum) - deviceName.lastEncoder;
 
@@ -114,14 +106,11 @@ int calculateRPM(structRPM deviceName)
 	}
 
 	//Calculate the RPM based off time and tick interval
-	deviceName.RPM = (60000 / deviceName.timeInterval) * (deviceName.encoderInterval/360) * deviceName.flywheelRatio;
-	//rpm = 166.66 * encoderInterval / timeInterval;
+	deviceName.RPM = (60000 / deviceName.timeInterval) * (deviceName.encoderInterval/deviceName.encoderTicks) * deviceName.flywheelRatio;
 
-	//If timer is greater than max timer size, reset everything
-	if(time1[deviceName.timerNum] > deviceName.maxTimer) resetRPM(deviceName);
 
 	//Timestamp the last time this function was run, and the encoder position
-	deviceName.lastTime = time1[deviceName.timerNum];
+	deviceName.lastTime = nPgmTime;
 	deviceName.lastEncoder = SensorValue(deviceName.sensorNum);
 
 	//Return the RPM to whatever is calling this function
