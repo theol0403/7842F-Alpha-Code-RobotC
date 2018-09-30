@@ -60,7 +60,7 @@ struct rpmStruct
  * @param flywheelRatio  ratio between sensor and flywheel
  *
  */
-void rpmInit(rpmStruct deviceName, int sensorNum, float encoderTicks, float flywheelRatio)
+void rpmInit(rpmStruct &deviceName, int sensorNum, float encoderTicks, float flywheelRatio)
 {
 	deviceName.timeInterval = 0;
 	deviceName.encoderInterval = 0;
@@ -85,10 +85,10 @@ void rpmInit(rpmStruct deviceName, int sensorNum, float encoderTicks, float flyw
  * Calculate RPM calculation for a sensor / flywheel
  *
  * @param deviceName  instance of RPM structure
- *
+ *S
  * @return  RPM of flywheel
  */
-int rpmCalculate(rpmStruct deviceName)
+int rpmCalculate(rpmStruct &deviceName)
 {
 	//Calculate the amount of ms since the last time this function was run
 	deviceName.timeInterval = nPgmTime - deviceName.lastTime;

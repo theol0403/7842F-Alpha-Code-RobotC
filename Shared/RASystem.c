@@ -10,7 +10,7 @@ struct raStruct
 };
 
 
-void raInit(raStruct deviceName, int sampleNum)
+void raInit(raStruct &deviceName, int sampleNum)
 {
 	deviceName.sampleNum = sampleNum;
 	deviceName.arraySize = sampleNum - 1;
@@ -26,7 +26,7 @@ void raInit(raStruct deviceName, int sampleNum)
 
 
 
-float raCalculate(raStruct deviceName, float newValue)
+float raCalculate(raStruct &deviceName, float newValue)
 {
 	float tempAvg = 0;
 
