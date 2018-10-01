@@ -3,8 +3,6 @@
 
 rpmStruct mainFlywheelRPM;
 pidStruct mainFlywheelPID;
-
-
 raStruct mainFlywheelRA;
 
 
