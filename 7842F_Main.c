@@ -29,7 +29,7 @@
 
 
 
-
+#include "BNSLib/BNSLib.h"
 
 
 
@@ -54,6 +54,7 @@ Code that runs when the robot is turned on
 
 void pre_auton()
 {
+  BNS();
 
 }
 
