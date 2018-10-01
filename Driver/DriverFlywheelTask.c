@@ -1,7 +1,5 @@
 
 
-int slewRate = 1;
-
 rpmStruct mainFlywheelRPM;
 EMAFilter mainFlywheelRPM_RA;
 
@@ -9,6 +7,7 @@ EMAFilter mainFlywheelRPM_RA;
 pidStruct mainFlywheelPID;
 EMAFilter mainFlywheelPID_RA;
 
+int slewRate = 1;
 
 task pidFlywheelTask()
 {
@@ -49,7 +48,6 @@ task pidFlywheelTask()
     datalogAddValue( 2,  filteredRPM /4);
     datalogAddValue( 3, motorPower );
     datalogAddValue( 4, motorTrue );
-
     datalogAddValue( 5, mainFlywheelPID.derivative );
  		datalogDataGroupEnd();
 
