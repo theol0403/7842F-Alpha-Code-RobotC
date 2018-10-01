@@ -1,6 +1,6 @@
 
 
-int slewRate = 2;
+int slewRate = 1;
 
 rpmStruct mainFlywheelRPM;
 EMAFilter mainFlywheelRPM_RA;
@@ -44,9 +44,9 @@ task pidFlywheelTask()
 
 
 		datalogDataGroupStart();
- 		datalogAddValue( 0, wantedFlywheelRPM /2);
- 		datalogAddValue( 1,  flywheelRPM /2 );
-    datalogAddValue( 2,  filteredRPM /2);
+ 		datalogAddValue( 0, wantedFlywheelRPM /4);
+ 		datalogAddValue( 1,  flywheelRPM /4 );
+    datalogAddValue( 2,  filteredRPM /4);
     datalogAddValue( 3, motorPower );
     datalogAddValue( 4, motorTrue );
 

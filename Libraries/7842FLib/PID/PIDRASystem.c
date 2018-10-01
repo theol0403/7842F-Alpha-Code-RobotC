@@ -40,7 +40,10 @@ float pidRACalculate(pidStruct &deviceName, int wantedRPM, int currentRPM)
 	if(abs(deviceName.Error) > deviceName.integralOuter) deviceName.totalError = deviceName.lastIntegral;
 
 
-	deviceName.derivative = filter_EMA(deviceName.raName, deviceName.Error - deviceName.lastError);
+	deviceName.derivative = deviceName.Error - deviceName.lastError;
+	if(deviceName.derivative < 0) deviceName.derivative /= 4;
+
+	deviceName.derivative = filter_EMA(deviceName.raName, deviceName.derivative);
 
   float finalPower = (deviceName.Error * deviceName.Kp) + (deviceName.totalError * deviceName.Ki) + (deviceName.derivative * deviceName.Kd) + (wantedRPM * deviceName.Kf);
 

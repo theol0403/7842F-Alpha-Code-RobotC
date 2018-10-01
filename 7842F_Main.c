@@ -30,7 +30,7 @@
 
 
 
-#include "Libraries/BNSLib/BNSLib.h"
+//#include "Libraries/BNSLib/BNSLib.h"
 #include "Libraries/BCILib/BCILib.h"
 #include "Libraries/7842FLib/7842FLib.h"
 
@@ -57,7 +57,7 @@ Code that runs when the robot is turned on
 
 void pre_auton()
 {
-  BNS();
+  //BNS();
 
 }
 
