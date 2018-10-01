@@ -29,14 +29,12 @@
 
 
 
-#include "BNSLib/BNSLib.h"
-
+#include "Libraries/BNSLib/BNSLib.h"
+#include "Libraries/BCILib/BCILib.h"
+#include "Libraries/7842FLib/7842FLib.h"
 
 
 #include "Shared/CommonFunctions.c"
-#include "Shared/RPMSystem.c"
-#include "Shared/PIDSystem.c"
-#include "Shared/RASystem.c"
 
 
 
