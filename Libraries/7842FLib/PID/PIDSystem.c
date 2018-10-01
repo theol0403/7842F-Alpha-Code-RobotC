@@ -47,6 +47,12 @@ float pidCalculate(pidStruct &deviceName, int wantedRPM, int currentRPM)
 
 	deviceName.lastTime = nPgmTime;
 	deviceName.lastIntegral = deviceName.totalError;
+
+	if(abs(finalPower) > 127)
+	{
+		finalPower = sgn(finalPower) * 127;
+	}
+
   return finalPower;
 }
 
