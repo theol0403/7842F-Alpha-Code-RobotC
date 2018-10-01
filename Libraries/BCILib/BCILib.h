@@ -52,7 +52,7 @@
 #endif
 
 #ifdef BCI_USE_DEMA_FILTER
-  #include "Filter\demaFilter.c"
+#include "Filter\demaFilter.c"
 #endif
 
 #ifdef BCI_USE_FUA_FILTER

@@ -25,7 +25,8 @@
 
 
 
-
+#define BCI_USE_DEMA_FILTER
+#define BCI_USE_EMA_FILTER
 
 
 
@@ -34,7 +35,11 @@
 #include "Libraries/7842FLib/7842FLib.h"
 
 
+
+
 #include "Shared/CommonFunctions.c"
+
+
 
 
 
@@ -79,7 +84,6 @@ int wantedFlywheelRPM = 0;
 
 
 
-
 task usercontrol()
 {
 
@@ -89,9 +93,11 @@ task usercontrol()
   //startTask(DriverFlywheelTask);
 
 
+
+
   while(true)
   {
-    wait1Msec(2000);
+    wait1Msec(10000);
   }
 
 }
