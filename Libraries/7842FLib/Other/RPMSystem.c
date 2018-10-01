@@ -66,7 +66,7 @@ void rpmInit(rpmStruct &deviceName, int sensorNum, float encoderTicks, float fly
 	deviceName.encoderInterval = 0;
 
 	deviceName.lastTime = nPgmTime;
-	deviceName.lastEncoder = 0;
+	deviceName.lastEncoder = SensorValue(sensorNum);
 
 	deviceName.flywheelRatio = flywheelRatio;
 	deviceName.encoderTicks = encoderTicks;
@@ -75,7 +75,7 @@ void rpmInit(rpmStruct &deviceName, int sensorNum, float encoderTicks, float fly
 
 	deviceName.RPM = 0;
 
-	SensorValue(sensorNum) = 0;
+	//SensorValue(sensorNum) = 0;
 }
 
 
