@@ -5,7 +5,7 @@
 #define __7842F_LIB_H
 
 
-#include "PIDSystem.h"
+#include "PID/PIDSystem.h"
 #include "PID/PIDSystem.c"
 #include "PID/PIDRASystem.c"
 
