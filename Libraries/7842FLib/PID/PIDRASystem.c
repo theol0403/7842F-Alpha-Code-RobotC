@@ -1,5 +1,4 @@
 
-#include "PIDSystem.h"
 
 void pidRAInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf = 0, int Icap = 100000, int Iin = 0, int Iout = 100000, EMAFilter *raName, float emaAlpha)
 {
