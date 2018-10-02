@@ -1,11 +1,11 @@
 
 
 rpmStruct mainFlywheelRPM;
-EMAFilter mainFlywheelRPM_RA;
+EMAFilter flywheelRPM_RA;
 
 
 pidStruct mainFlywheelPID;
-EMAFilter mainFlywheelPID_RA;
+EMAFilter flywheelD_RA;
 
 int slewRate = 1;
 
@@ -13,9 +13,9 @@ task pidFlywheelTask()
 {
 
 	rpmInit(mainFlywheelRPM, s_FlywheelEn, 360, 4.8);
-	pidRAInit(mainFlywheelPID, 0.6, 0.0, 6.5, 0.033, 1000, 100, 4000, &mainFlywheelPID_RA, 0.03);
+	pidRAInit(mainFlywheelPID, 0.6, 0.0, 6.5, 0.033, 1000, 100, 4000, &flywheelD_RA, 0.03);
 
-	filter_Init_EMA(&mainFlywheelRPM_RA, 0.09);
+	filter_Init_EMA(&flywheelRPM_RA, 0.09);
 
   int motorPower;
 	int lastPower;
@@ -27,7 +27,7 @@ task pidFlywheelTask()
 	{
 
 		flywheelRPM = rpmCalculate(mainFlywheelRPM);
-    filteredRPM = filter_EMA(&mainFlywheelRPM_RA, flywheelRPM);
+    filteredRPM = filter_EMA(&flywheelRPM_RA, flywheelRPM);
 
     motorPower = pidRACalculate(mainFlywheelPID, wantedFlywheelRPM, filteredRPM);
 
