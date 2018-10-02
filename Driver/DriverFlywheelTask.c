@@ -13,9 +13,9 @@ task pidFlywheelTask()
 {
 
 	rpmInit(mainFlywheelRPM, s_FlywheelEn, 360, 4.8);
-	pidRAInit(mainFlywheelPID, 0.10, 0.0, 4, 0.028, 1000, 100, 4000, &mainFlywheelPID_RA, 0.06);
+	pidRAInit(mainFlywheelPID, 0.6, 0.0, 6, 0.033, 1000, 100, 4000, &mainFlywheelPID_RA, 0.04);
 
-	filter_Init_EMA(&mainFlywheelRPM_RA, 0.6);
+	filter_Init_EMA(&mainFlywheelRPM_RA, 0.09);
 
   int motorPower;
 	int lastPower;
@@ -39,7 +39,7 @@ task pidFlywheelTask()
 
     motorTrue = TrueSpeed(motorPower);
 
-		setFlywheelPower(motorPower);
+		setFlywheelPower(motorTrue);
 
 
 		datalogDataGroupStart();
