@@ -83,15 +83,15 @@ task DriverMainTask()
 		}
 		else if(vexRT[Btn7L])
 		{
-			wantedFlywheelRPM = 2500;
+			wantedFlywheelRPM = 2300;
 		}
 		else if(vexRT[Btn7U])
 		{
-			wantedFlywheelRPM = 2800;
+			wantedFlywheelRPM = 2500;
 		}
 		else if(vexRT[Btn7R])
 		{
-			wantedFlywheelRPM = 3000;
+			wantedFlywheelRPM = 2800;
 		}
 
 

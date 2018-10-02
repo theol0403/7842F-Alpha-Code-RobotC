@@ -4,35 +4,27 @@
 
 void setFlywheelPower(int flywheelSpeed)
 {
-	SetMotor(m_Flywheel, flywheelSpeed);
-	SetMotor(m_Flywheel2, flywheelSpeed);
-	// motor[m_Flywheel] = flywheelSpeed;
-	// motor[m_Flywheel2] = flywheelSpeed;
+	motor[m_Flywheel] = flywheelSpeed;
+	motor[m_Flywheel2] = flywheelSpeed;
 }
 
 void setIntakePower(int intakeSpeed)
 {
-	SetMotor(m_Intake, intakeSpeed);
-	//motor[m_Intake] = intakeSpeed;
+	motor[m_Intake] = intakeSpeed;
 }
 
 
 void setIndexerPower(int indexerSpeed)
 {
-	SetMotor(m_Indexer, indexerSpeed);
-	//motor[m_Index] = indexSpeed;
+	motor[m_Indexer] = indexerSpeed;
 }
 
 void setBasePower(int rightSpeed, int leftSpeed)
 {
-	SetMotor(m_RightBase, rightSpeed);
-	SetMotor(m_LeftBase, leftSpeed);
-	SetMotor(m_RightBase2, rightSpeed);
-	SetMotor(m_LeftBase2, leftSpeed);
-	// motor[m_RightBase] = rightSpeed;
-	// motor[m_LeftBase] = leftSpeed;
-	// motor[m_RightBase2] = rightSpeed;
-	// motor[m_LeftBase2] = leftSpeed;
+	motor[m_RightBase] = rightSpeed;
+	motor[m_LeftBase] = leftSpeed;
+	motor[m_RightBase2] = rightSpeed;
+	motor[m_LeftBase2] = leftSpeed;
 }
 
 

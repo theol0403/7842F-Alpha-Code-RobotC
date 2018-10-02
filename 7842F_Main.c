@@ -1,15 +1,11 @@
-#pragma config(Sensor, in1,    s_powerExpanderStatus, sensorAnalog)
 #pragma config(Sensor, dgtl1,  s_FlywheelEn,   sensorQuadEncoder)
 #pragma config(Sensor, dgtl5,  s_LeftEn,       sensorQuadEncoder)
 #pragma config(Sensor, dgtl7,  s_RightEn,      sensorQuadEncoder)
-#pragma config(Sensor, dgtl10, s_ledExp0,      sensorLEDtoVCC)
-#pragma config(Sensor, dgtl11, s_ledCortex1,   sensorLEDtoVCC)
-#pragma config(Sensor, dgtl12, s_ledCortex0,   sensorLEDtoVCC)
 #pragma config(Motor,  port2,           m_RightBase2,  tmotorVex393HighSpeed_MC29, openLoop, reversed)
 #pragma config(Motor,  port3,           m_RightBase,   tmotorVex393HighSpeed_MC29, openLoop, reversed)
 #pragma config(Motor,  port4,           m_Intake,      tmotorVex393HighSpeed_MC29, openLoop)
 #pragma config(Motor,  port5,           m_Flywheel,    tmotorVex393TurboSpeed_HBridge, openLoop, reversed)
-#pragma config(Motor,  port6,           m_Flywheel2,   tmotorVex393TurboSpeed_HBridge, openLoop, encoderPort, dgtl1)
+#pragma config(Motor,  port6,           m_Flywheel2,   tmotorVex393TurboSpeed_HBridge, openLoop)
 #pragma config(Motor,  port7,           m_LeftBase,    tmotorVex393HighSpeed_MC29, openLoop)
 #pragma config(Motor,  port8,           m_LeftBase2,   tmotorVex393HighSpeed_MC29, openLoop)
 #pragma config(Motor,  port9,           m_Indexer,     tmotorVex393TurboSpeed_MC29, openLoop)
@@ -26,7 +22,6 @@
 #include "Vex_Competition_Includes.c"
 
 
-#include "Libraries/SmartMotorLib/SmartMotorLib.c"
 
 
 
@@ -63,27 +58,6 @@ void pre_auton()
 {
 
 
-  // Initialize smart motor library
-  SmartMotorsInit();
-  SmartMotorPtcMonitorEnable();
-  //SmartMotorCurrentMonitorEnable();
-
-  SmartMotorsAddPowerExtender(m_Flywheel, m_Flywheel2);
-  SmartMotorSetPowerExpanderStatusPort(s_powerExpanderStatus);
-
-//  SmartMotorLinkMotors(m_RightBase, m_RightBase2);
-//  SmartMotorsSetEncoderGearing(m_RightBase, 1);
-
-//  SmartMotorLinkMotors(m_LeftBase, m_LeftBase2);
-//  SmartMotorsSetEncoderGearing(m_LeftBase, 1);
-
-  SmartMotorLinkMotors(m_Flywheel2, m_Flywheel);
-  SmartMotorsSetEncoderGearing(m_Flywheel, 3.125);
-
-  SmartMotorSetControllerStatusLed(SMLIB_CORTEX_PORT_0, s_ledCortex0);
-  SmartMotorSetControllerStatusLed(SMLIB_CORTEX_PORT_1, s_ledCortex1);
-  SmartMotorSetControllerStatusLed(SMLIB_PWREXP_PORT_0, s_ledExp0);
-
   //BNS();
 
   bStopTasksBetweenModes = true; //Kills Running Tasks Between Modes
@@ -115,8 +89,6 @@ int wantedFlywheelRPM = 0;
 
 task usercontrol()
 {
-  // run background tasks
-  SmartMotorRun();
 
   startTask(DriverMainTask);
   startTask(pidFlywheelTask);
@@ -155,7 +127,5 @@ task usercontrol()
 
 task autonomous()
 {
-  // run background tasks
-  SmartMotorRun();
 
 }
