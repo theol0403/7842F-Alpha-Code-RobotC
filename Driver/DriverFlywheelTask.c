@@ -13,7 +13,7 @@ task pidFlywheelTask()
 {
 
 	rpmInit(mainFlywheelRPM, s_FlywheelEn, 360, 4.8);
-	pidRAInit(mainFlywheelPID, 0.6, 0.0, 6, 0.033, 1000, 100, 4000, &mainFlywheelPID_RA, 0.04);
+	pidRAInit(mainFlywheelPID, 0.6, 0.0, 6.5, 0.033, 1000, 100, 4000, &mainFlywheelPID_RA, 0.03);
 
 	filter_Init_EMA(&mainFlywheelRPM_RA, 0.09);
 

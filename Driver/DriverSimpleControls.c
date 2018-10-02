@@ -3,7 +3,7 @@ int joystickCh4;
 int joystickCh2;
 int trueJoystickCh4;
 int trueJoystickCh2;
-const int driverBaseThreshold = 20;
+const int driverBaseThreshold = 25;
 
 
 task DriverMainTask()
@@ -44,19 +44,37 @@ task DriverMainTask()
 
 
 		// Intake --------------------------------------------------------------------------------
-		if(vexRT[Btn5U])
+		if(vexRT[Btn6U])
 		{
 			setIntakePower(127);
+			setIndexerPower(127);
 		}
-		else if(vexRT[Btn5D])
+		else if(vexRT[Btn6D])
 		{
 			setIntakePower(-127);
+			setIndexerPower(-15);
 		}
 		else
 		{
 			setIntakePower(0);
+			setIndexerPower(0);
 		}
+
+		if(vexRT[Btn5D])
+		{
+			setIndexerPower(-127);
+		}
+		else if(vexRT[Btn5U])
+		{
+			setIndexerPower(127);
+		}
+
 		// Intake --------------------------------------------------------------------------------
+
+		// Index --------------------------------------------------------------------------------
+
+
+		// Index --------------------------------------------------------------------------------
 
 
 		if(vexRT[Btn7D])
@@ -65,15 +83,15 @@ task DriverMainTask()
 		}
 		else if(vexRT[Btn7L])
 		{
-			wantedFlywheelRPM = 1000;
+			wantedFlywheelRPM = 2500;
 		}
 		else if(vexRT[Btn7U])
 		{
-			wantedFlywheelRPM = 2000;
+			wantedFlywheelRPM = 2800;
 		}
 		else if(vexRT[Btn7R])
 		{
-			wantedFlywheelRPM = 3050;
+			wantedFlywheelRPM = 3000;
 		}
 
 

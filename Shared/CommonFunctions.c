@@ -16,6 +16,13 @@ void setIntakePower(int intakeSpeed)
 	//motor[m_Intake] = intakeSpeed;
 }
 
+
+void setIndexerPower(int indexerSpeed)
+{
+	SetMotor(m_Indexer, indexerSpeed);
+	//motor[m_Index] = indexSpeed;
+}
+
 void setBasePower(int rightSpeed, int leftSpeed)
 {
 	SetMotor(m_RightBase, rightSpeed);
