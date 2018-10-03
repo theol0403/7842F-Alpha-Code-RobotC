@@ -25,18 +25,9 @@
 
 
 
-#define BCI_USE_DEMA_FILTER
-#define BCI_USE_EMA_FILTER
-#include "Libraries/BCILib/BCILib.h"
-
-
-//#include "Libraries/BNSLib/BNSLib.h"
-
-
 #include "Libraries/7842FLib/7842FLib.h"
 
 
-#include "Shared/CommonFunctions.c"
 
 
 
@@ -57,7 +48,6 @@ void pre_auton()
 {
 
 
-  //BNS();
 
   bStopTasksBetweenModes = true; //Kills Running Tasks Between Modes
 
@@ -79,8 +69,7 @@ void pre_auton()
 | |__| | \__ \ |  __/ | |
 \\____/  |___/  \___| |_|
 */
-int wantedFlywheelRPM = 0;
-#include "Driver/DriverFlywheelTask.c"
+
 #include "Driver/DriverSimpleControls.c"
 
 
@@ -89,8 +78,7 @@ int wantedFlywheelRPM = 0;
 task usercontrol()
 {
 
-  startTask(DriverMainTask);
-  startTask(pidFlywheelTask);
+  //startTask(DriverMainTask);
 
 
 
