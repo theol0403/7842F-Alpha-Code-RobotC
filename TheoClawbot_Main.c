@@ -23,11 +23,13 @@
 
 
 
-
+#define BCI_USE_DEMA_FILTER
+#define BCI_USE_EMA_FILTER
+#include "Libraries/BCILib/BCILib.h"
 
 #include "Libraries/7842FLib/7842FLib.h"
 
-
+#include "Shared/CommonFunctions.c"
 
 
 
@@ -70,6 +72,7 @@ void pre_auton()
 \\____/  |___/  \___| |_|
 */
 
+int wantedFlywheelRPM = 0;
 #include "Driver/DriverSimpleControls.c"
 
 
