@@ -109,22 +109,22 @@ void odomCalculate(odomStruct &odomName)
   odomName.lastRightSample = odomName.rightSample;
 
   //Convert to distance
-  odomName.dLeftDistance = odomName.dLeftTicks / odomName.distancePerTick;
-  odomName.dRightDistance = odomName.dRightTicks / odomName.distancePerTick;
+  odomName.dLeftDistance = (float) odomName.dLeftTicks / (float) odomName.distancePerTick;
+  odomName.dRightDistance = (float) odomName.dRightTicks / (float) odomName.distancePerTick;
 
   //Get avg delta
-  odomName.dAvgDistance = (odomName.dLeftDistance + odomName.dRightDistance) / 2;
+  odomName.dAvgDistance = (float) (odomName.dLeftDistance + odomName.dRightDistance) / 2.0;
 
   //Get theta
-  odomName.thetaPos += (odomName.dLeftTicks - odomName.dRightTicks) / odomName.chassisDiameter;
+  odomName.thetaPos += (float) (odomName.dLeftTicks - odomName.dRightTicks) / (float) odomName.chassisDiameter;
 
   //Wrap theta
-  if(odomName.thetaPos > 180) odomName.thetaPos -= 360;
-  if(odomName.thetaPos <= -180) odomName.thetaPos += 360;
+//  if(odomName.thetaPos > 180) odomName.thetaPos -= 360.0;
+  //if(odomName.thetaPos <= -180) odomName.thetaPos += 360.0;
 
 
   //Do the odom math
-  odomName.xPos += odomName.dAvgDistance * cosDegrees(odomName.thetaPos);
-  odomName.yPos += odomName.dAvgDistance * sinDegrees(odomName.thetaPos);
+  odomName.xPos += (float) odomName.dAvgDistance * (float) cosDegrees(odomName.thetaPos);
+  odomName.yPos += (float) odomName.dAvgDistance * (float) sinDegrees(odomName.thetaPos);
 
 }

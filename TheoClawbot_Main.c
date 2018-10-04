@@ -76,14 +76,15 @@ int wantedFlywheelRPM = 0;
 #include "Driver/DriverSimpleControls.c"
 
 
-
+#include "Driver/DriverOdomTask.c"
 
 task usercontrol()
 {
 
   //startTask(DriverMainTask);
 
-
+startTask(DriverOdomTask);
+startTask(odomTest);
 
 
 
