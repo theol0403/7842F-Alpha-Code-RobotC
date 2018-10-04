@@ -122,6 +122,7 @@ task usercontrol()
 
 */
 
+#include "Auto/AutoHybridSystem.c"
 
 task autonomous()
 {

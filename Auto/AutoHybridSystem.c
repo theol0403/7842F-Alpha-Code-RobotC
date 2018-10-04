@@ -1,20 +1,41 @@
+BaseStruct AutoBaseStruct;
 
-
-AutoDriveDistance(4", 4", Block, Brake);
-AutoDriveDegrees(90, Pass, Coast);
+AutoDriveDistance(AutoBaseStruct, 4", 4", Block, Brake);
+AutoDriveDegrees(AutoBaseStruct, 90, Pass, Coast);
 
 
 AutoDriveBase(400,400, Block, Brake);
 AutoDriveBase(400,400, Block, Brake);
+
+
+struct BaseStruct
+{
+	pidStruct pidName;
+
+	int wantedLeft;
+	int wantedRight;
+
+	bool brakeMode;
+
+
+	bool isCompleted;
+};
+
+void AutoBaseInit(BaseStruct &baseName, tSensors leftEn, tSensors rightEn, pidStruct &pidName, float Kp, float Ki, float Kd, float Kf = 0, int Icap = 100000, int Iin = 0, int Iout = 100000)
 
 
 task AutoDriveTask()
 {
-
+AutoBaseStruct.wantedLeft;
 
 }
 
 
+void AutoDriveDistance(BaseStruct &deviceName, int wantedLeftInch, int wantedRightInch, bool waitUntilCompleted, bool brakeMode)
+{
+	deviceName.wantedLeft = wantedLeftInch
+
+}
 
 
 
