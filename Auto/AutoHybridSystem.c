@@ -1,45 +1,106 @@
-BaseStruct AutoBaseStruct;
-
-AutoDriveDistance(AutoBaseStruct, 4", 4", Block, Brake);
-AutoDriveDegrees(AutoBaseStruct, 90, Pass, Coast);
 
 
-AutoDriveBase(400,400, Block, Brake);
-AutoDriveBase(400,400, Block, Brake);
+AutoDriveDistance(4, 4, Brake, Block);
+AutoTurnDegrees(90, Coast, Pass);
+
+
+// AutoDriveBase(400,400, Block, Brake);
+// AutoDriveBase(400,400, Block, Brake);
 
 
 struct BaseStruct
 {
-	pidStruct pidName;
+	tSensors leftEn;
+	tSensors rightEn;
+	float wheelCircumference;
+	float chassisCircumference;
+
+	int maxPower;
+	int minPower;
+
 
 	int wantedLeft;
 	int wantedRight;
-
 	bool brakeMode;
 
+	int completeThreshold;
+	int completeTime;
 
+	bool turnOn;
 	bool isCompleted;
 };
 
-void AutoBaseInit(BaseStruct &baseName, tSensors leftEn, tSensors rightEn, pidStruct &pidName, float Kp, float Ki, float Kd, float Kf = 0, int Icap = 100000, int Iin = 0, int Iout = 100000)
+BaseStruct AutoDriveBase;
+pidStruct AutoDriveBasePID;
+
+
+
+
+
+
+
+void AutoBaseInit(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter, int maxPower, int minPower, float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)
+{
+	AutoDriveBase.leftEn = leftEn;
+	AutoDriveBase.rightEn = rightEn;
+	AutoDriveBase.wheelCircumference = wheelCircumference;
+	AutoDriveBase.chassisCircumference = chassisDiameter * 3.1415926;
+	AutoDriveBase.maxPower = maxPower;
+	AutoDriveBase.minPower = minPower;
+
+
+	pidInit(AutoDriveBasePID, Kp, Ki, Kd, 0, Icap, Iin, Iout);
+}
+
+
+
+
+void AutoDriveDistance(int wantedLeftInch, int wantedRightInch, bool brakeMode, bool waitUntilCompleted)
+{
+	AutoDriveBase.turnOn = true;
+	AutoDriveBase.wantedLeft += (wantedLeftInch / AutoDriveBase.wheelCircumference) * 360;
+	AutoDriveBase.wantedRight += (wantedRightInch / AutoDriveBase.wheelCircumference) * 360;
+	AutoDriveBase.brakeMode = brakeMode;
+
+	if(waitUntilCompleted)
+	{
+		wait1Msec(100);
+		while (!AutoDriveBase.isCompleted)
+		{
+			wait1Msec(20);
+		}
+	}
+}
+
+void AutoTurnDegrees(int wantedDegrees, bool brakeMode, bool waitUntilCompleted, int forwardBiasInch = 0)
+{
+	AutoDriveBase.turnOn = true;
+	int wantedTicks = AutoDriveBase.chassisCircumference / AutoDriveBase.wheelCircumference * wantedDegrees;
+	AutoDriveBase.wantedLeft += (wantedTicks/2) + (forwardBiasInch / AutoDriveBase.wheelCircumference * 360);
+	AutoDriveBase.wantedRight += (-wantedTicks/2) + (forwardBiasInch / AutoDriveBase.wheelCircumference * 360);
+	AutoDriveBase.brakeMode = brakeMode;
+
+	if(waitUntilCompleted)
+	{
+		wait1Msec(100);
+		while (!AutoDriveBase.isCompleted)
+		{
+			wait1Msec(20);
+		}
+	}
+}
+
+
+
+
+
 
 
 task AutoDriveTask()
 {
-AutoBaseStruct.wantedLeft;
+AutoDriveBase.wantedLeft;
 
 }
-
-
-void AutoDriveDistance(BaseStruct &deviceName, int wantedLeftInch, int wantedRightInch, bool waitUntilCompleted, bool brakeMode)
-{
-	deviceName.wantedLeft = wantedLeftInch
-
-}
-
-
-
-
 
 void AutoDriveInch(int wantedInch)
 	{
