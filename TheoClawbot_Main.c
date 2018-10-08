@@ -126,19 +126,28 @@ task autonomous()
   startTask(AutoBaseTask);
 
 //  AutoDriveDistance(30, 30, b_Brake, b_Block);
-while (true) {
-  AutoBaseTurnDegrees(90, true, true);
-  AutoBaseDriveDistance(5,5,true,true);
-  AutoBaseTurnDegrees(90, true, true);
+// while (true) {
+//   AutoBaseTurnDegrees(90, true, true);
+//   AutoBaseDriveDistance(5,5,true,true);
+//   AutoBaseTurnDegrees(90, true, true);
+//
+//   AutoBaseDriveDistance(5,5,false,true);
+//   AutoBaseTurnDegrees(-180, false, true);
+//   AutoBaseDriveDistance(5,5,false,true);
+//   AutoBaseTurnDegrees(-90, false, true);
+//   AutoBaseDriveDistance(5,5,false,true);
+//   AutoBaseTurnDegrees(90, true, true);
+// }
 
-  AutoBaseDriveDistance(5,5,false,true);
-  AutoBaseTurnDegrees(-180, false, true);
-  AutoBaseDriveDistance(5,5,false,true);
-  AutoBaseTurnDegrees(-90, false, true);
-  AutoBaseDriveDistance(5,5,false,true);
-  AutoBaseTurnDegrees(90, true, true);
-}
-AutoBaseTurnDegrees(90, true, true);
+
+
+
+AutoBaseDriveDistance(5,5,true,false);
+wait1Msec(200);
+writeDebugStreamLine("wyy");
+AutoBaseDriveDistance(5,5,true,true);
+AutoBaseTurnDegrees(90, true, false);
+
   //
   // AutoDriveDistance(30, 30, Brake, Block);
 
