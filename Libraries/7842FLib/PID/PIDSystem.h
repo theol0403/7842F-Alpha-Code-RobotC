@@ -7,9 +7,10 @@
 struct pidStruct
 {
 	float Kp;
-	float Kd;
 	float Ki;
+	float Kd;
 	float Kf;
+
 	int integralCap;
 	int integralInner;
 	int integralOuter;
@@ -20,9 +21,6 @@ struct pidStruct
 	int lastTime;
 	int lastIntegral;
   float derivative;
-
-  int wantedRPM;
-  bool isTarget;
 
   EMAFilter *raName;
 };

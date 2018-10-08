@@ -7,6 +7,7 @@ void pidInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf = 0,
 	deviceName.Ki = Ki;
 	deviceName.Kd = Kd;
 	deviceName.Kf = Kf;
+
 	deviceName.integralCap = Icap;
   deviceName.integralInner = Iin;
 	deviceName.integralOuter = Iout;
@@ -18,7 +19,6 @@ void pidInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf = 0,
 	deviceName.lastIntegral = 0;
 	deviceName.derivative = 0;
 
-  deviceName.isTarget = false;
 }
 
 

@@ -6,6 +6,7 @@ void pidRAInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf = 
 	deviceName.Ki = Ki;
 	deviceName.Kd = Kd;
 	deviceName.Kf = Kf;
+
 	deviceName.integralCap = Icap;
   deviceName.integralInner = Iin;
 	deviceName.integralOuter = Iout;
@@ -17,7 +18,6 @@ void pidRAInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf = 
 	deviceName.lastIntegral = 0;
 	deviceName.derivative = 0;
 
-  deviceName.isTarget = false;
 
 	deviceName.raName = raName;
 	filter_Init_EMA(deviceName.raName, emaAlpha);
