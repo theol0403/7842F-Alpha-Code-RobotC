@@ -19,7 +19,7 @@ void setIndexerPower(int indexerSpeed)
 	motor[m_Indexer] = indexerSpeed;
 }
 
-void setBasePower(int rightSpeed, int leftSpeed)
+void setBasePower(int leftSpeed, int rightSpeed)
 {
 	motor[m_RightBase] = rightSpeed;
 	motor[m_LeftBase] = leftSpeed;

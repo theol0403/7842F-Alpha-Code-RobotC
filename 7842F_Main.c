@@ -126,5 +126,16 @@ task usercontrol()
 
 task autonomous()
 {
+  startTask(AutoBaseTask);
+
+  AutoBaseInit(s_LeftEn, s_RightEn, 12.56, 15.25, 100, 0, 0.6, 0, 0, 100000, 0, 100000);
+
+//  AutoDriveDistance(30, 30, b_Brake, b_Block);
+
+AutoTurnDegrees(90, b_Brake, b_Block);
+  //
+  // AutoDriveDistance(30, 30, Brake, Block);
+
+  wait1Msec(10000);
 
 }

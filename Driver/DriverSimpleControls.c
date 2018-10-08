@@ -28,11 +28,11 @@ task DriverMainTask()
 		}
 		else if(!(abs(joystickCh2) > driverBaseThreshold) && abs(joystickCh4) > driverBaseThreshold )
 		{
-			setBasePower(-trueJoystickCh4, trueJoystickCh4);
+			setBasePower(trueJoystickCh4, -trueJoystickCh4);
 		}
 		else if(abs(joystickCh2) > driverBaseThreshold && abs(joystickCh4) > driverBaseThreshold )
 		{
-			setBasePower(trueJoystickCh2 - trueJoystickCh4, trueJoystickCh2 + trueJoystickCh4);
+			setBasePower(trueJoystickCh2 + trueJoystickCh4, trueJoystickCh2 - trueJoystickCh4);
 		}
 		else
 		{

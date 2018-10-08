@@ -1,15 +1,26 @@
 
 
-AutoDriveDistance(4, 4, Brake, Block);
-AutoTurnDegrees(90, Coast, Pass);
+// AutoDriveDistance(4, 4, b_Brake, b_Block);
+// AutoTurnDegrees(90, b_Coast, b_Pass);
 
 
-// AutoDriveBase(400,400, Block, Brake);
-// AutoDriveBase(400,400, Block, Brake);
+// AutoDriveBase(400,400, b_Block, b_Brake);
+// AutoDriveBase(400,400, b_Block, b_Brake);
 
+enum BrakeModes
+{
+	b_Coast = 0,
+	b_Brake = 1,
+
+	b_Block = 1,
+	b_Pass = 0
+};
 
 struct BaseStruct
 {
+
+
+
 	tSensors leftEn;
 	tSensors rightEn;
 	float wheelCircumference;
@@ -21,7 +32,7 @@ struct BaseStruct
 
 	int wantedLeft;
 	int wantedRight;
-	bool brakeMode;
+	BrakeModes brakeMode;
 
 	int completeThreshold;
 	int completeTime;
@@ -30,13 +41,11 @@ struct BaseStruct
 	bool isCompleted;
 };
 
+
+
 BaseStruct AutoDriveBase;
-pidStruct AutoDriveBasePID;
-
-
-
-
-
+pidStruct AutoDriveLeftPID;
+pidStruct AutoDriveRightPID;
 
 
 void AutoBaseInit(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter, int maxPower, int minPower, float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)
@@ -48,14 +57,22 @@ void AutoBaseInit(tSensors leftEn, tSensors rightEn, float wheelCircumference, f
 	AutoDriveBase.maxPower = maxPower;
 	AutoDriveBase.minPower = minPower;
 
+	AutoDriveBase.wantedLeft = SensorValue[leftEn];
+	AutoDriveBase.wantedRight = SensorValue[rightEn];
+	AutoDriveBase.brakeMode = b_Coast;
 
-	pidInit(AutoDriveBasePID, Kp, Ki, Kd, 0, Icap, Iin, Iout);
+	AutoDriveBase.turnOn = false;
+	AutoDriveBase.isCompleted = false;
+
+
+	pidInit(AutoDriveLeftPID, Kp, Ki, Kd, 0, Icap, Iin, Iout);
+	pidInit(AutoDriveRightPID, Kp, Ki, Kd, 0, Icap, Iin, Iout);
 }
 
 
 
 
-void AutoDriveDistance(int wantedLeftInch, int wantedRightInch, bool brakeMode, bool waitUntilCompleted)
+void AutoDriveDistance(int wantedLeftInch, int wantedRightInch, BrakeModes brakeMode, BrakeModes waitUntilCompleted)
 {
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.wantedLeft += (wantedLeftInch / AutoDriveBase.wheelCircumference) * 360;
@@ -64,7 +81,7 @@ void AutoDriveDistance(int wantedLeftInch, int wantedRightInch, bool brakeMode, 
 
 	if(waitUntilCompleted)
 	{
-		wait1Msec(100);
+		wait1Msec(20);
 		while (!AutoDriveBase.isCompleted)
 		{
 			wait1Msec(20);
@@ -72,7 +89,7 @@ void AutoDriveDistance(int wantedLeftInch, int wantedRightInch, bool brakeMode, 
 	}
 }
 
-void AutoTurnDegrees(int wantedDegrees, bool brakeMode, bool waitUntilCompleted, int forwardBiasInch = 0)
+void AutoTurnDegrees(int wantedDegrees, BrakeModes brakeMode, BrakeModes isBlocking, int forwardBiasInch = 0)
 {
 	AutoDriveBase.turnOn = true;
 	int wantedTicks = AutoDriveBase.chassisCircumference / AutoDriveBase.wheelCircumference * wantedDegrees;
@@ -80,7 +97,7 @@ void AutoTurnDegrees(int wantedDegrees, bool brakeMode, bool waitUntilCompleted,
 	AutoDriveBase.wantedRight += (-wantedTicks/2) + (forwardBiasInch / AutoDriveBase.wheelCircumference * 360);
 	AutoDriveBase.brakeMode = brakeMode;
 
-	if(waitUntilCompleted)
+	if(isBlocking == b_Block)
 	{
 		wait1Msec(100);
 		while (!AutoDriveBase.isCompleted)
@@ -96,115 +113,143 @@ void AutoTurnDegrees(int wantedDegrees, bool brakeMode, bool waitUntilCompleted,
 
 
 
-task AutoDriveTask()
+task AutoBaseTask()
 {
-AutoDriveBase.wantedLeft;
+	int leftMotorPower;
+	int rightMotorPower;
 
-}
-
-void AutoDriveInch(int wantedInch)
+	while(true)
 	{
-		int brakePower = DRIVEFORWARDS_BRAKEPOWER; //Power to brake with
-	int brakeTime = DRIVEFORWARDS_BRAKETIME; //Time to break for
-
-	float fastKP = DRIVEFORWARDS_FASTKP; //Kp for moving fast towards goal - before 1.5
-	//int slowSpeed = DRIVEFORWARDS_SLOWCORRECT; //Speed for correction - before 40
-
-	SensorValue[rightBaseEn] = 0; //Reset base encoder
-	SensorValue[leftBaseEn] = 0; //Reset base encoder
-
-	int wantedDegrees = (wantedInch / WHEELCIRCUMFERENCE) * 360; // Calculates Encoder Rotations
-	int degreesError = wantedDegrees - ((SensorValue[leftBaseEn] + SensorValue[rightBaseEn])/2); //Figure out error and direction of travel
-	int firstError = degreesError; //Used to know the direction of reverse power
-
-
-
-	while(abs(degreesError) > DRIVEFORWARDS_PTHRESHOLD) //Fast Towards Goal - Threshold of 50 degrees
-	{
-		degreesError = wantedDegrees - ((SensorValue[rightBaseEn]+SensorValue[leftBaseEn])/2);
-
-		motor[left] = degreesError * fastKP;
-		motor[right] = degreesError * fastKP;
-	}
-
-	if(firstError > 0) //Brake in opposite direction
-	{
-		motor[left] = -brakePower;
-		motor[right] = -brakePower;
-	}
-	else
-	{
-		motor[left] = brakePower;
-		motor[right] = brakePower;
-	}
-	wait1Msec(brakeTime); //Brake for Time
-
-	degreesError = wantedDegrees - ((SensorValue[rightBaseEn]+SensorValue[leftBaseEn])/2);
-	/*while(abs(degreesError) > DRIVEFORWARDS_SLOWTHRESHOLD)	//Slow Fine Tune - Threshold of 10 degrees
-	{
-		degreesError = wantedDegrees - SensorValue[baseEn];
-
-		if(degreesError > 0)
+		if(AutoDriveBase.turnOn)
 		{
-			motor[left] = slowSpeed;
-			motor[right] = slowSpeed;
+			leftMotorPower = pidCalculate(AutoDriveLeftPID, AutoDriveBase.wantedLeft, SensorValue[AutoDriveBase.leftEn]);
+			rightMotorPower = pidCalculate(AutoDriveRightPID, AutoDriveBase.wantedRight, SensorValue[AutoDriveBase.rightEn]);
+			setBasePower(leftMotorPower, rightMotorPower);
+
+			if(AutoDriveLeftPID.Error < 10 && AutoDriveRightPID.Error < 10)
+			{
+				AutoDriveBase.isCompleted = true;
+			}
+			else
+			{
+				AutoDriveBase.isCompleted = false;
+			}
 		}
 		else
 		{
-			motor[left] = -slowSpeed;
-			motor[right] = -slowSpeed;
+			setBasePower(0, 0);
 		}
-	}*/
-		motor[left] = 0;
-		motor[right] = 0;
-
-		wait1Msec(80); //Removed 120
+		wait1Msec(20);
 	}
 
 
-
-	void drive(int inch){
-//Encoders set to 0
-		SensorValue[rightBaseEn] = 0; //Reset base encoder
-	  SensorValue[leftBaseEn] = 0;
-
-		int deg = inch / WHEELCIRCUMFERENCE * 360;
-//When the average value of the encoders are less than 'deg', run motors.
-		while ( abs((SensorValue[rightBaseEn]+SensorValue[leftBaseEn])/2) < abs(deg)-100)
-		{
-//If the specified distance is positive, run the motors forward...
-			if (inch > 0){
-				motor[right] = 40;
-				motor[left] = 40;
-			} else {
-//... otherwise, run them backwards.
-				motor[right] = -40;
-				motor[left] = -40;
-			}
-		}
-//Once the encoders have reached the desired distance, stop.
-		if (inch > 0) {
-			motor[right] = -10;
-			motor[left] = -10;
-		} else {
-			motor[right] = 10;
-			motor[left] = 10;
-		}
-		wait1Msec(100);
-		motor[right] = 0;
-		motor[left] = 0;
-
-//Finally, turn off the motors.
-	}
+}
 
 
-	void driveForTime(int power, int time){
-
-		motor[right] = power;
-		motor[left] = power;
-
-		wait1Msec(time);
-
-		motor[right] = 0;
-		motor[left] = 0;
-	}
+//
+// void AutoDriveInch(int wantedInch)
+// 	{
+// 		int brakePower = DRIVEFORWARDS_BRAKEPOWER; //Power to b_Brake with
+// 	int brakeTime = DRIVEFORWARDS_BRAKETIME; //Time to break for
+//
+// 	float fastKP = DRIVEFORWARDS_FASTKP; //Kp for moving fast towards goal - before 1.5
+// 	//int slowSpeed = DRIVEFORWARDS_SLOWCORRECT; //Speed for correction - before 40
+//
+// 	SensorValue[rightBaseEn] = 0; //Reset base encoder
+// 	SensorValue[leftBaseEn] = 0; //Reset base encoder
+//
+// 	int wantedDegrees = (wantedInch / WHEELCIRCUMFERENCE) * 360; // Calculates Encoder Rotations
+// 	int degreesError = wantedDegrees - ((SensorValue[leftBaseEn] + SensorValue[rightBaseEn])/2); //Figure out error and direction of travel
+// 	int firstError = degreesError; //Used to know the direction of reverse power
+//
+//
+//
+// 	while(abs(degreesError) > DRIVEFORWARDS_PTHRESHOLD) //Fast Towards Goal - Threshold of 50 degrees
+// 	{
+// 		degreesError = wantedDegrees - ((SensorValue[rightBaseEn]+SensorValue[leftBaseEn])/2);
+//
+// 		motor[left] = degreesError * fastKP;
+// 		motor[right] = degreesError * fastKP;
+// 	}
+//
+// 	if(firstError > 0) //b_Brake in opposite direction
+// 	{
+// 		motor[left] = -brakePower;
+// 		motor[right] = -brakePower;
+// 	}
+// 	else
+// 	{
+// 		motor[left] = brakePower;
+// 		motor[right] = brakePower;
+// 	}
+// 	wait1Msec(brakeTime); //b_Brake for Time
+//
+// 	degreesError = wantedDegrees - ((SensorValue[rightBaseEn]+SensorValue[leftBaseEn])/2);
+// 	/*while(abs(degreesError) > DRIVEFORWARDS_SLOWTHRESHOLD)	//Slow Fine Tune - Threshold of 10 degrees
+// 	{
+// 		degreesError = wantedDegrees - SensorValue[baseEn];
+//
+// 		if(degreesError > 0)
+// 		{
+// 			motor[left] = slowSpeed;
+// 			motor[right] = slowSpeed;
+// 		}
+// 		else
+// 		{
+// 			motor[left] = -slowSpeed;
+// 			motor[right] = -slowSpeed;
+// 		}
+// 	}*/
+// 		motor[left] = 0;
+// 		motor[right] = 0;
+//
+// 		wait1Msec(80); //Removed 120
+// 	}
+//
+//
+//
+// 	void drive(int inch){
+// //Encoders set to 0
+// 		SensorValue[rightBaseEn] = 0; //Reset base encoder
+// 	  SensorValue[leftBaseEn] = 0;
+//
+// 		int deg = inch / WHEELCIRCUMFERENCE * 360;
+// //When the average value of the encoders are less than 'deg', run motors.
+// 		while ( abs((SensorValue[rightBaseEn]+SensorValue[leftBaseEn])/2) < abs(deg)-100)
+// 		{
+// //If the specified distance is positive, run the motors forward...
+// 			if (inch > 0){
+// 				motor[right] = 40;
+// 				motor[left] = 40;
+// 			} else {
+// //... otherwise, run them backwards.
+// 				motor[right] = -40;
+// 				motor[left] = -40;
+// 			}
+// 		}
+// //Once the encoders have reached the desired distance, stop.
+// 		if (inch > 0) {
+// 			motor[right] = -10;
+// 			motor[left] = -10;
+// 		} else {
+// 			motor[right] = 10;
+// 			motor[left] = 10;
+// 		}
+// 		wait1Msec(100);
+// 		motor[right] = 0;
+// 		motor[left] = 0;
+//
+// //Finally, turn off the motors.
+// 	}
+//
+//
+// 	void driveForTime(int power, int time){
+//
+// 		motor[right] = power;
+// 		motor[left] = power;
+//
+// 		wait1Msec(time);
+//
+// 		motor[right] = 0;
+// 		motor[left] = 0;
+// 	}
