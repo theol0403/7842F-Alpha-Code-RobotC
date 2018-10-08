@@ -21,6 +21,7 @@ struct BaseStruct
 	int minPower;
 	int completeThreshold;
 	int completeTime;
+	int taskLoopRate;
 
 	int wantedLeft;
 	int wantedRight;
@@ -54,10 +55,14 @@ void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumfe
 
 }
 
-void AutoBaseInit_PID(int maxPower, int minPower, float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)
+void AutoBaseInit_PID(int maxPower, int minPower, int completeThreshold, int completeTime, float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)
 {
 	AutoDriveBase.maxPower = maxPower;
 	AutoDriveBase.minPower = minPower;
+
+	AutoDriveBase.completeThreshold = completeThreshold;
+	AutoDriveBase.completeTime = completeTime;
+	AutoDriveBase.taskLoopRate = 20;
 
 
 	pidInit(AutoDriveLeftPID, Kp, Ki, Kd, 0, Icap, Iin, Iout);
@@ -67,7 +72,7 @@ void AutoBaseInit_PID(int maxPower, int minPower, float Kp, float Ki, float Kd, 
 
 
 
-void AutoDriveDistance(int wantedLeftInch, int wantedRightInch, bool brakeMode = true, bool blockMode = true)
+void AutoBaseDriveDistance(int wantedLeftInch, int wantedRightInch, bool brakeMode = true, bool blockMode = true)
 {
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.wantedLeft += (wantedLeftInch / AutoDriveBase.wheelCircumference) * 360;
@@ -84,7 +89,7 @@ void AutoDriveDistance(int wantedLeftInch, int wantedRightInch, bool brakeMode =
 	}
 }
 
-void AutoTurnDegrees(int wantedDegrees, bool brakeMode = true, bool blockMode = true, int forwardBiasInch = 0)
+void AutoBaseTurnDegrees(int wantedDegrees, bool brakeMode = true, bool blockMode = true, int forwardBiasInch = 0)
 {
 	AutoDriveBase.turnOn = true;
 	int wantedTicks = AutoDriveBase.chassisCircumference / AutoDriveBase.wheelCircumference * wantedDegrees;
@@ -103,41 +108,71 @@ void AutoTurnDegrees(int wantedDegrees, bool brakeMode = true, bool blockMode = 
 }
 
 
+void AutoBaseLimitPower(int wantedPower)
+{
+	if(abs(wantedPower) > AutoDriveBase.maxPower) wantedPower = sgn(wantedPower) * AutoDriveBase.maxPower;
+	if(abs(wantedPower) < AutoDriveBase.minPower) wantedPower = sgn(wantedPower) * AutoDriveBase.minPower;
+	return wantedPower;
+}
+
+void AutoBaseRunPID()
+{
+	int leftPower;
+	int rightPower;
+
+	leftPower = pidCalculate(AutoDriveLeftPID, AutoDriveBase.wantedLeft, SensorValue[AutoDriveBase.leftEn]);
+	rightPower = pidCalculate(AutoDriveRightPID, AutoDriveBase.wantedRight, SensorValue[AutoDriveBase.rightEn]);
+
+	leftPower = AutoBaseTaskLimitPower(leftPower);
+	rightPower = AutoBaseTaskLimitPower(rightPower);
+
+	setBasePower(leftPower, rightPower);
+}
 
 
-
-
-
+bool requirementsMet = false;
+int completeCount = 0;
 task AutoBaseTask()
 {
-	int leftMotorPower;
-	int rightMotorPower;
-
 	while(true)
 	{
-		if(AutoDriveBase.turnOn)
-		{
-			leftMotorPower = pidCalculate(AutoDriveLeftPID, AutoDriveBase.wantedLeft, SensorValue[AutoDriveBase.leftEn]);
-			rightMotorPower = pidCalculate(AutoDriveRightPID, AutoDriveBase.wantedRight, SensorValue[AutoDriveBase.rightEn]);
-			setBasePower(leftMotorPower, rightMotorPower);
 
-			if(AutoDriveLeftPID.Error < 10 && AutoDriveRightPID.Error < 10)
+		waitUntil(AutoDriveBase.turnOn);
+
+		while(!requirementsMet)
+		{
+
+			AutoBaseRunPID();
+
+
+			if(abs(AutoDriveLeftPID.Error) < AutoDriveRightPID.completeThreshold && abs(AutoDriveRightPID.Error) < AutoDriveRightPID.completeThreshold)
 			{
-				AutoDriveBase.isCompleted = true;
+				completeCount += AutoDriveLeftPID.taskLoopRate;
 			}
 			else
 			{
-				AutoDriveBase.isCompleted = false;
+				completeCount = 0;
 			}
+
+			if(completeCount > AutoDriveRightPID.completeTime)
+			{
+				AutoDriveRightPID.isCompleted = true;
+			}
+			else
+			{
+				AutoDriveRightPID.isCompleted = false;
+			}
+
+
+			requirementsMet = AutoDriveRightPID.isCompleted && (AutoDriveRightPID.brakeMode != b_Brake);
+
+			wait1Msec(AutoDriveLeftPID.taskLoopRate);
+
 		}
-		else
-		{
-			setBasePower(0, 0);
-		}
-		wait1Msec(20);
+
+		setBasePower(0, 0);
+
 	}
-
-
 }
 
 
