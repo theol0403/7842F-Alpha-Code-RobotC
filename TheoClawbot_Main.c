@@ -114,8 +114,21 @@ startTask(odomTest);
 
 */
 
+#include "Auto/AutoHybridSystem.c"
 
 task autonomous()
 {
+  startTask(AutoBaseTask);
+
+  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.56, 15.25);
+  AutoBaseInit_PID(100, 0, 0.6, 0, 0);
+
+//  AutoDriveDistance(30, 30, b_Brake, b_Block);
+
+AutoTurnDegrees(90, true, true);
+  //
+  // AutoDriveDistance(30, 30, Brake, Block);
+
+  wait1Msec(10000);
 
 }

@@ -7,35 +7,25 @@
 // AutoDriveBase(400,400, b_Block, b_Brake);
 // AutoDriveBase(400,400, b_Block, b_Brake);
 
-enum BrakeModes
-{
-	b_Coast = 0,
-	b_Brake = 1,
 
-	b_Block = 1,
-	b_Pass = 0
-};
 
 struct BaseStruct
 {
-
-
-
 	tSensors leftEn;
 	tSensors rightEn;
 	float wheelCircumference;
 	float chassisCircumference;
 
+
 	int maxPower;
 	int minPower;
-
+	int completeThreshold;
+	int completeTime;
 
 	int wantedLeft;
 	int wantedRight;
-	BrakeModes brakeMode;
+	bool brakeMode;
 
-	int completeThreshold;
-	int completeTime;
 
 	bool turnOn;
 	bool isCompleted;
@@ -48,21 +38,26 @@ pidStruct AutoDriveLeftPID;
 pidStruct AutoDriveRightPID;
 
 
-void AutoBaseInit(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter, int maxPower, int minPower, float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)
+void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter)
 {
 	AutoDriveBase.leftEn = leftEn;
 	AutoDriveBase.rightEn = rightEn;
 	AutoDriveBase.wheelCircumference = wheelCircumference;
 	AutoDriveBase.chassisCircumference = chassisDiameter * 3.1415926;
-	AutoDriveBase.maxPower = maxPower;
-	AutoDriveBase.minPower = minPower;
 
 	AutoDriveBase.wantedLeft = SensorValue[leftEn];
 	AutoDriveBase.wantedRight = SensorValue[rightEn];
-	AutoDriveBase.brakeMode = b_Coast;
+	AutoDriveBase.brakeMode = false;
 
 	AutoDriveBase.turnOn = false;
 	AutoDriveBase.isCompleted = false;
+
+}
+
+void AutoBaseInit_PID(int maxPower, int minPower, float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)
+{
+	AutoDriveBase.maxPower = maxPower;
+	AutoDriveBase.minPower = minPower;
 
 
 	pidInit(AutoDriveLeftPID, Kp, Ki, Kd, 0, Icap, Iin, Iout);
@@ -72,14 +67,14 @@ void AutoBaseInit(tSensors leftEn, tSensors rightEn, float wheelCircumference, f
 
 
 
-void AutoDriveDistance(int wantedLeftInch, int wantedRightInch, BrakeModes brakeMode, BrakeModes waitUntilCompleted)
+void AutoDriveDistance(int wantedLeftInch, int wantedRightInch, bool brakeMode = true, bool blockMode = true)
 {
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.wantedLeft += (wantedLeftInch / AutoDriveBase.wheelCircumference) * 360;
 	AutoDriveBase.wantedRight += (wantedRightInch / AutoDriveBase.wheelCircumference) * 360;
 	AutoDriveBase.brakeMode = brakeMode;
 
-	if(waitUntilCompleted)
+	if(blockMode)
 	{
 		wait1Msec(20);
 		while (!AutoDriveBase.isCompleted)
@@ -89,7 +84,7 @@ void AutoDriveDistance(int wantedLeftInch, int wantedRightInch, BrakeModes brake
 	}
 }
 
-void AutoTurnDegrees(int wantedDegrees, BrakeModes brakeMode, BrakeModes isBlocking, int forwardBiasInch = 0)
+void AutoTurnDegrees(int wantedDegrees, bool brakeMode = true, bool blockMode = true, int forwardBiasInch = 0)
 {
 	AutoDriveBase.turnOn = true;
 	int wantedTicks = AutoDriveBase.chassisCircumference / AutoDriveBase.wheelCircumference * wantedDegrees;
@@ -97,7 +92,7 @@ void AutoTurnDegrees(int wantedDegrees, BrakeModes brakeMode, BrakeModes isBlock
 	AutoDriveBase.wantedRight += (-wantedTicks/2) + (forwardBiasInch / AutoDriveBase.wheelCircumference * 360);
 	AutoDriveBase.brakeMode = brakeMode;
 
-	if(isBlocking == b_Block)
+	if(blockMode)
 	{
 		wait1Msec(100);
 		while (!AutoDriveBase.isCompleted)
