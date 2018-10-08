@@ -34,7 +34,7 @@ task odomTest()
       error = wantOdom - odomGetDeg(mainOdom);
       p = error*kp;
       if(abs(p) > 20) p = 20 * sgn(p);
-      setBasePower(-p, p);
+      setBasePower(p, -p);
     }
     else
     {

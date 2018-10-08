@@ -48,10 +48,11 @@ Code that runs when the robot is turned on
 
 void pre_auton()
 {
-
-
-
   bStopTasksBetweenModes = true; //Kills Running Tasks Between Modes
+  startTask(autonomous);
+  wait1Msec(10000000);
+
+
 
 }
 
@@ -118,14 +119,26 @@ startTask(odomTest);
 
 task autonomous()
 {
+
+  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.56, 11);
+  AutoBaseInit_PID(50, 0, 50, 500, 0.4, 0.0, 0);
+
   startTask(AutoBaseTask);
 
-  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.56, 15.25);
-  AutoBaseInit_PID(100, 0, 0.6, 0, 0);
-
 //  AutoDriveDistance(30, 30, b_Brake, b_Block);
+while (true) {
+  AutoBaseTurnDegrees(90, true, true);
+  AutoBaseDriveDistance(5,5,true,true);
+  AutoBaseTurnDegrees(90, true, true);
 
-AutoTurnDegrees(90, true, true);
+  AutoBaseDriveDistance(5,5,false,true);
+  AutoBaseTurnDegrees(-180, false, true);
+  AutoBaseDriveDistance(5,5,false,true);
+  AutoBaseTurnDegrees(-90, false, true);
+  AutoBaseDriveDistance(5,5,false,true);
+  AutoBaseTurnDegrees(90, true, true);
+}
+AutoBaseTurnDegrees(90, true, true);
   //
   // AutoDriveDistance(30, 30, Brake, Block);
 
