@@ -1,13 +1,5 @@
 
 
-// AutoDriveDistance(4, 4, b_Brake, b_Block);
-// AutoTurnDegrees(90, b_Coast, b_Pass);
-
-
-// AutoDriveBase(400,400, b_Block, b_Brake);
-// AutoDriveBase(400,400, b_Block, b_Brake);
-
-
 
 struct BaseStruct
 {
@@ -52,10 +44,9 @@ void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumfe
 
 	AutoDriveBase.turnOn = false;
 	AutoDriveBase.isCompleted = false;
-
 }
 
-void AutoBaseInit_PID(int maxPower, int minPower, int completeThreshold, int completeTime, float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)
+void AutoBaseInit_Config(int maxPower, int minPower, int completeThreshold, int completeTime)
 {
 	AutoDriveBase.maxPower = maxPower;
 	AutoDriveBase.minPower = minPower;
@@ -63,8 +54,10 @@ void AutoBaseInit_PID(int maxPower, int minPower, int completeThreshold, int com
 	AutoDriveBase.completeThreshold = completeThreshold;
 	AutoDriveBase.completeTime = completeTime;
 	AutoDriveBase.taskLoopRate = 20;
+}
 
-
+void AutoBaseInit_PID(float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)
+{
 	pidInit(AutoDriveLeftPID, Kp, Ki, Kd, 0, Icap, Iin, Iout);
 	pidInit(AutoDriveRightPID, Kp, Ki, Kd, 0, Icap, Iin, Iout);
 }
