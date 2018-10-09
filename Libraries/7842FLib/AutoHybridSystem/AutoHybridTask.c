@@ -2,19 +2,22 @@
 
 
 // TODO Link to 7842Flib and orginise
-// TODO Time failsafe
 // TODO comment
 // TODO configure motors
+// TODO more user functions
+// TODO test coasting
 
 
 
 
 
 
-bool requirementsMet = false;
-int completeCount = 0;
+
 task AutoBaseTask()
 {
+	bool requirementsMet = false;
+	int completeCount = 0;
+
 	while(true)
 	{
 		AutoDriveBase.isCompleted = false;
@@ -28,7 +31,7 @@ task AutoBaseTask()
 
 			if(abs(AutoDriveLeftPID.Error) < AutoDriveBase.completeThreshold && abs(AutoDriveRightPID.Error) < AutoDriveBase.completeThreshold)
 			{
-				completeCount += AutoDriveBase.taskLoopRate;
+				completeCount += AutoDriveBase.autoDriveLoopRate;
 			}
 			else
 			{
@@ -47,7 +50,7 @@ task AutoBaseTask()
 
 			AutoDriveBase.turnOn = !(AutoDriveBase.isCompleted && !AutoDriveBase.brakeMode);
 
-			wait1Msec(AutoDriveBase.taskLoopRate);
+			wait1Msec(AutoDriveBase.autoDriveLoopRate);
 
 		}
 

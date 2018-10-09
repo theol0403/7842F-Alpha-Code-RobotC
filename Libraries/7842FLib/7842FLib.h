@@ -10,10 +10,12 @@
 #include "PID/PIDRASystem.c"
 
 #include "Other/RPMSystem.c"
-
 #include "Other/RASystem.c"
-
 #include "Other/OdomSystem.c"
+
+#include "AutoHybridSystem/AutoHybridInit.c"
+#include "AutoHybridSystem/AutoHybridFunctions.c"
+#include "AutoHybridSystem/AutoHybridTask.c"
 
 
 

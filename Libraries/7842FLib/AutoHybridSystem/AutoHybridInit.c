@@ -8,12 +8,14 @@ struct BaseStruct
 	float wheelCircumference;
 	float chassisCircumference;
 
-
+  int minPower;
 	int maxPower;
-	int minPower;
 	int completeThreshold;
 	int completeTime;
-	int taskLoopRate;
+	int autoDriveLoopRate;
+
+  float emgDegTimeP;
+  float emgInchTimeP;
 
 	int wantedLeft;
 	int wantedRight;
@@ -46,14 +48,17 @@ void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumfe
 	AutoDriveBase.isCompleted = false;
 }
 
-void AutoBaseInit_Config(int maxPower, int minPower, int completeThreshold, int completeTime)
+void AutoBaseInit_Config(int minPower, int maxPower, int completeThreshold, int completeTime, float emgDegTimeP, float emgInchTimeP)
 {
 	AutoDriveBase.maxPower = maxPower;
 	AutoDriveBase.minPower = minPower;
 
 	AutoDriveBase.completeThreshold = completeThreshold;
 	AutoDriveBase.completeTime = completeTime;
-	AutoDriveBase.taskLoopRate = 20;
+	AutoDriveBase.autoDriveLoopRate = 20;
+
+  AutoDriveBase.emgDegTimeP = emgDegTimeP;
+  AutoDriveBase.emgInchTimeP = emgInchTimeP;
 }
 
 void AutoBaseInit_PID(float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)

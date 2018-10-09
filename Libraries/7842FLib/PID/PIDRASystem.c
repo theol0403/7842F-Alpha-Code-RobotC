@@ -26,9 +26,9 @@ void pidRAInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf = 
 
 
 
-float pidRACalculate(pidStruct &deviceName, int wantedRPM, int currentRPM)
+float pidRACalculate(pidStruct &deviceName, int wantedSig, int currentSig)
 {
-  deviceName.Error = wantedRPM - currentRPM;
+  deviceName.Error = wantedSig - currentSig;
 	int deltaTime = nPgmTime - deviceName.lastTime;
 
   deviceName.totalError += (deviceName.Error * deltaTime);
@@ -45,7 +45,7 @@ float pidRACalculate(pidStruct &deviceName, int wantedRPM, int currentRPM)
 
 	deviceName.derivative = filter_EMA(deviceName.raName, deviceName.derivative);
 
-  float finalPower = (deviceName.Error * deviceName.Kp) + (deviceName.totalError * deviceName.Ki) + (deviceName.derivative * deviceName.Kd) + (wantedRPM * deviceName.Kf);
+  float finalPower = (deviceName.Error * deviceName.Kp) + (deviceName.totalError * deviceName.Ki) + (deviceName.derivative * deviceName.Kd) + (wantedSig * deviceName.Kf);
 
 
   deviceName.lastError = deviceName.Error;

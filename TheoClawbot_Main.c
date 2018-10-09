@@ -27,9 +27,9 @@
 #define BCI_USE_EMA_FILTER
 #include "Libraries/BCILib/BCILib.h"
 
-#include "Libraries/7842FLib/7842FLib.h"
-
 #include "Shared/CommonFunctions.c"
+
+#include "Libraries/7842FLib/7842FLib.h"
 
 
 
@@ -115,13 +115,12 @@ startTask(odomTest);
 
 */
 
-#include "Auto/AutoHybridSystem.c"
 
 task autonomous()
 {
 
   AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.56, 11);
-  AutoBaseInit_Config(50, 0, 50, 100);
+  AutoBaseInit_Config(0, 50, 50, 100, 20, 400);
   AutoBaseInit_PID(0.4, 0.0, 0);
   startTask(AutoBaseTask);
 
@@ -130,11 +129,11 @@ while (true) {
   AutoBaseDriveDistance(5,5,true,true);
   AutoBaseTurnDegrees(90, true, true);
 
-  AutoBaseDriveDistance(5,5,false,true);
-  AutoBaseTurnDegrees(-180, false, true);
-  AutoBaseDriveDistance(5,5,false,true);
-  AutoBaseTurnDegrees(-90, false, true);
-  AutoBaseDriveDistance(5,5,false,true);
+  AutoBaseDriveDistance(5,5,true,false);
+  AutoBaseTurnDegrees(-180, true, false);
+  AutoBaseDriveDistance(5,5,true,false);
+  AutoBaseTurnDegrees(-90, true, false);
+  AutoBaseDriveDistance(5,5,true,false);
   AutoBaseTurnDegrees(90, true, true);
 }
 
