@@ -1,7 +1,6 @@
 
 
 
-// TODO Link to 7842Flib and orginise
 // TODO comment
 // TODO configure motors
 // TODO more user functions
@@ -31,7 +30,7 @@ task AutoBaseTask()
 
 			if(abs(AutoDriveLeftPID.Error) < AutoDriveBase.completeThreshold && abs(AutoDriveRightPID.Error) < AutoDriveBase.completeThreshold)
 			{
-				completeCount += AutoDriveBase.autoDriveLoopRate;
+				completeCount += AutoDriveBase.loopRate;
 			}
 			else
 			{
@@ -48,9 +47,10 @@ task AutoBaseTask()
 			}
 
 
-			AutoDriveBase.turnOn = !(AutoDriveBase.isCompleted && !AutoDriveBase.brakeMode);
+			//AutoDriveBase.turnOn = !(AutoDriveBase.isCompleted && !AutoDriveBase.brakeMode);
+			AutoDriveBase.turnOn = !AutoDriveBase.isCompleted || AutoDriveBase.brakeMode;
 
-			wait1Msec(AutoDriveBase.autoDriveLoopRate);
+			wait1Msec(AutoDriveBase.loopRate);
 
 		}
 

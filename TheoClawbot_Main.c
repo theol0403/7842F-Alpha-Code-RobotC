@@ -74,8 +74,8 @@ void pre_auton()
 */
 
 int wantedFlywheelRPM = 0;
-#include "Driver/DriverSimpleControls.c"
 
+#include "Driver/DriverSimpleControls.c"
 
 #include "Driver/DriverOdomTask.c"
 
@@ -84,8 +84,8 @@ task usercontrol()
 
   //startTask(DriverMainTask);
 
-startTask(DriverOdomTask);
-startTask(odomTest);
+  startTask(DriverOdomTask);
+  startTask(odomTest);
 
 
 
@@ -124,7 +124,8 @@ task autonomous()
   AutoBaseInit_PID(0.4, 0.0, 0);
   startTask(AutoBaseTask);
 
-while (true) {
+while (true)
+{
   AutoBaseTurnDegrees(90, true, true);
   AutoBaseDriveDistance(5,5,true,true);
   AutoBaseTurnDegrees(90, true, true);

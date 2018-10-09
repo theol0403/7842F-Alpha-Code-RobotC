@@ -12,7 +12,7 @@ struct BaseStruct
 	int maxPower;
 	int completeThreshold;
 	int completeTime;
-	int autoDriveLoopRate;
+	int loopRate;
 
   float emgDegTimeP;
   float emgInchTimeP;
@@ -38,7 +38,7 @@ void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumfe
 	AutoDriveBase.leftEn = leftEn;
 	AutoDriveBase.rightEn = rightEn;
 	AutoDriveBase.wheelCircumference = wheelCircumference;
-	AutoDriveBase.chassisCircumference = chassisDiameter * 3.1415926;
+	AutoDriveBase.chassisCircumference = chassisDiameter * 2 * 3.1415926;
 
 	AutoDriveBase.wantedLeft = SensorValue[leftEn];
 	AutoDriveBase.wantedRight = SensorValue[rightEn];
@@ -50,12 +50,12 @@ void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumfe
 
 void AutoBaseInit_Config(int minPower, int maxPower, int completeThreshold, int completeTime, float emgDegTimeP, float emgInchTimeP)
 {
+  AutoDriveBase.minPower = minPower;
 	AutoDriveBase.maxPower = maxPower;
-	AutoDriveBase.minPower = minPower;
 
 	AutoDriveBase.completeThreshold = completeThreshold;
 	AutoDriveBase.completeTime = completeTime;
-	AutoDriveBase.autoDriveLoopRate = 20;
+	AutoDriveBase.loopRate = 20;
 
   AutoDriveBase.emgDegTimeP = emgDegTimeP;
   AutoDriveBase.emgInchTimeP = emgInchTimeP;

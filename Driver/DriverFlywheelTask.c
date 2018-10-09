@@ -9,7 +9,7 @@ EMAFilter flywheelD_RA;
 
 int slewRate = 1;
 
-task flywheelPIDTask()
+task FlywheelPIDTask()
 {
 
 	rpmInit(mainFlywheelRPM, s_FlywheelEn, 360, 4.8);

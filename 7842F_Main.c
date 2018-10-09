@@ -13,15 +13,14 @@
 
 // This code is for the VEX cortex platform
 #pragma platform(VEX2)
-
 // Select Download method as "competition"
 #pragma competitionControl(Competition)
-
-
 //Main competition background code...do not modify!
 #include "Vex_Competition_Includes.c"
 
 
+
+#include "Shared/CommonFunctions.c"
 
 
 
@@ -29,14 +28,12 @@
 #define BCI_USE_EMA_FILTER
 #include "Libraries/BCILib/BCILib.h"
 
-
 //#include "Libraries/BNSLib/BNSLib.h"
-
 
 #include "Libraries/7842FLib/7842FLib.h"
 
 
-#include "Shared/CommonFunctions.c"
+
 
 
 
@@ -90,7 +87,7 @@ task usercontrol()
 {
 
   startTask(DriverMainTask);
-  startTask(flywheelPIDTask);
+  startTask(FlywheelPIDTask);
 
 
 
