@@ -1,4 +1,9 @@
 
+enum sideColors
+{
+  redSide = 1,
+  blueSide = -1
+};
 
 
 struct BaseStruct
@@ -7,6 +12,7 @@ struct BaseStruct
 	tSensors rightEn;
 	float wheelCircumference;
 	float chassisCircumference;
+	sideColors chosenSide;
 
   int minPower;
 	int maxPower;
@@ -21,8 +27,9 @@ struct BaseStruct
 	int wantedRight;
 	bool brakeMode;
 
-	float lastDistance;
-	float lastDegrees;
+	int lastWantedLeft;
+	int lastWantedRight;
+
 
 
 	bool turnOn;
@@ -36,12 +43,13 @@ pidStruct AutoDriveLeftPID;
 pidStruct AutoDriveRightPID;
 
 
-void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter)
+void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter, sideColors chosenSide)
 {
 	AutoDriveBase.leftEn = leftEn;
 	AutoDriveBase.rightEn = rightEn;
 	AutoDriveBase.wheelCircumference = wheelCircumference;
 	AutoDriveBase.chassisCircumference = chassisDiameter * 2 * 3.1415926;
+	AutoDriveBase.chosenSide = chosenSide;
 
 	AutoDriveBase.wantedLeft = SensorValue[leftEn];
 	AutoDriveBase.wantedRight = SensorValue[rightEn];

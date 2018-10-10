@@ -1,6 +1,3 @@
-
-
-
 #ifndef __7842F_LIB_H
 #define __7842F_LIB_H
 
@@ -16,11 +13,6 @@
 #include "AutoHybridSystem/AutoHybridInit.c"
 #include "AutoHybridSystem/AutoHybridFunctions.c"
 #include "AutoHybridSystem/AutoHybridTask.c"
-
-
-
-
-
 
 
 

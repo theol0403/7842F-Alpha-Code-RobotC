@@ -1,3 +1,5 @@
+#pragma config(Sensor, in1,    s_sideSelector, sensorPotentiometer)
+#pragma config(Sensor, in2,    s_autoSelector, sensorPotentiometer)
 #pragma config(Sensor, dgtl1,  s_FlywheelEn,   sensorQuadEncoder)
 #pragma config(Sensor, dgtl5,  s_LeftEn,       sensorQuadEncoder)
 #pragma config(Sensor, dgtl7,  s_RightEn,      sensorQuadEncoder)
@@ -151,32 +153,32 @@ task usercontrol()
 
 task autonomous()
 {
+  sideColors chosenSide = SensorValue[s_sideSelector] < 2047 ? redSide : blueSide;
 
-  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.56, 15.25);
+  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.56, 15.25, chosenSide);
   AutoBaseInit_Config(10, 127, 50, 200, 20, 400);
   AutoBaseInit_PID(0.4, 0.0, 0);
   startTask(AutoBaseTask);
 
-  int chosenSide = SensorValue[s_sideSelector] < 2047 ? 1 : -1;
   switch(SensorValue[s_autoSelector]/819)
   {
     case 0:
-    AutoExec0(chosenSide);
+    AutoExec0();
     break;
     case 1:
-    AutoExec1(chosenSide);
+    AutoExec1();
     break;
     case 2:
-    AutoExec2(chosenSide);
+    AutoExec2();
     break;
     case 3:
-    AutoExec3(chosenSide);
+    AutoExec3();
     break;
     case 4:
-    AutoExec4(chosenSide);
+    AutoExec4();
     break;
     case 5:
-    AutoExecTesting(chosenSide);
+    AutoExecTesting();
     break;
   }
 

@@ -2,27 +2,30 @@
 #ifndef __AUTO_EXEC_H
 #define __AUTO_EXEC_H
 
-void AutoExec0(int chosenSide)
+
+
+
+void AutoExec0()
 {
 //  #include "AutoExec0.c"
 };
-void AutoExec1(int chosenSide)
+void AutoExec1()
 {
   #include "AutoExec1.c"
 };
-void AutoExec2(int chosenSide)
+void AutoExec2()
 {
   #include "AutoExec2.c"
 };
-void AutoExec3(int chosenSide)
+void AutoExec3()
 {
   #include "AutoExec3.c"
 };
-void AutoExec4(int chosenSide)
+void AutoExec4()
 {
   #include "AutoExec4.c"
 };
-void AutoExecTesting(int chosenSide)
+void AutoExecTesting()
 {
 //  #include "AutoExecTesting.c"
 };

@@ -13,22 +13,45 @@ void AutoBaseWaitUntilComplete(int maxTime = 5000)
 }
 
 
-void AutoBaseWaitUntilDistance(float waitDistance, int maxTime = 5000)
+void AutoBaseWaitUntilTicks(bool direction, int leftTicks, int rightTicks, int maxTime = 5000)
 {
-	float distanceInterval = AutoDriveBase.lastDistance - waitDistance;
-	int tickInterval = (distanceInterval / AutoDriveBase.wheelCircumference) * 360;
-
-	int waitTick = ((AutoDriveBase.wantedLeft - tickInterval) + (AutoDriveBase.wantedRight - tickInterval))/2;
-
-	int emergencyCount = 0;
-	bool isCompleted;
 	wait1Msec(AutoDriveBase.loopRate * 2);
+	int emergencyCount = 0;
+	bool isCompleted = false;
 	while(!isCompleted && emergencyCount < abs(maxTime))
 	{
-		isCompleted = SensorValue[AutoDriveBase.leftEn] waitTick
+		if(direction)
+		{
+			isCompleted = ((SensorValue[AutoDriveBase.leftEn] > leftTicks) && (SensorValue[AutoDriveBase.rightEn] > rightTicks));
+		}
+		else
+		{
+			isCompleted = ((SensorValue[AutoDriveBase.leftEn] < leftTicks) && (SensorValue[AutoDriveBase.rightEn] < rightTicks));
+		}
 		emergencyCount += AutoDriveBase.loopRate;
 		wait1Msec(AutoDriveBase.loopRate);
 	}
+}
+
+
+
+
+void AutoBaseWaitUntilDistance(float waitInch, int maxTime = 5000)
+{
+	int wantedLeft = AutoDriveBase.lastWantedLeft + (waitInch / AutoDriveBase.wheelCircumference) * 360;
+	int wantedRight = AutoDriveBase.lastWantedRight + (waitInch / AutoDriveBase.wheelCircumference) * 360;
+
+	AutoBaseWaitUntilTicks(waitInch > 0, wantedLeft, wantedRight, maxTime);
+}
+
+
+void AutoBaseWaitUntilDegree(float waitDegrees, int maxTime = 5000)
+{
+	int wantedTicks = AutoDriveBase.chassisCircumference / AutoDriveBase.wheelCircumference * waitDegrees;
+	int wantedLeft = AutoDriveBase.lastWantedLeft + (AutoDriveBase.chosenSide * -wantedTicks/2);
+	int wantedRight = AutoDriveBase.lastWantedRight + (AutoDriveBase.chosenSide * wantedTicks/2);
+
+	AutoBaseWaitUntilTicks(waitDegrees > 0, wantedLeft, wantedRight, maxTime);
 }
 
 
@@ -42,7 +65,8 @@ void AutoBaseDriveDistance(float wantedInch, bool blockMode = true, bool brakeMo
 {
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
-	AutoDriveBase.lastDistance = wantedInch;
+	AutoDriveBase.lastWantedLeft = AutoDriveBase.wantedLeft;
+	AutoDriveBase.lastWantedRight = AutoDriveBase.wantedRight;
 
 	AutoDriveBase.wantedLeft += (wantedInch / AutoDriveBase.wheelCircumference) * 360;
 	AutoDriveBase.wantedRight += (wantedInch / AutoDriveBase.wheelCircumference) * 360;
@@ -60,7 +84,8 @@ void AutoBaseDriveChassis(float wantedLeftInch, float wantedRightInch, bool bloc
 {
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
-	AutoDriveBase.lastDistance = (wantedLeftInch + wantedRightInch)/2;
+	AutoDriveBase.lastWantedLeft = AutoDriveBase.wantedLeft;
+	AutoDriveBase.lastWantedRight = AutoDriveBase.wantedRight;
 
 	AutoDriveBase.wantedLeft += (wantedLeftInch / AutoDriveBase.wheelCircumference) * 360;
 	AutoDriveBase.wantedRight += (wantedRightInch / AutoDriveBase.wheelCircumference) * 360;
@@ -78,11 +103,12 @@ void AutoBaseTurnDegrees(float wantedDegrees, bool blockMode = true, bool brakeM
 {
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
-	AutoDriveBase.lastDegrees = wantedDegrees;
+	AutoDriveBase.lastWantedLeft = AutoDriveBase.wantedLeft;
+	AutoDriveBase.lastWantedRight = AutoDriveBase.wantedRight;
 
 	int wantedTicks = AutoDriveBase.chassisCircumference / AutoDriveBase.wheelCircumference * wantedDegrees;
-	AutoDriveBase.wantedLeft += (wantedTicks/2) + (forwardBiasInch / AutoDriveBase.wheelCircumference * 360);
-	AutoDriveBase.wantedRight += (-wantedTicks/2) + (forwardBiasInch / AutoDriveBase.wheelCircumference * 360);
+	AutoDriveBase.wantedLeft += (AutoDriveBase.chosenSide * -wantedTicks/2) + (forwardBiasInch / AutoDriveBase.wheelCircumference * 360);
+	AutoDriveBase.wantedRight += (AutoDriveBase.chosenSide * wantedTicks/2) + (forwardBiasInch / AutoDriveBase.wheelCircumference * 360);
 	AutoDriveBase.brakeMode = brakeMode;
 
   if(blockMode)
