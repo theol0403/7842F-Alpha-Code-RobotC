@@ -119,20 +119,40 @@ task usercontrol()
 
 */
 
-#include "Auto/AutoHybridSystem.c"
+#include "Auto/AutoExec.h"
 
 task autonomous()
 {
+
+  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.56, 15.25);
+  AutoBaseInit_Config(10, 127, 50, 200, 20, 400);
+  AutoBaseInit_PID(0.4, 0.0, 0);
   startTask(AutoBaseTask);
 
-  AutoBaseInit(s_LeftEn, s_RightEn, 12.56, 15.25, 100, 0, 0.6, 0, 0, 100000, 0, 100000);
+  int chosenSide = SensorValue[s_sideSelector] < 2047 ? 1 : -1;
+  switch(SensorValue[s_autoSelector]/819)
+  {
+    case 0:
+    AutoExec0(chosenSide);
+    break;
+    case 1:
+    AutoExec1(chosenSide);
+    break;
+    case 2:
+    AutoExec2(chosenSide);
+    break;
+    case 3:
+    AutoExec3(chosenSide);
+    break;
+    case 4:
+    AutoExec4(chosenSide);
+    break;
+    case 5:
+    AutoExecTesting(chosenSide);
+    break;
+  }
 
-//  AutoDriveDistance(30, 30, b_Brake, b_Block);
 
-AutoTurnDegrees(90, b_Brake, b_Block);
-  //
-  // AutoDriveDistance(30, 30, Brake, Block);
-
-  wait1Msec(10000);
+  wait1Msec(1000000);
 
 }
