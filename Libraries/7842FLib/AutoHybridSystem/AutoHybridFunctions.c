@@ -1,6 +1,24 @@
 
 
 
+void AutoBaseWaitUntilComplete(int maxTime = 5000)
+{
+	int emergencyCount = 0;
+	wait1Msec(AutoDriveBase.loopRate * 2);
+	while(!AutoDriveBase.isCompleted && emergencyCount < abs(maxTime))
+	{
+		emergencyCount += AutoDriveBase.loopRate;
+		wait1Msec(AutoDriveBase.loopRate);
+	}
+}
+
+
+
+
+
+
+
+
 void AutoBaseDriveDistance(int wantedInch, bool blockMode = true, bool brakeMode = true)
 {
 	AutoDriveBase.turnOn = true;
@@ -11,14 +29,7 @@ void AutoBaseDriveDistance(int wantedInch, bool blockMode = true, bool brakeMode
 
 	if(blockMode)
 	{
-    int emergencyCount = 0;
-
-		wait1Msec(AutoDriveBase.loopRate * 2);
-    while(!AutoDriveBase.isCompleted && emergencyCount < AutoDriveBase.emgInchTimeP * abs(wantedInch))
-    {
-      emergencyCount += AutoDriveBase.loopRate;
-      wait1Msec(AutoDriveBase.loopRate);
-    }
+    AutoBaseWaitUntilComplete(AutoDriveBase.emgInchTimeP * abs(wantedInch));
 	}
 
 }
@@ -34,15 +45,8 @@ void AutoBaseDriveChassis(int wantedLeftInch, int wantedRightInch, bool blockMod
 
 	if(blockMode)
 	{
-    int emergencyCount = 0;
     int longestStep = abs(wantedLeftInch) > abs(wantedRightInch) ? abs(wantedLeftInch) : abs(wantedRightInch);
-
-		wait1Msec(AutoDriveBase.loopRate * 2);
-    while(!AutoDriveBase.isCompleted && emergencyCount < AutoDriveBase.emgInchTimeP * longestStep)
-    {
-      emergencyCount += AutoDriveBase.loopRate;
-      wait1Msec(AutoDriveBase.loopRate);
-    }
+		AutoBaseWaitUntilComplete(AutoDriveBase.emgInchTimeP * longestStep);
 	}
 
 }
@@ -58,16 +62,12 @@ void AutoBaseTurnDegrees(int wantedDegrees, bool blockMode = true, bool brakeMod
 
   if(blockMode)
 	{
-    int emergencyCount = 0;
-		wait1Msec(AutoDriveBase.loopRate * 2);
-    while(!AutoDriveBase.isCompleted && emergencyCount < AutoDriveBase.emgDegTimeP * abs(wantedDegrees))
-    {
-      emergencyCount += AutoDriveBase.loopRate;
-      wait1Msec(AutoDriveBase.loopRate);
-    }
+    AutoBaseWaitUntilComplete(AutoDriveBase.emgDegTimeP * abs(wantedDegrees));
 	}
 
 }
+
+
 
 
 
