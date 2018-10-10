@@ -5,6 +5,8 @@ int trueJoystickCh4;
 int trueJoystickCh2;
 const int driverBaseThreshold = 25;
 
+bool flywheelManual = false;
+
 
 task DriverMainTask()
 {
@@ -76,22 +78,57 @@ task DriverMainTask()
 
 		// Index --------------------------------------------------------------------------------
 
+		if(flywheelManual)
+		{
+			if(vexRT[Btn7D])
+			{
+				setFlywheelPower(0);
+			}
+			else if(vexRT[Btn7L])
+			{
+				setFlywheelPower(70);
+			}
+			else if(vexRT[Btn7U])
+			{
+				setFlywheelPower(90);
+			}
+			else if(vexRT[Btn7R])
+			{
+				setFlywheelPower(110);
+			}
+		}
+		else
+		{
+			if(vexRT[Btn7D])
+			{
+				wantedFlywheelRPM = 0;
+			}
+			else if(vexRT[Btn7L])
+			{
+				wantedFlywheelRPM = 2300;
+			}
+			else if(vexRT[Btn7U])
+			{
+				wantedFlywheelRPM = 2500;
+			}
+			else if(vexRT[Btn7R])
+			{
+				wantedFlywheelRPM = 2800;
+			}
+		}
 
-		if(vexRT[Btn7D])
+
+
+
+		if(vexRT[Btn8U] && !flywheelManual)
 		{
-			wantedFlywheelRPM = 0;
+			stopTask(FlywheelPIDTask);
+			flywheelManual = true;
 		}
-		else if(vexRT[Btn7L])
+		else if(vexRT[Btn8L] && flywheelManual)
 		{
-			wantedFlywheelRPM = 2300;
-		}
-		else if(vexRT[Btn7U])
-		{
-			wantedFlywheelRPM = 2500;
-		}
-		else if(vexRT[Btn7R])
-		{
-			wantedFlywheelRPM = 2800;
+			startTask(FlywheelPIDTask);
+			flywheelManual = false;
 		}
 
 
