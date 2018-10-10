@@ -10,7 +10,7 @@ void setFlywheelPower(int flywheelSpeed)
 
 void setIntakePower(int intakeSpeed)
 {
-	motor[m_Intake] = intakeSpeed;
+	motor[m_Intake] = intakeSpeed; //Positive intakespeed = intake
 }
 
 

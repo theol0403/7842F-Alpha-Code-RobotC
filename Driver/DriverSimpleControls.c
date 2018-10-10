@@ -48,13 +48,13 @@ task DriverMainTask()
 		// Intake --------------------------------------------------------------------------------
 		if(vexRT[Btn6U])
 		{
-			setIntakePower(127);
-			setIndexerPower(127);
+			setIntakePower(-127);
+			setIndexerPower(-127);
 		}
 		else if(vexRT[Btn6D])
 		{
-			setIntakePower(-127);
-			setIndexerPower(-15);
+			setIntakePower(127);
+			setIndexerPower(15);
 		}
 		else
 		{
@@ -64,11 +64,11 @@ task DriverMainTask()
 
 		if(vexRT[Btn5D])
 		{
-			setIndexerPower(-127);
+			setIndexerPower(127);
 		}
 		else if(vexRT[Btn5U])
 		{
-			setIndexerPower(127);
+			setIndexerPower(-127);
 		}
 
 		// Intake --------------------------------------------------------------------------------
