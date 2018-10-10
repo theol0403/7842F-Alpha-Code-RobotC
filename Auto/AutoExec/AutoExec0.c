@@ -1,8 +1,9 @@
-// Smurf Case 1
+
+// Drive, Ball, Turn, Shoot, Drive, Shoot, Push, Back
 
 
 
-wantedFlywheelRPM = 2000;
+wantedFlywheelRPM = 2375;
 
 AutoBaseDriveDistance(39.25, false);
 AutoBaseWaitUntilDistance(33.1);

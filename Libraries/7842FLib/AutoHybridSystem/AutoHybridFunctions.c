@@ -60,7 +60,7 @@ void AutoBaseWaitUntilDistance(float waitInch, int maxTime = 5000)
 }
 
 
-void AutoBaseWaitUntilDegree(float waitDegrees, int maxTime = 5000)
+void AutoBaseWaitUntilDegrees(float waitDegrees, int maxTime = 5000)
 {
 	int wantedTicks = AutoDriveBase.chassisCircumference / AutoDriveBase.wheelCircumference * waitDegrees;
 	int wantedLeft = AutoDriveBase.lastWantedLeft + (AutoDriveBase.chosenSide * -wantedTicks/2);
