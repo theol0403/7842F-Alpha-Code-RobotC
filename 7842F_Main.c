@@ -153,7 +153,7 @@ task usercontrol()
  *    | | | | |_| | || (_) |
  *    \_| |_/\__,_|\__\___/
  */
-
+#include "Auto/AutoSimpleFunctions.c"
 
 #include "Auto/AutoExec.h"
 

@@ -5,7 +5,7 @@ enum intakeModes
   intakeShoot,
   intakeOff
 
-}
+};
 
 void AutoIntakeMode(intakeModes intakeMode)
 {
@@ -24,6 +24,5 @@ void AutoIntakeMode(intakeModes intakeMode)
     setIntakePower(0);
     setIndexerPower(0);
   }
-
 
 }
