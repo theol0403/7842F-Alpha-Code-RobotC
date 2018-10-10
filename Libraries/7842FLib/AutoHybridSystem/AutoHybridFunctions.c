@@ -1,7 +1,30 @@
 
 
 
-void AutoBaseDriveDistance(int wantedLeftInch, int wantedRightInch, bool blockMode = true, bool brakeMode = true)
+void AutoBaseDriveDistance(int wantedInch, bool blockMode = true, bool brakeMode = true)
+{
+	AutoDriveBase.turnOn = true;
+	AutoDriveBase.isCompleted = false;
+	AutoDriveBase.wantedLeft += (wantedInch / AutoDriveBase.wheelCircumference) * 360;
+	AutoDriveBase.wantedRight += (wantedInch / AutoDriveBase.wheelCircumference) * 360;
+	AutoDriveBase.brakeMode = brakeMode;
+
+	if(blockMode)
+	{
+    int emergencyCount = 0;
+
+		wait1Msec(AutoDriveBase.loopRate * 2);
+    while(!AutoDriveBase.isCompleted && emergencyCount < AutoDriveBase.emgInchTimeP * abs(wantedInch))
+    {
+      emergencyCount += AutoDriveBase.loopRate;
+      wait1Msec(AutoDriveBase.loopRate);
+    }
+	}
+
+}
+
+
+void AutoBaseDriveChassis(int wantedLeftInch, int wantedRightInch, bool blockMode = true, bool brakeMode = true)
 {
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
