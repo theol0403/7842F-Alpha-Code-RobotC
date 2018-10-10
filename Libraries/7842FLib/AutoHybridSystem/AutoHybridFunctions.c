@@ -3,8 +3,8 @@
 
 void AutoBaseWaitUntilComplete(int maxTime = 5000)
 {
-	int emergencyCount = 0;
 	wait1Msec(AutoDriveBase.loopRate * 2);
+	int emergencyCount = 0;
 	while(!AutoDriveBase.isCompleted && emergencyCount < abs(maxTime))
 	{
 		emergencyCount += AutoDriveBase.loopRate;
@@ -13,21 +13,25 @@ void AutoBaseWaitUntilComplete(int maxTime = 5000)
 }
 
 
-void AutoBaseWaitUntilTicks(bool direction, int leftTicks, int rightTicks, int maxTime = 5000)
+void AutoBaseWaitUntilTicks(int leftTicks, int rightTicks, int maxTime = 5000)
 {
+	bool leftDirection = (SensorValue[AutoDriveBase.leftEn] < leftTicks);
+	bool rightDirection = (SensorValue[AutoDriveBase.leftEn] < leftTicks);
+
 	wait1Msec(AutoDriveBase.loopRate * 2);
+
 	int emergencyCount = 0;
+	bool isLeftCompleted = false;
+	bool isRightCompleted = false;
+
 	bool isCompleted = false;
 	while(!isCompleted && emergencyCount < abs(maxTime))
 	{
-		if(direction)
-		{
-			isCompleted = ((SensorValue[AutoDriveBase.leftEn] > leftTicks) && (SensorValue[AutoDriveBase.rightEn] > rightTicks));
-		}
-		else
-		{
-			isCompleted = ((SensorValue[AutoDriveBase.leftEn] < leftTicks) && (SensorValue[AutoDriveBase.rightEn] < rightTicks));
-		}
+
+		isLeftCompleted = leftDirection ? (SensorValue[AutoDriveBase.leftEn] > leftTicks) : (SensorValue[AutoDriveBase.leftEn] < leftTicks);
+		isRightCompleted = rightDirection ? (SensorValue[AutoDriveBase.rightEn] > rightTicks) : (SensorValue[AutoDriveBase.rightEn] < rightTicks);
+		isCompleted = (isLeftCompleted && isRightCompleted);
+
 		emergencyCount += AutoDriveBase.loopRate;
 		wait1Msec(AutoDriveBase.loopRate);
 	}
@@ -41,7 +45,7 @@ void AutoBaseWaitUntilDistance(float waitInch, int maxTime = 5000)
 	int wantedLeft = AutoDriveBase.lastWantedLeft + (waitInch / AutoDriveBase.wheelCircumference) * 360;
 	int wantedRight = AutoDriveBase.lastWantedRight + (waitInch / AutoDriveBase.wheelCircumference) * 360;
 
-	AutoBaseWaitUntilTicks(waitInch > 0, wantedLeft, wantedRight, maxTime);
+	AutoBaseWaitUntilTicks(wantedLeft, wantedRight, maxTime);
 }
 
 
@@ -51,7 +55,7 @@ void AutoBaseWaitUntilDegree(float waitDegrees, int maxTime = 5000)
 	int wantedLeft = AutoDriveBase.lastWantedLeft + (AutoDriveBase.chosenSide * -wantedTicks/2);
 	int wantedRight = AutoDriveBase.lastWantedRight + (AutoDriveBase.chosenSide * wantedTicks/2);
 
-	AutoBaseWaitUntilTicks(waitDegrees > 0, wantedLeft, wantedRight, maxTime);
+	AutoBaseWaitUntilTicks(wantedLeft, wantedRight, maxTime);
 }
 
 
