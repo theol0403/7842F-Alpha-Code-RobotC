@@ -13,6 +13,25 @@ void AutoBaseWaitUntilComplete(int maxTime = 5000)
 }
 
 
+void AutoBaseWaitUntilDistance(float waitDistance, int maxTime = 5000)
+{
+	float distanceInterval = AutoDriveBase.lastDistance - waitDistance;
+	int tickInterval = (distanceInterval / AutoDriveBase.wheelCircumference) * 360;
+
+	int waitTick = ((AutoDriveBase.wantedLeft - tickInterval) + (AutoDriveBase.wantedRight - tickInterval))/2;
+
+	int emergencyCount = 0;
+	bool isCompleted;
+	wait1Msec(AutoDriveBase.loopRate * 2);
+	while(!isCompleted && emergencyCount < abs(maxTime))
+	{
+		isCompleted = SensorValue[AutoDriveBase.leftEn] waitTick
+		emergencyCount += AutoDriveBase.loopRate;
+		wait1Msec(AutoDriveBase.loopRate);
+	}
+}
+
+
 
 
 
