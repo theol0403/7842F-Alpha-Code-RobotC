@@ -13,7 +13,7 @@ void AutoBaseWaitUntilComplete(int maxTime = 5000)
 }
 
 
-void AutoBaseWaitUntilTicks(int wantedLeft, int wantedRight, int maxTime = 5000)
+void AutoBaseWaitUntilTickCrossed(int wantedLeft, int wantedRight, int maxTime = 5000)
 {
 	wait1Msec(AutoDriveBase.loopRate * 2);
 
@@ -56,7 +56,7 @@ void AutoBaseWaitUntilDistance(float waitInch, int maxTime = 5000)
 		if(SensorValue[AutoDriveBase.rightEn] < wantedRight) return;
 	}
 
-	AutoBaseWaitUntilTicks(wantedLeft, wantedRight, maxTime);
+	AutoBaseWaitUntilTickCrossed(wantedLeft, wantedRight, maxTime);
 }
 
 
@@ -79,7 +79,7 @@ void AutoBaseWaitUntilDegree(float waitDegrees, int maxTime = 5000)
 		if(SensorValue[AutoDriveBase.rightEn] < wantedRight) return;
 	}
 
-	AutoBaseWaitUntilTicks(wantedLeft, wantedRight, maxTime);
+	AutoBaseWaitUntilTickCrossed(wantedLeft, wantedRight, maxTime);
 }
 
 

@@ -68,6 +68,9 @@
  int wantedFlywheelRPM = 0;
  #include "Shared/MainFlywheelTask.c"
 
+ bool overrideLCD;
+ #include "Shared/LCDTask.c"
+
 
 
 
@@ -89,6 +92,8 @@
 
 void pre_auton()
 {
+  startTask(LCDTask);
+  
   //BNS();
 
   bStopTasksBetweenModes = true; //Kills Running Tasks Between Modes
@@ -115,6 +120,7 @@ void pre_auton()
 
 task usercontrol()
 {
+  startTask(LCDTask);
 
   startTask(DriverMainTask);
   startTask(FlywheelPIDTask);
@@ -153,6 +159,8 @@ task usercontrol()
 
 task autonomous()
 {
+  startTask(LCDTask);
+
   sideColors chosenSide = SensorValue[s_sideSelector] < 2047 ? redSide : blueSide;
 
   AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.56, 15.25, chosenSide);

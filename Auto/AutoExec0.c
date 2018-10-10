@@ -4,19 +4,12 @@
 
 wantedFlywheelRPM = 2375;
 AutoBaseDriveDistance(39.25);
-pid = 2;
-waitUntil(SensorValue[Lquad] > 950);
-waitUntil(SensorValue[Rquad] > 950);
-startTask(intakeup);
-waitUntil(SensorValue[Lquad] > 1115);
-waitUntil(SensorValue[Rquad] > 1115);
-wait(0.3);
-SensorValue[Lquad] = 0;
-SensorValue[Rquad] = 0;
-Dtarget = -840;
-RDtarget = -840;
-waitUntil(SensorValue[Lquad] < -820);
-waitUntil(SensorValue[Rquad] < -820);
+AutoBaseWaitUntilDistance(33.1);
+setIntakePower(127);
+AutoBaseWaitUntilComplete();
+AutoBaseDriveDistance(-29.3);
+
+
 startTask(autoTurn);
 wait(0.3);
 SensorValue[Gyro] = 0;
