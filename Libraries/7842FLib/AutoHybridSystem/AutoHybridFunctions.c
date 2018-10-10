@@ -47,6 +47,8 @@ void AutoBaseTurnDegrees(int wantedDegrees, bool blockMode = true, bool brakeMod
 }
 
 
+
+
 int AutoBaseLimitPower(int wantedPower)
 {
 	if(abs(wantedPower) > AutoDriveBase.maxPower) wantedPower = sgn(wantedPower) * AutoDriveBase.maxPower;
@@ -64,6 +66,9 @@ int AutoBaseLimitPower(int wantedPower)
 	}
 	return wantedPower;
 }
+
+
+void setBasePower(int leftSpeed, int rightSpeed);
 
 void AutoBaseRunPID()
 {

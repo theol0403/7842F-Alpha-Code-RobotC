@@ -20,44 +20,76 @@
 
 
 
-#include "Shared/CommonFunctions.c"
 
 
 
-#define BCI_USE_DEMA_FILTER
-#define BCI_USE_EMA_FILTER
-#include "Libraries/BCILib/BCILib.h"
+/***
+ *     _     _ _                    _
+ *    | |   (_) |                  (_)
+ *    | |    _| |__  _ __ __ _ _ __ _  ___  ___
+ *    | |   | | '_ \| '__/ _` | '__| |/ _ \/ __|
+ *    | |___| | |_) | | | (_| | |  | |  __/\__ \
+ *    \_____/_|_.__/|_|  \__,_|_|  |_|\___||___/
+ *
+ *
+ */
 
-//#include "Libraries/BNSLib/BNSLib.h"
+ //#include "Libraries/BNSLib/BNSLib.h"
 
-#include "Libraries/7842FLib/7842FLib.h"
-
-
-
-
-
+//Enable the use of BCI EMA Filters
+ #define BCI_USE_DEMA_FILTER
+ #define BCI_USE_EMA_FILTER
+ #include "Libraries/BCILib/BCILib.h"
 
 
-/*
-_____                                              _
-|  __ \                             /\             | |
-| |__) |  _ __    ___   ______     /  \     _   _  | |_    ___
-|  ___/  | '__|  / _ \ |______|   / /\ \   | | | | | __|  / _ \
-| |      | |    |  __/           / ____ \  | |_| | | |_  | (_) |
-|_|      |_|     \___|          /_/    \_\  \__,_|  \__|  \___/
-Code that runs when the robot is turned on
-*/
+ #include "Libraries/7842FLib/7842FLib.h"
+
+
+
+
+
+
+
+ /***
+  *     _____ _                        _
+  *    /  ___| |                      | |
+  *    \ `--.| |__   __ _ _ __ ___  __| |
+  *     `--. \ '_ \ / _` | '__/ _ \/ _` |
+  *    /\__/ / | | | (_| | | |  __/ (_| |
+  *    \____/|_| |_|\__,_|_|  \___|\__,_|
+  *
+  *
+  */
+
+ #include "Shared/CommonMotorFunctions.c" //Motor Move functions and TrueSpeed
+
+ int wantedFlywheelRPM = 0;
+ #include "Shared/MainFlywheelTask.c"
+
+
+
+
+
+
+
+
+
+/***
+ *    ______                 ___        _
+ *    | ___ \               / _ \      | |
+ *    | |_/ / __ ___ ______/ /_\ \_   _| |_ ___
+ *    |  __/ '__/ _ \______|  _  | | | | __/ _ \
+ *    | |  | | |  __/      | | | | |_| | || (_) |
+ *    \_|  |_|  \___|      \_| |_/\__,_|\__\___/
+ */
 
 
 
 void pre_auton()
 {
-
-
   //BNS();
 
   bStopTasksBetweenModes = true; //Kills Running Tasks Between Modes
-
 }
 
 
@@ -67,20 +99,16 @@ void pre_auton()
 
 
 
+/***
+ *     _   _
+ *    | | | |
+ *    | | | |___  ___ _ __
+ *    | | | / __|/ _ \ '__|
+ *    | |_| \__ \  __/ |
+ *     \___/|___/\___|_|
+ */
 
-/*
-/_    _
-| |  | |
-| |  | |  ___    ___   _ __
-| |  | | / __|  / _ \ | '__|
-| |__| | \__ \ |  __/ | |
-\\____/  |___/  \___| |_|
-*/
-int wantedFlywheelRPM = 0;
-#include "Driver/DriverFlywheelTask.c"
 #include "Driver/DriverSimpleControls.c"
-
-
 
 
 task usercontrol()
@@ -109,15 +137,15 @@ task usercontrol()
 
 
 
-/*
-/////////////////_
-/////\          | |
-////  \   _   _ | |_  ___
-/// /\ \ | | | || __|/ _ \
-// ____ \| |_| || |_| (_) |
-/_/    \_\\__,_| \__|\___/
+/***
+ *      ___        _
+ *     / _ \      | |
+ *    / /_\ \_   _| |_ ___
+ *    |  _  | | | | __/ _ \
+ *    | | | | |_| | || (_) |
+ *    \_| |_/\__,_|\__\___/
+ */
 
-*/
 
 #include "Auto/AutoExec.h"
 

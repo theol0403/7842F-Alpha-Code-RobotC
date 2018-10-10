@@ -7,10 +7,11 @@ EMAFilter flywheelRPM_RA;
 pidStruct mainFlywheelPID;
 EMAFilter flywheelD_RA;
 
-int slewRate = 1;
+
 
 task FlywheelPIDTask()
 {
+	int slewRate = 1;
 
 	rpmInit(mainFlywheelRPM, s_FlywheelEn, 360, 4.8);
 	pidRAInit(mainFlywheelPID, 0.6, 0.0, 6.5, 0.033, 1000, 100, 4000, &flywheelD_RA, 0.03);
