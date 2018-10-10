@@ -7,27 +7,27 @@
 
 void AutoExec0()
 {
-//  #include "AutoExec0.c"
+  #include "AutoExec/AutoExec0.c"
 };
 void AutoExec1()
 {
-  #include "AutoExec1.c"
+  #include "AutoExec/AutoExec1.c"
 };
 void AutoExec2()
 {
-  #include "AutoExec2.c"
+  #include "AutoExec/AutoExec2.c"
 };
 void AutoExec3()
 {
-  #include "AutoExec3.c"
+  #include "AutoExec/AutoExec3.c"
 };
 void AutoExec4()
 {
-  #include "AutoExec4.c"
+  #include "AutoExec/AutoExec4.c"
 };
 void AutoExecTesting()
 {
-//  #include "AutoExecTesting.c"
+  #include "AutoExec/AutoExecTesting.c"
 };
 
 
