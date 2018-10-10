@@ -19,10 +19,12 @@ void AutoBaseWaitUntilComplete(int maxTime = 5000)
 
 
 
-void AutoBaseDriveDistance(int wantedInch, bool blockMode = true, bool brakeMode = true)
+void AutoBaseDriveDistance(float wantedInch, bool blockMode = true, bool brakeMode = true)
 {
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
+	AutoDriveBase.lastDistance = wantedInch;
+
 	AutoDriveBase.wantedLeft += (wantedInch / AutoDriveBase.wheelCircumference) * 360;
 	AutoDriveBase.wantedRight += (wantedInch / AutoDriveBase.wheelCircumference) * 360;
 	AutoDriveBase.brakeMode = brakeMode;
@@ -35,26 +37,30 @@ void AutoBaseDriveDistance(int wantedInch, bool blockMode = true, bool brakeMode
 }
 
 
-void AutoBaseDriveChassis(int wantedLeftInch, int wantedRightInch, bool blockMode = true, bool brakeMode = true)
+void AutoBaseDriveChassis(float wantedLeftInch, float wantedRightInch, bool blockMode = true, bool brakeMode = true)
 {
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
+	AutoDriveBase.lastDistance = (wantedLeftInch + wantedRightInch)/2;
+
 	AutoDriveBase.wantedLeft += (wantedLeftInch / AutoDriveBase.wheelCircumference) * 360;
 	AutoDriveBase.wantedRight += (wantedRightInch / AutoDriveBase.wheelCircumference) * 360;
 	AutoDriveBase.brakeMode = brakeMode;
 
 	if(blockMode)
 	{
-    int longestStep = abs(wantedLeftInch) > abs(wantedRightInch) ? abs(wantedLeftInch) : abs(wantedRightInch);
+    float longestStep = abs(wantedLeftInch) > abs(wantedRightInch) ? abs(wantedLeftInch) : abs(wantedRightInch);
 		AutoBaseWaitUntilComplete(AutoDriveBase.emgInchTimeP * longestStep);
 	}
 
 }
 
-void AutoBaseTurnDegrees(int wantedDegrees, bool blockMode = true, bool brakeMode = true, int forwardBiasInch = 0)
+void AutoBaseTurnDegrees(float wantedDegrees, bool blockMode = true, bool brakeMode = true, float forwardBiasInch = 0)
 {
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
+	AutoDriveBase.lastDegrees = wantedDegrees;
+
 	int wantedTicks = AutoDriveBase.chassisCircumference / AutoDriveBase.wheelCircumference * wantedDegrees;
 	AutoDriveBase.wantedLeft += (wantedTicks/2) + (forwardBiasInch / AutoDriveBase.wheelCircumference * 360);
 	AutoDriveBase.wantedRight += (-wantedTicks/2) + (forwardBiasInch / AutoDriveBase.wheelCircumference * 360);

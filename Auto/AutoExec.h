@@ -4,7 +4,7 @@
 
 void AutoExec0(int chosenSide)
 {
-  #include "AutoExec0.c"
+//  #include "AutoExec0.c"
 };
 void AutoExec1(int chosenSide)
 {
@@ -24,7 +24,7 @@ void AutoExec4(int chosenSide)
 };
 void AutoExecTesting(int chosenSide)
 {
-  #include "AutoExecTesting.c"
+//  #include "AutoExecTesting.c"
 };
 
 

@@ -21,6 +21,9 @@ struct BaseStruct
 	int wantedRight;
 	bool brakeMode;
 
+	float lastDistance;
+	float lastDegrees;
+
 
 	bool turnOn;
 	bool isCompleted;
