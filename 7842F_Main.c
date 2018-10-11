@@ -42,11 +42,15 @@
  //#include "Libraries/BNSLib/BNSLib.h"
 
 //Enable the use of BCI EMA Filters
- #define BCI_USE_DEMA_FILTER
- #define BCI_USE_EMA_FILTER
- #include "Libraries/BCILib/BCILib.h"
+ // #define BCI_USE_DEMA_FILTER
+ // #define BCI_USE_EMA_FILTER
+ // #include "Libraries/BCILib/BCILib.h"
 
-
+#define _7842F_USE_EMA
+#define _7842F_USE_PID
+#define _7842F_USE_PID_EMA
+#define _7842F_USE_RPM
+#define _7842F_USE_HYBRID_AUTO
  #include "Libraries/7842FLib/7842FLib.h"
 
 

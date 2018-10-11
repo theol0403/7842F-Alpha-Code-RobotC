@@ -1,6 +1,6 @@
 
 
-void pidRAInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf = 0, int Icap = 100000, int Iin = 0, int Iout = 100000, EMAFilter *raName, float emaAlpha)
+void pidEMAInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf = 0, int Icap = 100000, int Iin = 0, int Iout = 100000, EMAFilter *raName, float emaAlpha)
 {
 	deviceName.Kp = Kp;
 	deviceName.Ki = Ki;
@@ -26,7 +26,7 @@ void pidRAInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf = 
 
 
 
-float pidRACalculate(pidStruct &deviceName, int wantedSig, int currentSig)
+float pidEMACalculate(pidStruct &deviceName, int wantedSig, int currentSig)
 {
   deviceName.Error = wantedSig - currentSig;
 	int deltaTime = nPgmTime - deviceName.lastTime;
