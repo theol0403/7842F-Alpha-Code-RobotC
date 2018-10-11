@@ -20,7 +20,7 @@ task LCDTask()
       displayNextLCDString("     Slot 0     ");
       displayLCDPos(1,0);
 
-      if(SensorValue[s_sideSelector] < 2047)
+      if(SensorValue[s_sideSelector] > 2047)
       {
         displayNextLCDString("  Red - Slot 0  ");
       }
@@ -37,7 +37,7 @@ task LCDTask()
       displayNextLCDString("     Slot 1     ");
       displayLCDPos(1,0);
 
-      if(SensorValue[s_sideSelector] < 2047)
+      if(SensorValue[s_sideSelector] > 2047)
       {
         displayNextLCDString("  Red - Slot 1  ");
       }
@@ -54,7 +54,7 @@ task LCDTask()
       displayNextLCDString("     Slot 2     ");
       displayLCDPos(1,0);
 
-      if(SensorValue[s_sideSelector] < 2047)
+      if(SensorValue[s_sideSelector] > 2047)
       {
         displayNextLCDString("  Red - Slot 2  ");
       }
@@ -71,7 +71,7 @@ task LCDTask()
       displayNextLCDString("     Slot 3     ");
       displayLCDPos(1,0);
 
-      if(SensorValue[s_sideSelector] < 2047)
+      if(SensorValue[s_sideSelector] > 2047)
       {
         displayNextLCDString("  Red - Slot 3  ");
       }
@@ -88,7 +88,7 @@ task LCDTask()
       displayNextLCDString("     Slot 4     ");
       displayLCDPos(1,0);
 
-      if(SensorValue[s_sideSelector] < 2047)
+      if(SensorValue[s_sideSelector] > 2047)
       {
         displayNextLCDString("  Red - Slot 4  ");
       }
@@ -105,7 +105,7 @@ task LCDTask()
       displayNextLCDString("     Testing    ");
       displayLCDPos(1,0);
 
-      if(SensorValue[s_sideSelector] < 2047)
+      if(SensorValue[s_sideSelector] > 2047)
       {
         displayNextLCDString("  Red - Testing ");
       }

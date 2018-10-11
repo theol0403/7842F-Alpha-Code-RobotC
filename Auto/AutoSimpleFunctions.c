@@ -3,7 +3,8 @@ enum intakeModes
 {
   intakeCollect,
   intakeShoot,
-  intakeOff
+  intakeOff,
+  intakeOut
 
 };
 
@@ -23,6 +24,11 @@ void AutoIntakeMode(intakeModes intakeMode)
   {
     setIntakePower(0);
     setIndexerPower(0);
+  }
+  else if(intakeMode == intakeOut)
+  {
+    setIntakePower(-127);
+    setIndexerPower(15);
   }
 
 }

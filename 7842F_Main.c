@@ -162,36 +162,37 @@ task autonomous()
 {
   startTask(LCDTask);
 
-  sideColors chosenSide = SensorValue[s_sideSelector] < 2047 ? redSide : blueSide;
+  startTask(FlywheelPIDTask);
 
-  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.57, 14.32, redSide);
-  AutoBaseInit_Config(20, 70, 80, 120, 20, 400);
+  sideColors chosenSide = SensorValue[s_sideSelector] > 2047 ? redSide : blueSide;
+
+  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.57, 14.32, chosenSide);
+  AutoBaseInit_Config(20, 90, 80, 120, 20, 400); //turning 70
   AutoBaseInit_PID(0.7, 0, 2);
   startTask(AutoBaseTask);
 
-  AutoExecTesting();
 
-  // switch(SensorValue[s_autoSelector]/819)
-  // {
-  //   case 0:
-  //   AutoExec0();
-  //   break;
-  //   case 1:
-  //   AutoExec1();
-  //   break;
-  //   case 2:
-  //   AutoExec2();
-  //   break;
-  //   case 3:
-  //   AutoExec3();
-  //   break;
-  //   case 4:
-  //   AutoExec4();
-  //   break;
-  //   case 5:
-  //   AutoExecTesting();
-  //   break;
-  // }
+  switch(SensorValue[s_autoSelector]/819)
+  {
+    case 0:
+    AutoExec0();
+    break;
+    case 1:
+    AutoExec1();
+    break;
+    case 2:
+    AutoExec2();
+    break;
+    case 3:
+    AutoExec3();
+    break;
+    case 4:
+    AutoExec4();
+    break;
+    case 5:
+    AutoExecTesting();
+    break;
+  }
 
 
   wait1Msec(1000000);

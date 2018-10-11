@@ -51,7 +51,7 @@ task DriverMainTask()
 		// Intake --------------------------------------------------------------------------------
 		if(vexRT[Btn6U])
 		{
-			setIntakePower(-127);
+			setIntakePower(-70);
 			setIndexerPower(-127);
 		}
 		else if(vexRT[Btn6D])
@@ -123,7 +123,7 @@ task DriverMainTask()
 
 
 
-		if(vexRT[Btn8U] && !flywheelManual)
+		if(vexRT[Btn8R] && !flywheelManual)
 		{
 			stopTask(FlywheelPIDTask);
 			flywheelManual = true;
@@ -137,11 +137,11 @@ task DriverMainTask()
 
 
 
-		if(vexRT[Btn8D] && SensorValue[s_armPot] > armMinLimit + 500)
+		if(vexRT[Btn8U] && SensorValue[s_armPot] > armMinLimit + 500)
 		{
 			setArmPower(100);
 		}
-		else if(vexRT[Btn8R] && SensorValue[s_armPot] < armMaxLimit)
+		else if(vexRT[Btn8D] && SensorValue[s_armPot] < armMaxLimit)
 		{
 			setArmPower(-100);
 		}
