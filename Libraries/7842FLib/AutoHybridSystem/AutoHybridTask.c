@@ -28,7 +28,7 @@ task AutoBaseTask()
 			AutoBaseRunPID();
 
 
-			if(abs(AutoDriveLeftPID.Error) < AutoDriveBase.completeThreshold && abs(AutoDriveRightPID.Error) < AutoDriveBase.completeThreshold)
+			if(abs(AutoDriveLeftPID.Error) < AutoDriveBase.completeThreshold[AutoDriveBase.baseMode] && abs(AutoDriveRightPID.Error) < AutoDriveBase.completeThreshold[AutoDriveBase.baseMode])
 			{
 				completeCount += AutoDriveBase.loopRate;
 			}
@@ -37,7 +37,7 @@ task AutoBaseTask()
 				completeCount = 0;
 			}
 
-			if(completeCount > AutoDriveBase.completeTime)
+			if(completeCount > AutoDriveBase.completeTime[AutoDriveBase.baseMode])
 			{
 				AutoDriveBase.isCompleted = true;
 			}

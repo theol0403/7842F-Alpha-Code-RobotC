@@ -91,6 +91,7 @@ void AutoBaseWaitUntilDegrees(float waitDegrees, int maxTime = 5000)
 
 void AutoBaseDriveDistance(float wantedInch, bool blockMode = true, bool brakeMode = true)
 {
+	AutoDriveBase.baseMode = baseDrive;
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
 	AutoDriveBase.lastWantedLeft = AutoDriveBase.wantedLeft;
@@ -110,6 +111,7 @@ void AutoBaseDriveDistance(float wantedInch, bool blockMode = true, bool brakeMo
 
 void AutoBaseDriveChassis(float wantedLeftInch, float wantedRightInch, bool blockMode = true, bool brakeMode = true)
 {
+	AutoDriveBase.baseMode = baseDrive;
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
 	AutoDriveBase.lastWantedLeft = AutoDriveBase.wantedLeft;
@@ -129,6 +131,7 @@ void AutoBaseDriveChassis(float wantedLeftInch, float wantedRightInch, bool bloc
 
 void AutoBaseTurnDegrees(float wantedDegrees, bool blockMode = true, bool brakeMode = true, float forwardBiasInch = 0)
 {
+	AutoDriveBase.baseMode = baseTurn;
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
 	AutoDriveBase.lastWantedLeft = AutoDriveBase.wantedLeft;
@@ -153,9 +156,9 @@ void AutoBaseTurnDegrees(float wantedDegrees, bool blockMode = true, bool brakeM
 
 int AutoBaseLimitPower(int wantedPower)
 {
-	if(abs(wantedPower) > AutoDriveBase.maxPower) wantedPower = sgn(wantedPower) * AutoDriveBase.maxPower;
+	if(abs(wantedPower) > AutoDriveBase.maxPower[AutoDriveBase.baseMode]) wantedPower = sgn(wantedPower) * AutoDriveBase.maxPower[AutoDriveBase.baseMode];
 
-	if(abs(wantedPower) < AutoDriveBase.minPower)
+	if(abs(wantedPower) < AutoDriveBase.minPower[AutoDriveBase.baseMode])
 	{
 		if(abs(wantedPower) < 5)
 		{
@@ -163,7 +166,7 @@ int AutoBaseLimitPower(int wantedPower)
 		}
 		else
 		{
-			wantedPower = sgn(wantedPower) * AutoDriveBase.minPower;
+			wantedPower = sgn(wantedPower) * AutoDriveBase.minPower[AutoDriveBase.baseMode];
 		}
 	}
 	return wantedPower;
