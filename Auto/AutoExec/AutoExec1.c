@@ -20,7 +20,7 @@ AutoBaseDriveDistance(39);
 AutoBaseTurnDegrees(-91);
 
 AutoBaseDriveDistance(-12, true, false);
-wait1Msec(2000);
+wait1Msec(2500);
 AutoIntakeMode(indexShoot);
 wait1Msec(300);
 AutoIntakeMode(intakeCollect);
@@ -32,11 +32,11 @@ AutoIntakeMode(indexShoot);
 AutoBaseWaitUntilComplete();
 AutoIntakeMode(intakeCollect);
 
-AutoBaseTurnDegrees(12);
+AutoBaseTurnDegrees(20);
 AutoBaseDriveDistance(28);
 
 AutoBaseDriveDistance(-25);
-AutoBaseTurnDegrees(90);
+AutoBaseTurnDegrees(85);
 AutoIntakeMode(intakeOut);
 AutoBaseDriveDistance(-23);
 
