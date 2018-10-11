@@ -4,11 +4,13 @@
 #pragma config(Sensor, dgtl1,  s_FlywheelEn,   sensorQuadEncoder)
 #pragma config(Sensor, dgtl5,  s_LeftEn,       sensorQuadEncoder)
 #pragma config(Sensor, dgtl7,  s_RightEn,      sensorQuadEncoder)
-#pragma config(Motor,  port6,           m_Arm,         tmotorVex393_HBridge, openLoop)
+#pragma config(Sensor, dgtl9,  s_GreenLED,     sensorLEDtoVCC)
+#pragma config(Sensor, dgtl10, s_RedLED,       sensorLEDtoVCC)
 #pragma config(Motor,  port2,           m_RightBase2,  tmotorVex393HighSpeed_MC29, openLoop, reversed)
 #pragma config(Motor,  port3,           m_RightBase,   tmotorVex393HighSpeed_MC29, openLoop, reversed)
 #pragma config(Motor,  port4,           m_Intake,      tmotorVex393HighSpeed_MC29, openLoop, reversed)
 #pragma config(Motor,  port5,           m_Flywheel,    tmotorVex393TurboSpeed_HBridge, openLoop)
+#pragma config(Motor,  port6,           m_Arm,         tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port7,           m_LeftBase,    tmotorVex393HighSpeed_MC29, openLoop)
 #pragma config(Motor,  port8,           m_LeftBase2,   tmotorVex393HighSpeed_MC29, openLoop)
 #pragma config(Motor,  port9,           m_Indexer,     tmotorVex393TurboSpeed_MC29, openLoop, reversed)
@@ -167,8 +169,8 @@ task autonomous()
   sideColors chosenSide = SensorValue[s_sideSelector] > 2047 ? redSide : blueSide;
 
   AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.57, 14.32, chosenSide);
-  AutoBaseInit_Config(20, 90, 80, 120, 20, 400); //turning 70
-  AutoBaseInit_PID(0.7, 0, 2);
+  AutoBaseInit_Config(20, 80, 80, 120, 20, 400); //turning 70
+  AutoBaseInit_PID(0.6, 0, 2);
   startTask(AutoBaseTask);
 
 
