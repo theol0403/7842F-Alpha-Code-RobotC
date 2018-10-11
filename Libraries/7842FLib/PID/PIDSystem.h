@@ -22,7 +22,7 @@ struct pidStruct
 	int lastIntegral;
   float derivative;
 
-  EMAFilter *raName;
+  EMAFilter raName;
 };
 
 

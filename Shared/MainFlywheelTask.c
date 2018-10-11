@@ -14,9 +14,9 @@ task FlywheelPIDTask()
 	int slewRate = 2; //yee
 
 	rpmInit(mainFlywheelRPM, s_FlywheelEn, 360, 4.8);
-	pidEMAInit(mainFlywheelPID, 0.6, 0.0, 6.5, 0.033, 1000, 100, 4000, &flywheelD_RA, 0.03);
+	pidEMAInit(mainFlywheelPID, 0.6, 0.0, 6.5, 0.033, 1000, 100, 4000, flywheelD_RA, 0.03);
 
-	filter_Init_EMA(&flywheelRPM_RA, 0.09);
+	filter_Init_EMA(flywheelRPM_RA, 0.09);
 
   int motorPower;
 	int lastPower;
@@ -28,7 +28,7 @@ task FlywheelPIDTask()
 	{
 
 		flywheelRPM = rpmCalculate(mainFlywheelRPM);
-    filteredRPM = filter_EMA(&flywheelRPM_RA, flywheelRPM);
+    filteredRPM = filter_EMA(flywheelRPM_RA, flywheelRPM);
 
     motorPower = pidEMACalculate(mainFlywheelPID, wantedFlywheelRPM, filteredRPM);
 
