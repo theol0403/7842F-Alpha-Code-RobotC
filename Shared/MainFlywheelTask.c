@@ -11,7 +11,7 @@ EMAFilter flywheelD_RA;
 
 task FlywheelPIDTask()
 {
-	int slewRate = 2; //yee
+	int slewRate = 1;
 
 	rpmInit(mainFlywheelRPM, s_FlywheelEn, 360, 4.8);
 	pidEMAInit(mainFlywheelPID, 0.6, 0.0, 6.5, 0.033, 1000, 100, 4000, flywheelD_RA, 0.03);
@@ -35,8 +35,12 @@ task FlywheelPIDTask()
 
 		if(motorPower < 0) motorPower = 0;
 
+		if(motorPower > lastPower && lastPower < 20) lastPower = 20;
+
 		if((motorPower - lastPower) > slewRate) motorPower = lastPower + slewRate;
     lastPower = motorPower;
+
+
 
     motorTrue = TrueSpeed(motorPower);
 
