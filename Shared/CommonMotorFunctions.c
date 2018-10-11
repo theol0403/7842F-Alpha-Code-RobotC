@@ -5,7 +5,6 @@
 void setFlywheelPower(int flywheelSpeed)
 {
 	motor[m_Flywheel] = flywheelSpeed;
-	motor[m_Flywheel2] = flywheelSpeed;
 }
 
 void setIntakePower(int intakeSpeed)
@@ -25,6 +24,11 @@ void setBasePower(int leftSpeed, int rightSpeed)
 	motor[m_LeftBase] = leftSpeed;
 	motor[m_RightBase2] = rightSpeed;
 	motor[m_LeftBase2] = leftSpeed;
+}
+
+void setArmPower(int armSpeed)
+{
+	motor[m_Arm] = armSpeed;
 }
 
 

@@ -7,6 +7,9 @@ const int driverBaseThreshold = 25;
 
 bool flywheelManual = false;
 
+int armMaxLimit = 3800;
+int armMinLimit = 890;
+
 
 task DriverMainTask()
 {
@@ -130,6 +133,34 @@ task DriverMainTask()
 			startTask(FlywheelPIDTask);
 			flywheelManual = false;
 		}
+
+
+
+
+		if(vexRT[Btn8D] && SensorValue[s_armPot] > armMinLimit + 500)
+		{
+			setArmPower(100);
+		}
+		else if(vexRT[Btn8R] && SensorValue[s_armPot] < armMaxLimit)
+		{
+			setArmPower(-100);
+		}
+		else
+		{
+			setArmPower(0);
+		}
+
+		if(SensorValue[s_armPot] < armMinLimit)
+		{
+			setArmPower(-50);
+		}
+		else if(SensorValue[s_armPot] > armMaxLimit)
+		{
+			setArmPower(50);
+		}
+
+
+
 
 
 

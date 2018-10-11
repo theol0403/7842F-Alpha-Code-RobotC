@@ -5,13 +5,13 @@
 
 wantedFlywheelRPM = 2375;
 
-AutoBaseDriveDistance(39.25, false);
-AutoBaseWaitUntilDistance(33.1);
+AutoBaseDriveDistance(-39.25, false);
+AutoBaseWaitUntilDistance(-33.1);
 AutoIntakeMode(intakeCollect);
 AutoBaseWaitUntilComplete();
 AutoIntakeMode(intakeOff);
-AutoBaseDriveDistance(-29.3);
-AutoBaseTurnDegrees(90);
+AutoBaseDriveDistance(29.3);
+AutoBaseTurnDegrees(-90);
 
 AutoIntakeMode(intakeShoot);
 wait1Msec(500);
