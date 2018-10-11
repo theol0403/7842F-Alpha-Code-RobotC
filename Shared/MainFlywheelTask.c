@@ -11,7 +11,7 @@ EMAFilter flywheelD_RA;
 
 task FlywheelPIDTask()
 {
-	int slewRate = 1;
+	int slewRate = 2; //yee
 
 	rpmInit(mainFlywheelRPM, s_FlywheelEn, 360, 4.8);
 	pidEMAInit(mainFlywheelPID, 0.6, 0.0, 6.5, 0.033, 1000, 100, 4000, &flywheelD_RA, 0.03);
@@ -43,14 +43,14 @@ task FlywheelPIDTask()
 		setFlywheelPower(motorTrue);
 
 
-		datalogDataGroupStart();
- 		datalogAddValue( 0, wantedFlywheelRPM /4);
- 		datalogAddValue( 1,  flywheelRPM /4 );
-    datalogAddValue( 2,  filteredRPM /4);
-    datalogAddValue( 3, motorPower );
-    datalogAddValue( 4, motorTrue );
-    datalogAddValue( 5, mainFlywheelPID.derivative );
- 		datalogDataGroupEnd();
+		// datalogDataGroupStart();
+ 		// datalogAddValue( 0, wantedFlywheelRPM /4);
+ 		// datalogAddValue( 1,  flywheelRPM /4 );
+    // datalogAddValue( 2,  filteredRPM /4);
+    // datalogAddValue( 3, motorPower );
+    // datalogAddValue( 4, motorTrue );
+    // datalogAddValue( 5, mainFlywheelPID.derivative );
+ 		// datalogDataGroupEnd();
 
 		wait1Msec(20);
 	}

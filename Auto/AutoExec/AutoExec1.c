@@ -26,14 +26,14 @@ wait1Msec(300);
 AutoIntakeMode(intakeCollect);
 
 
-AutoBaseDriveDistance(35, false);
+AutoBaseDriveDistance(38, false);
 AutoBaseWaitUntilDistance(32);
 AutoIntakeMode(indexShoot);
 AutoBaseWaitUntilComplete();
 AutoIntakeMode(intakeCollect);
 
-AutoBaseTurnDegrees(20);
-AutoBaseDriveDistance(28);
+AutoBaseTurnDegrees(22);
+AutoBaseDriveDistance(25);
 
 AutoBaseDriveDistance(-25);
 AutoBaseTurnDegrees(85);
