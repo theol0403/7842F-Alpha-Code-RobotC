@@ -42,7 +42,7 @@ struct rpmStruct
 
 	float flywheelRatio;
 	float encoderTicks;
-	int sensorNum;
+	tSensors sensorNum;
 	int minRefresh;
 	int maxTimer;
 
@@ -60,13 +60,13 @@ struct rpmStruct
  * @param flywheelRatio  ratio between sensor and flywheel
  *
  */
-void rpmInit(rpmStruct &deviceName, int sensorNum, float encoderTicks, float flywheelRatio)
+void rpmInit(rpmStruct &deviceName, tSensors sensorNum, float encoderTicks, float flywheelRatio)
 {
 	deviceName.timeInterval = 0;
 	deviceName.encoderInterval = 0;
 
 	deviceName.lastTime = nPgmTime;
-	deviceName.lastEncoder = 0;
+	deviceName.lastEncoder = SensorValue[sensorNum];
 
 	deviceName.flywheelRatio = flywheelRatio;
 	deviceName.encoderTicks = encoderTicks;
@@ -75,7 +75,7 @@ void rpmInit(rpmStruct &deviceName, int sensorNum, float encoderTicks, float fly
 
 	deviceName.RPM = 0;
 
-	SensorValue(sensorNum) = 0;
+	//SensorValue[sensorNum] = 0;
 }
 
 
@@ -93,7 +93,7 @@ int rpmCalculate(rpmStruct &deviceName)
 	//Calculate the amount of ms since the last time this function was run
 	deviceName.timeInterval = nPgmTime - deviceName.lastTime;
 	//Calculate amount of ticks since the function was last run
-	deviceName.encoderInterval = SensorValue(deviceName.sensorNum) - deviceName.lastEncoder;
+	deviceName.encoderInterval = SensorValue[deviceName.sensorNum] - deviceName.lastEncoder;
 
 	//If it was ran very recently just return the last RPM
 	if(deviceName.timeInterval < deviceName.minRefresh) return deviceName.RPM;
@@ -111,7 +111,7 @@ int rpmCalculate(rpmStruct &deviceName)
 
 	//Timestamp the last time this function was run, and the encoder position
 	deviceName.lastTime = nPgmTime;
-	deviceName.lastEncoder = SensorValue(deviceName.sensorNum);
+	deviceName.lastEncoder = SensorValue[deviceName.sensorNum];
 
 	//Return the RPM to whatever is calling this function
 	return deviceName.RPM;

@@ -1,30 +1,13 @@
-struct pidStruct
-{
-	float Kp;
-	float Kd;
-	float Ki;
-	float Kf;
-	int integralCap;
-	int integralInner;
-	int integralOuter;
-
-	int Error;
-  int totalError;
-	int lastError;
-	int lastTime;
-	int lastIntegral;
-
-  int wantedRPM;
-  bool isTarget;
-};
 
 
-void pidInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf, int Icap, int Iin, int Iout)
+
+void pidInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf = 0, int Icap = 100000, int Iin = 0, int Iout = 100000)
 {
 	deviceName.Kp = Kp;
 	deviceName.Ki = Ki;
 	deviceName.Kd = Kd;
 	deviceName.Kf = Kf;
+
 	deviceName.integralCap = Icap;
   deviceName.integralInner = Iin;
 	deviceName.integralOuter = Iout;
@@ -34,16 +17,17 @@ void pidInit (pidStruct &deviceName, float Kp, float Ki, float Kd, float Kf, int
   deviceName.totalError = 0;
 	deviceName.lastTime = nPgmTime;
 	deviceName.lastIntegral = 0;
+	deviceName.derivative = 0;
 
-  deviceName.isTarget = false;
 }
 
 
 
 
-float pidCalculate(pidStruct &deviceName, int wantedRPM, int currentRPM)
+
+float pidCalculate(pidStruct &deviceName, int wantedSig, int currentSig)
 {
-  deviceName.Error = wantedRPM - currentRPM;
+  deviceName.Error = wantedSig - currentSig;
 	int deltaTime = nPgmTime - deviceName.lastTime;
 
   deviceName.totalError += (deviceName.Error * deltaTime);
@@ -54,15 +38,26 @@ float pidCalculate(pidStruct &deviceName, int wantedRPM, int currentRPM)
   if(abs(deviceName.Error) < deviceName.integralInner) deviceName.totalError = deviceName.lastIntegral;
 	if(abs(deviceName.Error) > deviceName.integralOuter) deviceName.totalError = deviceName.lastIntegral;
 
+	deviceName.derivative = deviceName.Error - deviceName.lastError;
 
-  float finalPower = (deviceName.Error * deviceName.Kp) + (deviceName.totalError * deviceName.Ki) + ((deviceName.Error - deviceName.lastError)*deviceName.Kd) + (wantedRPM * deviceName.Kf);
+  float finalPower = (deviceName.Error * deviceName.Kp) + (deviceName.totalError * deviceName.Ki) + (deviceName.derivative * deviceName.Kd) + (wantedSig * deviceName.Kf);
 
   deviceName.lastError = deviceName.Error;
 
 	deviceName.lastTime = nPgmTime;
 	deviceName.lastIntegral = deviceName.totalError;
+
+	if(abs(finalPower) > 127)
+	{
+		finalPower = sgn(finalPower) * 127;
+	}
+
   return finalPower;
 }
+
+
+
+
 
 
 

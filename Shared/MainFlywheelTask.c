@@ -1,38 +1,55 @@
 
 
-
 rpmStruct mainFlywheelRPM;
+EMAFilter flywheelRPM_RA;
+
+
 pidStruct mainFlywheelPID;
-raStruct mainFlywheelRA;
+EMAFilter flywheelD_RA;
 
 
 
-
-task pidFlywheelTask()
+task FlywheelPIDTask()
 {
-	rpmInit(mainFlywheelRPM, s_FlywheelEn, 360, 4.8);
-	pidInit(mainFlywheelPID, 0.10, 0.0, 0.03, 0.028, 1000, 100, 4000);
-	raInit(mainFlywheelRA, 30);
+	int slewRate = 1;
 
-	int motorPower;
+	rpmInit(mainFlywheelRPM, s_FlywheelEn, 360, 4.8);
+	pidEMAInit(mainFlywheelPID, 0.6, 0.0, 6.5, 0.033, 1000, 100, 4000, &flywheelD_RA, 0.03);
+
+	filter_Init_EMA(&flywheelRPM_RA, 0.09);
+
+  int motorPower;
 	int lastPower;
 	int flywheelRPM;
+  int filteredRPM;
+  int motorTrue;
 
 	while(true)
 	{
-		flywheelRPM = raCalculate(mainFlywheelRA, rpmCalculate(mainFlywheelRPM));
-		motorPower = pidCalculate(mainFlywheelPID, wantedFlywheelRPM, flywheelRPM);
+
+		flywheelRPM = rpmCalculate(mainFlywheelRPM);
+    filteredRPM = filter_EMA(&flywheelRPM_RA, flywheelRPM);
+
+    motorPower = pidEMACalculate(mainFlywheelPID, wantedFlywheelRPM, filteredRPM);
+
 
 		if(motorPower < 0) motorPower = 0;
-		if((motorPower - lastPower) > 5) motorPower = lastPower + 5;
 
-		setFlywheelPower(motorPower);
-		lastPower = motorPower;
+		if((motorPower - lastPower) > slewRate) motorPower = lastPower + slewRate;
+    lastPower = motorPower;
+
+    motorTrue = TrueSpeed(motorPower);
+
+		setFlywheelPower(motorTrue);
+
 
 		datalogDataGroupStart();
- 		datalogAddValue( 0, wantedFlywheelRPM );
- 		datalogAddValue( 1,  flywheelRPM);
- 		datalogAddValue( 2, motorPower );
+ 		datalogAddValue( 0, wantedFlywheelRPM /4);
+ 		datalogAddValue( 1,  flywheelRPM /4 );
+    datalogAddValue( 2,  filteredRPM /4);
+    datalogAddValue( 3, motorPower );
+    datalogAddValue( 4, motorTrue );
+    datalogAddValue( 5, mainFlywheelPID.derivative );
  		datalogDataGroupEnd();
 
 		wait1Msec(20);
