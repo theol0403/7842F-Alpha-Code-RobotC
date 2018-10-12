@@ -150,8 +150,8 @@ void AutoBaseTurnDegrees(float wantedDegrees, bool blockMode = true, bool brakeM
 	AutoDriveBase.lastWantedRight = AutoDriveBase.wantedRight;
 
 	int wantedTicks = AutoDriveBase.chassisCircumference / AutoDriveBase.wheelCircumference * wantedDegrees;
-	AutoDriveBase.wantedLeft += (AutoDriveBase.chosenSide * -(wantedTicks/2));
-	AutoDriveBase.wantedRight += (AutoDriveBase.chosenSide * (wantedTicks/2));
+	AutoDriveBase.wantedLeft += (-(wantedTicks/2));
+	AutoDriveBase.wantedRight += ((wantedTicks/2));
 	AutoDriveBase.brakeMode = brakeMode;
 
   if(blockMode)

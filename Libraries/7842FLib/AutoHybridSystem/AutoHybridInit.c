@@ -1,8 +1,8 @@
 
 enum sideColors
 {
-  redSide = 1,
-  blueSide = -1
+  redSide,
+  blueSide
 };
 
 enum baseModes
@@ -21,7 +21,6 @@ struct BaseStruct
 	float chassisCircumference;
   float emgDegTimeP;
   float emgInchTimeP;
-	sideColors chosenSide;
 
 //config
   int minPower[3];
@@ -54,13 +53,12 @@ pidStruct AutoDriveLeftPID;
 pidStruct AutoDriveRightPID;
 
 
-void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter, float emgDegTimeP, float emgInchTimeP, sideColors chosenSide)
+void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter, float emgDegTimeP, float emgInchTimeP)
 {
 	AutoDriveBase.leftEn = leftEn;
 	AutoDriveBase.rightEn = rightEn;
 	AutoDriveBase.wheelCircumference = wheelCircumference;
 	AutoDriveBase.chassisCircumference = chassisDiameter * 2 * 3.1415926;
-	AutoDriveBase.chosenSide = chosenSide;
 
 	AutoDriveBase.wantedLeft = 0;
 	AutoDriveBase.wantedRight = 0;
