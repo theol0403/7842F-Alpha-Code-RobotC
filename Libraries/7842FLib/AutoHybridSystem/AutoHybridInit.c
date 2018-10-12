@@ -62,8 +62,12 @@ void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumfe
 	AutoDriveBase.chassisCircumference = chassisDiameter * 2 * 3.1415926;
 	AutoDriveBase.chosenSide = chosenSide;
 
-	AutoDriveBase.wantedLeft = SensorValue[leftEn];
-	AutoDriveBase.wantedRight = SensorValue[rightEn];
+	AutoDriveBase.wantedLeft = 0;
+	AutoDriveBase.wantedRight = 0;
+  SensorValue[AutoDriveBase.leftEn] = 0;
+	SensorValue[AutoDriveBase.rightEn] = 0;
+
+
 	AutoDriveBase.brakeMode = false;
 
 	AutoDriveBase.turnOn = false;
