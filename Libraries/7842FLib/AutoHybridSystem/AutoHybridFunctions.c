@@ -103,7 +103,7 @@ void AutoBaseDriveDistance(float wantedInch, bool blockMode = true, bool brakeMo
 
 	if(blockMode)
 	{
-    AutoBaseWaitUntilComplete(AutoDriveBase.emgInchTimeP * abs(wantedInch));
+		AutoBaseWaitUntilComplete(AutoDriveBase.emgInchTimeP * abs(wantedInch));
 	}
 
 }
@@ -145,6 +145,26 @@ void AutoBaseTurnDegrees(float wantedDegrees, bool blockMode = true, bool brakeM
   if(blockMode)
 	{
     AutoBaseWaitUntilComplete(AutoDriveBase.emgDegTimeP * abs(wantedDegrees));
+	}
+
+}
+
+
+void AutoBaseDriveAllign(int wantedInch, int maxTime, bool blockMode = true, bool brakeMode = true)
+{
+	AutoDriveBase.baseMode = baseAllign;
+	AutoDriveBase.turnOn = true;
+	AutoDriveBase.isCompleted = false;
+	AutoDriveBase.lastWantedLeft = AutoDriveBase.wantedLeft;
+	AutoDriveBase.lastWantedRight = AutoDriveBase.wantedRight;
+
+	AutoDriveBase.wantedLeft += (wantedInch / AutoDriveBase.wheelCircumference) * 360;
+	AutoDriveBase.wantedRight += (wantedInch / AutoDriveBase.wheelCircumference) * 360;
+	AutoDriveBase.brakeMode = brakeMode;
+
+	if(blockMode)
+	{
+		AutoBaseWaitUntilComplete(maxTime);
 	}
 
 }

@@ -16,7 +16,11 @@ wantedFlywheelRPM = 2700;
 AutoIntakeMode(intakeCollect);
 
 AutoBaseDriveDistance(-38);
-AutoBaseDriveDistance(39);
+AutoBaseDriveDistance(42);
+AutoBaseDriveAllign(30, 800);
+AutoBaseDriveDistance(-33);
+
+
 AutoBaseTurnDegrees(-91);
 
 AutoBaseDriveDistance(-12, true, false);
@@ -27,18 +31,18 @@ AutoIntakeMode(intakeCollect);
 
 
 AutoBaseDriveDistance(38, false);
-AutoBaseWaitUntilDistance(32);
+AutoBaseWaitUntilDistance(28);
 AutoIntakeMode(indexShoot);
 AutoBaseWaitUntilComplete();
 AutoIntakeMode(intakeCollect);
 
-AutoBaseTurnDegrees(22);
-AutoBaseDriveDistance(25);
+AutoBaseTurnDegrees(19);
+AutoBaseDriveAllign(18, 2000);
 
 AutoBaseDriveDistance(-25);
-AutoBaseTurnDegrees(85);
+AutoBaseTurnDegrees(90);
 AutoIntakeMode(intakeOut);
-AutoBaseDriveDistance(-23);
+AutoBaseDriveDistance(-20);
 
 
 
