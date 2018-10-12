@@ -167,6 +167,10 @@ void AutoBaseDriveAllign(int wantedInch, int maxTime, bool blockMode = true, boo
 		AutoBaseWaitUntilComplete(maxTime);
 	}
 
+
+	AutoDriveBase.wantedLeft = SensorValue[AutoDriveBase.leftEn];
+	AutoDriveBase.wantedRight = SensorValue[AutoDriveBase.rightEn];
+
 }
 
 
