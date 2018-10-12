@@ -5,6 +5,13 @@ enum sideColors
   blueSide = -1
 };
 
+enum baseModes
+{
+  baseDrive = 0,
+  baseTurn = 1,
+  baseAllign = 2
+};
+
 
 struct BaseStruct
 {
@@ -12,16 +19,19 @@ struct BaseStruct
 	tSensors rightEn;
 	float wheelCircumference;
 	float chassisCircumference;
-	sideColors chosenSide;
-
-  int minPower;
-	int maxPower;
-	int completeThreshold;
-	int completeTime;
-	int loopRate;
-
   float emgDegTimeP;
   float emgInchTimeP;
+	sideColors chosenSide;
+
+//config
+  int minPower[3];
+	int maxPower[3];
+	int completeThreshold[3];
+	int completeTime[3];
+
+	int loopRate;
+
+
 
 	int wantedLeft;
 	int wantedRight;
@@ -31,8 +41,9 @@ struct BaseStruct
 	int lastWantedRight;
 
 
-
 	bool turnOn;
+  baseModes baseMode;
+
 	bool isCompleted;
 };
 
@@ -43,7 +54,7 @@ pidStruct AutoDriveLeftPID;
 pidStruct AutoDriveRightPID;
 
 
-void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter, sideColors chosenSide)
+void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter, float emgDegTimeP, float emgInchTimeP, sideColors chosenSide)
 {
 	AutoDriveBase.leftEn = leftEn;
 	AutoDriveBase.rightEn = rightEn;
@@ -51,26 +62,34 @@ void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumfe
 	AutoDriveBase.chassisCircumference = chassisDiameter * 2 * 3.1415926;
 	AutoDriveBase.chosenSide = chosenSide;
 
-	AutoDriveBase.wantedLeft = SensorValue[leftEn];
-	AutoDriveBase.wantedRight = SensorValue[rightEn];
+	AutoDriveBase.wantedLeft = 0;
+	AutoDriveBase.wantedRight = 0;
+  SensorValue[AutoDriveBase.leftEn] = 0;
+	SensorValue[AutoDriveBase.rightEn] = 0;
+
+
 	AutoDriveBase.brakeMode = false;
 
 	AutoDriveBase.turnOn = false;
 	AutoDriveBase.isCompleted = false;
-}
-
-void AutoBaseInit_Config(int minPower, int maxPower, int completeThreshold, int completeTime, float emgDegTimeP, float emgInchTimeP)
-{
-  AutoDriveBase.minPower = minPower;
-	AutoDriveBase.maxPower = maxPower;
-
-	AutoDriveBase.completeThreshold = completeThreshold;
-	AutoDriveBase.completeTime = completeTime;
-	AutoDriveBase.loopRate = 20;
 
   AutoDriveBase.emgDegTimeP = emgDegTimeP;
   AutoDriveBase.emgInchTimeP = emgInchTimeP;
+
+  AutoDriveBase.loopRate = 20;
 }
+
+void AutoBaseInit_Config(baseModes baseMode, int minPower, int maxPower, int completeThreshold, int completeTime)
+{
+  AutoDriveBase.minPower[baseMode] = minPower;
+	AutoDriveBase.maxPower[baseMode] = maxPower;
+
+	AutoDriveBase.completeThreshold[baseMode] = completeThreshold;
+	AutoDriveBase.completeTime[baseMode] = completeTime;
+
+}
+
+
 
 void AutoBaseInit_PID(float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)
 {

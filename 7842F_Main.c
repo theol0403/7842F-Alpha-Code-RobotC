@@ -170,10 +170,14 @@ task autonomous()
 
   startTask(FlywheelPIDTask);
 
-  sideColors chosenSide = SensorValue[s_sideSelector] > 2047 ? redSide : blueSide;
+  sideColors chosenSide;
+  chosenSide = (SensorValue[s_sideSelector] > 2047) ? redSide : blueSide;
 
-  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.57, 14.32, chosenSide);
-  AutoBaseInit_Config(20, 80, 80, 120, 20, 400); //turning 70
+  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.57, 14.32, 20, 400, chosenSide);
+  AutoBaseInit_Config(baseDrive, 20, 90, 70, 120); //turning 70
+  AutoBaseInit_Config(baseTurn, 20, 50, 70, 150);
+  AutoBaseInit_Config(baseAllign, 20, 40, 70, 150);
+
   AutoBaseInit_PID(0.6, 0, 2);
   startTask(AutoBaseTask);
 

@@ -12,33 +12,45 @@
 //outtake
 //-24
 
-wantedFlywheelRPM = 2700;
+wantedFlywheelRPM = 2500;
+
 AutoIntakeMode(intakeCollect);
-
 AutoBaseDriveDistance(-38);
-AutoBaseDriveDistance(39);
-AutoBaseTurnDegrees(-91);
+wait1Msec(200);
+AutoBaseDriveDistance(42);
+AutoBaseDriveAllign(30, 800);
+AutoBaseDriveDistance(-8);
 
-AutoBaseDriveDistance(-12, true, false);
-wait1Msec(2500);
-AutoIntakeMode(indexShoot);
+
+AutoBaseTurnDegrees(-90);
+
+AutoBaseDriveDistance(-11, true, false);
+
+waitUntil(mainFlywheelPID.Error < 30);
+wait1Msec(300);
+AutoIntakeMode(indexShoot); //sho
 wait1Msec(300);
 AutoIntakeMode(intakeCollect);
 
 
-AutoBaseDriveDistance(38, false);
-AutoBaseWaitUntilDistance(32);
+
+AutoBaseDriveDistance(33);
 AutoIntakeMode(indexShoot);
-AutoBaseWaitUntilComplete();
+wait1Msec(300);
+AutoBaseDriveDistance(5);
 AutoIntakeMode(intakeCollect);
 
-AutoBaseTurnDegrees(22);
-AutoBaseDriveDistance(25);
 
-AutoBaseDriveDistance(-25);
-AutoBaseTurnDegrees(85);
+AutoBaseTurnDegrees(19);
+AutoBaseDriveDistance(9);
+AutoBaseTurnDegrees(-19);
+AutoBaseDriveAllign(26, 1000);
+
+AutoBaseDriveDistance(-20);
+AutoBaseTurnDegrees(90);
+
 AutoIntakeMode(intakeOut);
-AutoBaseDriveDistance(-23);
+AutoBaseDriveDistance(-24);
 
 
 
