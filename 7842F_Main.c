@@ -189,8 +189,14 @@ task autonomous()
     AutoExec0();
     break;
     case 1:
-    if(chosenSide == redSide) AutoExecRed1();
-    else if(chosenSide == blueSide) AutoExecBlue1();
+    if(chosenSide == redSide)
+    {
+      AutoExecRed1();
+    }
+    else if(chosenSide == blueSide)
+    {
+      AutoExecBlue1();
+    }
     break;
     case 2:
     AutoExec2();
