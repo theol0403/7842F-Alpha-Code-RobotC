@@ -22,7 +22,7 @@ AutoBaseDriveAllign(30, 800);
 AutoBaseDriveDistance(-8);
 
 
-AutoBaseTurnDegrees(-90);
+AutoBaseTurnDegrees(90);
 
 AutoBaseDriveDistance(-10, true, false);
 
@@ -41,16 +41,16 @@ AutoBaseDriveDistance(5);
 AutoIntakeMode(intakeCollect);
 
 
-AutoBaseTurnDegrees(19);
-AutoBaseDriveDistance(9);
 AutoBaseTurnDegrees(-19);
+AutoBaseDriveDistance(9);
+AutoBaseTurnDegrees(19);
 AutoBaseDriveAllign(26, 1000);
 
 AutoBaseDriveDistance(-20);
-AutoBaseTurnDegrees(90);
+AutoBaseTurnDegrees(-90);
 
 AutoIntakeMode(intakeOut);
-AutoBaseDriveDistance(-24);
+AutoBaseDriveDistance(-30, true, true, baseDriveSlow);
 
 
 

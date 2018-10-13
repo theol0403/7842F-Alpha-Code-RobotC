@@ -175,6 +175,7 @@ task autonomous()
 
   AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.57, 14.32, 20, 400, chosenSide);
   AutoBaseInit_Config(baseDrive, 20, 90, 70, 120); //turning 70
+  AutoBaseInit_Config(baseDriveSlow, 20, 50, 70, 120);
   AutoBaseInit_Config(baseTurn, 20, 50, 70, 150);
   AutoBaseInit_Config(baseAllign, 20, 40, 70, 150);
 

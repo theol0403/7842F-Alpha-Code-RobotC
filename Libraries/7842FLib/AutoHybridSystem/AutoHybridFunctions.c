@@ -95,9 +95,9 @@ void AutoBaseWaitUntilDistance(float waitInch, int maxTime = 5000)
 
 
 
-void AutoBaseDriveDistance(float wantedInch, bool blockMode = true, bool brakeMode = true)
+void AutoBaseDriveDistance(float wantedInch, bool blockMode = true, bool brakeMode = true, baseModes baseMode = baseDrive)
 {
-	AutoDriveBase.baseMode = baseDrive;
+	AutoDriveBase.baseMode = baseMode;
 	AutoDriveBase.turnOn = true;
 	AutoDriveBase.isCompleted = false;
 	AutoDriveBase.lastWantedLeft = AutoDriveBase.wantedLeft;

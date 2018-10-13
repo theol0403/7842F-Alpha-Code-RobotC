@@ -11,7 +11,7 @@ void AutoExec0()
 };
 void AutoExec1()
 {
-  #include "AutoExec/AutoExec1.c"
+  #include "AutoExec/AutoExecRed1.c"
 };
 void AutoExec2()
 {

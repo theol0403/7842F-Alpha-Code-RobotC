@@ -9,7 +9,8 @@ enum baseModes
 {
   baseDrive = 0,
   baseTurn = 1,
-  baseAllign = 2
+  baseAllign = 2,
+  baseDriveSlow = 3
 };
 
 
@@ -24,10 +25,10 @@ struct BaseStruct
 	sideColors chosenSide;
 
 //config
-  int minPower[3];
-	int maxPower[3];
-	int completeThreshold[3];
-	int completeTime[3];
+  int minPower[4];
+	int maxPower[4];
+	int completeThreshold[4];
+	int completeTime[4];
 
 	int loopRate;
 
