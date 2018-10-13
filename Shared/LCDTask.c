@@ -17,7 +17,7 @@ task LCDTask()
       case 0:
 
       displayLCDPos(0,0);
-      displayNextLCDString("     Slot 0     ");
+      displayNextLCDString("     Skills     ");
       displayLCDPos(1,0);
 
       if(SensorValue[s_sideSelector] > 2047)

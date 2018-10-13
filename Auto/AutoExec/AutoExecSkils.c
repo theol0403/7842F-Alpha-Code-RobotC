@@ -43,16 +43,15 @@ AutoBaseDriveDistance(4);
 AutoIntakeMode(intakeCollect);
 
 
+wantedFlywheelRPM = 0;
 AutoBaseTurnDegrees(-20);
 AutoBaseDriveDistance(10);
 AutoBaseTurnDegrees(19);
 AutoBaseDriveAllign(26, 1000);
 
-AutoBaseDriveDistance(-20);
-AutoBaseTurnDegrees(-90);
-
-AutoIntakeMode(intakeOut);
-AutoBaseDriveDistance(-30, true, true, baseDriveSlow);
+AutoBaseDriveDistance(-72);
+AutoBaseTurnDegrees(90);
+AutoBaseDriveDistance(100);
 
 
 

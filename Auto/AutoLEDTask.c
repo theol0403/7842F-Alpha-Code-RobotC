@@ -36,11 +36,13 @@ task autoLEDTask()
 
 
 
-    tileColor = (SensorValue[s_tileLine] < 2000);
+    tileColor = (SensorValue[s_tileLine] < 1900);
 
     selectColor = (SensorValue[s_sideSelector] < 2047);
 
     ledOn = (tileColor != selectColor);
+
+    wait1Msec(20);
 
 
   }

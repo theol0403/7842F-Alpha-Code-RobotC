@@ -96,11 +96,13 @@
  *    \_|  |_|  \___|      \_| |_/\__,_|\__\___/
  */
 
-
+#include "Auto/AutoLEDTask.c"
 
 void pre_auton()
 {
   startTask(LCDTask);
+  startTask(autoLEDTask);
+
 
   //BNS();
 
@@ -162,7 +164,6 @@ task usercontrol()
  *    \_| |_/\__,_|\__\___/
  */
 #include "Auto/AutoSimpleFunctions.c"
-#include "Auto/AutoLEDTask.c"
 
 #include "Auto/AutoExec.h"
 
@@ -172,8 +173,7 @@ task autonomous()
 
   startTask(FlywheelPIDTask);
 
-  startTask(autoLEDTask);
-
+  
   sideColors chosenSide;
   chosenSide = (SensorValue[s_sideSelector] > 2047) ? redSide : blueSide;
 

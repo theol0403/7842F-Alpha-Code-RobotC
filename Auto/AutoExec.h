@@ -7,7 +7,7 @@
 
 void AutoExec0()
 {
-  #include "AutoExec/AutoExec0.c"
+  #include "AutoExec/AutoExecSkils.c"
 };
 void AutoExecRed1()
 {

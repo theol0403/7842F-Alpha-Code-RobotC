@@ -22,9 +22,9 @@ AutoBaseDriveAllign(30, 800);
 AutoBaseDriveDistance(-8);
 
 
-AutoBaseTurnDegrees(-90);
+AutoBaseTurnDegrees(-91);
 
-AutoBaseDriveDistance(-10, true, false);
+AutoBaseDriveDistance(-11, true, false);
 
 waitUntil(mainFlywheelPID.Error < 30);
 wait1Msec(300);
@@ -34,10 +34,10 @@ AutoIntakeMode(intakeCollect);
 
 
 
-AutoBaseDriveDistance(33);
+AutoBaseDriveDistance(34);
 AutoIntakeMode(indexShoot);
 wait1Msec(300);
-AutoBaseDriveDistance(5);
+AutoBaseDriveDistance(4);
 AutoIntakeMode(intakeCollect);
 
 
