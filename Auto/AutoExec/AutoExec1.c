@@ -24,7 +24,7 @@ AutoBaseDriveDistance(-8);
 
 AutoBaseTurnDegrees(-90);
 
-AutoBaseDriveDistance(-11, true, false);
+AutoBaseDriveDistance(-10, true, false);
 
 waitUntil(mainFlywheelPID.Error < 30);
 wait1Msec(300);
