@@ -162,6 +162,7 @@ task usercontrol()
  *    \_| |_/\__,_|\__\___/
  */
 #include "Auto/AutoSimpleFunctions.c"
+#include "Auto/AutoLEDTask.c"
 
 #include "Auto/AutoExec.h"
 
@@ -170,6 +171,8 @@ task autonomous()
   startTask(LCDTask);
 
   startTask(FlywheelPIDTask);
+
+  startTask(autoLEDTask);
 
   sideColors chosenSide;
   chosenSide = (SensorValue[s_sideSelector] > 2047) ? redSide : blueSide;
