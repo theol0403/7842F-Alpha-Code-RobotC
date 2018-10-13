@@ -1,6 +1,7 @@
 #pragma config(Sensor, in2,    s_armPot,       sensorPotentiometer)
 #pragma config(Sensor, in3,    s_sideSelector, sensorPotentiometer)
 #pragma config(Sensor, in4,    s_autoSelector, sensorPotentiometer)
+#pragma config(Sensor, in5,    s_tileLine,     sensorLineFollower)
 #pragma config(Sensor, dgtl1,  s_FlywheelEn,   sensorQuadEncoder)
 #pragma config(Sensor, dgtl5,  s_LeftEn,       sensorQuadEncoder)
 #pragma config(Sensor, dgtl7,  s_RightEn,      sensorQuadEncoder)
