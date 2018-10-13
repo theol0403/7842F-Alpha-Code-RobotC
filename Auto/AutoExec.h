@@ -9,9 +9,13 @@ void AutoExec0()
 {
   #include "AutoExec/AutoExec0.c"
 };
-void AutoExec1()
+void AutoExecRed1()
 {
   #include "AutoExec/AutoExecRed1.c"
+};
+void AutoExecBlue1()
+{
+  #include "AutoExec/AutoExecBlue1.c"
 };
 void AutoExec2()
 {

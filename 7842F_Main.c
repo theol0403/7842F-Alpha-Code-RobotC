@@ -173,7 +173,7 @@ task autonomous()
   sideColors chosenSide;
   chosenSide = (SensorValue[s_sideSelector] > 2047) ? redSide : blueSide;
 
-  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.57, 14.32, 20, 400, chosenSide);
+  AutoBaseInit_Chassis(s_LeftEn, s_RightEn, 12.57, 14.32, 20, 400, blueSide);
   AutoBaseInit_Config(baseDrive, 20, 90, 70, 120); //turning 70
   AutoBaseInit_Config(baseDriveSlow, 20, 50, 70, 120);
   AutoBaseInit_Config(baseTurn, 20, 50, 70, 150);
@@ -189,7 +189,8 @@ task autonomous()
     AutoExec0();
     break;
     case 1:
-    AutoExec1();
+    if(chosenSide == redSide) AutoExecRed1();
+    else if(chosenSide == blueSide) AutoExecBlue1();
     break;
     case 2:
     AutoExec2();
