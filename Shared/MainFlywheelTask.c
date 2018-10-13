@@ -24,6 +24,8 @@ task FlywheelPIDTask()
   int filteredRPM;
   int motorTrue;
 
+	int ledFlash = 0;
+
 	while(true)
 	{
 
@@ -55,6 +57,23 @@ task FlywheelPIDTask()
     datalogAddValue( 4, motorTrue );
     datalogAddValue( 5, mainFlywheelPID.derivative );
  		datalogDataGroupEnd();
+
+		if(ledFlash < 6)
+		{
+			SensorValue[s_RightLED] = 0;
+			SensorValue[s_LeftLED] = 0;
+		}
+		else if(ledFlash < 10 && ledFlash >= 6)
+		{
+			SensorValue[s_RightLED] = 1;
+			SensorValue[s_LeftLED] = 1;
+		}
+		else if(ledFlash >= 10 )
+		{
+			ledFlash = 0;
+		}
+
+		ledFlash++;
 
 		wait1Msec(20);
 	}

@@ -127,6 +127,8 @@ task DriverMainTask()
 		{
 			stopTask(FlywheelPIDTask);
 			flywheelManual = true;
+			SensorValue[s_RightLED] = 0;
+			SensorValue[s_LeftLED] = 0;
 		}
 		else if(vexRT[Btn8L] && flywheelManual)
 		{
