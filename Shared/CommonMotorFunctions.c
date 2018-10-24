@@ -53,5 +53,6 @@ const unsigned int trueSpeedArray[129] =
 
 int TrueSpeed(int value)
 {
+	if(abs(value) > 127) value = sgn(value) * 127;
 	return sgn(value) * trueSpeedArray[abs(value)];
 }

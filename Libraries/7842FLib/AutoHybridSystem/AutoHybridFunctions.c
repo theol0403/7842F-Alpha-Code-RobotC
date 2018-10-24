@@ -222,8 +222,8 @@ void AutoBaseRunPID()
 	int leftPower;
 	int rightPower;
 
-	leftPower = pidCalculate(AutoDriveLeftPID, AutoDriveBase.wantedLeft, SensorValue[AutoDriveBase.leftEn]);
-	rightPower = pidCalculate(AutoDriveRightPID, AutoDriveBase.wantedRight, SensorValue[AutoDriveBase.rightEn]);
+	leftPower = pidCalculate(AutoDriveBase.autoBasePID[0][AutoDriveBase.baseMode], AutoDriveBase.wantedLeft, SensorValue[AutoDriveBase.leftEn]);
+	rightPower = pidCalculate(AutoDriveBase.autoBasePID[1][AutoDriveBase.baseMode], AutoDriveBase.wantedRight, SensorValue[AutoDriveBase.rightEn]);
 
 	leftPower = AutoBaseLimitPower(leftPower);
 	rightPower = AutoBaseLimitPower(rightPower);

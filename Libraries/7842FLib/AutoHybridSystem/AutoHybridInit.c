@@ -7,9 +7,12 @@ enum sideColors
 
 enum baseModes
 {
-  baseDrive = 0,
-  baseTurn = 1,
-  baseAllign = 2
+  baseDrive,
+  baseTurn,
+  baseAllign,
+  //Insert new modes here
+
+  baseModesNum
 };
 
 
@@ -23,10 +26,10 @@ struct BaseStruct
   float emgInchTimeP;
 
 //config
-  int minPower[3];
-	int maxPower[3];
-	int completeThreshold[3];
-	int completeTime[3];
+  int minPower[baseModesNum];
+	int maxPower[baseModesNum];
+	int completeThreshold[baseModesNum];
+	int completeTime[baseModesNum];
 
 	int loopRate;
 
@@ -44,13 +47,15 @@ struct BaseStruct
   baseModes baseMode;
 
 	bool isCompleted;
+
+
+  pidStruct autoBasePID[2][baseModesNum];
 };
 
 
-
 BaseStruct AutoDriveBase;
-pidStruct AutoDriveLeftPID;
-pidStruct AutoDriveRightPID;
+
+
 
 
 void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumference, float chassisDiameter, float emgDegTimeP, float emgInchTimeP)
@@ -77,7 +82,7 @@ void AutoBaseInit_Chassis(tSensors leftEn, tSensors rightEn, float wheelCircumfe
   AutoDriveBase.loopRate = 20;
 }
 
-void AutoBaseInit_Config(baseModes baseMode, int minPower, int maxPower, int completeThreshold, int completeTime)
+void AutoBaseInit_Config(baseModes baseMode, int minPower, int maxPower, int completeThreshold, int completeTime, float Kp, float Ki, float Kd)
 {
   AutoDriveBase.minPower[baseMode] = minPower;
 	AutoDriveBase.maxPower[baseMode] = maxPower;
@@ -85,12 +90,7 @@ void AutoBaseInit_Config(baseModes baseMode, int minPower, int maxPower, int com
 	AutoDriveBase.completeThreshold[baseMode] = completeThreshold;
 	AutoDriveBase.completeTime[baseMode] = completeTime;
 
-}
+  pidInit(AutoDriveBase.autoBasePID[0][baseMode], Kp, Ki, Kd, 0, 100000, 0, 100000);
+	pidInit(AutoDriveBase.autoBasePID[1][baseMode], Kp, Ki, Kd, 0, 100000, 0, 100000);
 
-
-
-void AutoBaseInit_PID(float Kp, float Ki, float Kd, int Icap = 100000, int Iin = 0, int Iout = 100000)
-{
-	pidInit(AutoDriveLeftPID, Kp, Ki, Kd, 0, Icap, Iin, Iout);
-	pidInit(AutoDriveRightPID, Kp, Ki, Kd, 0, Icap, Iin, Iout);
 }

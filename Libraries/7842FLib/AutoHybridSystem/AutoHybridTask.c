@@ -28,7 +28,7 @@ task AutoBaseTask()
 			AutoBaseRunPID();
 
 
-			if(abs(AutoDriveLeftPID.Error) < AutoDriveBase.completeThreshold[AutoDriveBase.baseMode] && abs(AutoDriveRightPID.Error) < AutoDriveBase.completeThreshold[AutoDriveBase.baseMode])
+			if(abs(AutoDriveBase.autoBasePID[0][AutoDriveBase.baseMode].Error) < AutoDriveBase.completeThreshold[AutoDriveBase.baseMode] && abs(AutoDriveBase.autoBasePID[1][AutoDriveBase.baseMode].Error) < AutoDriveBase.completeThreshold[AutoDriveBase.baseMode])
 			{
 				completeCount += AutoDriveBase.loopRate;
 			}
