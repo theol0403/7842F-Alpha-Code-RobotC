@@ -78,17 +78,17 @@ void odomGuessScales(odomStruct &odomName, float chassisDiameter, float wheelDia
 
 float odomGetX(odomStruct &odomName)
 {
-    return odomName.xPos;
+  return odomName.xPos;
 }
 
 float odomGetY(odomStruct &odomName)
 {
-    return odomName.yPos;
+  return odomName.yPos;
 }
 
 float odomGetDeg(odomStruct &odomName)
 {
-    return odomName.thetaPos;
+  return odomName.thetaPos;
 }
 
 
@@ -119,7 +119,7 @@ void odomCalculate(odomStruct &odomName)
   odomName.thetaPos += (float) (odomName.dLeftTicks - odomName.dRightTicks) / (float) odomName.chassisDiameter;
 
   //Wrap theta
-//  if(odomName.thetaPos > 180) odomName.thetaPos -= 360.0;
+  //  if(odomName.thetaPos > 180) odomName.thetaPos -= 360.0;
   //if(odomName.thetaPos <= -180) odomName.thetaPos += 360.0;
 
 

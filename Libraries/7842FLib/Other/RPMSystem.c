@@ -51,15 +51,15 @@ struct rpmStruct
 
 
 /**
- * Initialise RPM calculation for a sensor / flywheel
- *
- * @param deviceName  instance of RPM structure
- * @param sensorNum  enumerated value of sensor being read
- * @param timerNum  enumerated value of timer
- * @param encoderTicks  amount of ticks per rotation for your sensor - QuadEncoders are 360, IME are 4
- * @param flywheelRatio  ratio between sensor and flywheel
- *
- */
+* Initialise RPM calculation for a sensor / flywheel
+*
+* @param deviceName  instance of RPM structure
+* @param sensorNum  enumerated value of sensor being read
+* @param timerNum  enumerated value of timer
+* @param encoderTicks  amount of ticks per rotation for your sensor - QuadEncoders are 360, IME are 4
+* @param flywheelRatio  ratio between sensor and flywheel
+*
+*/
 void rpmInit(rpmStruct &deviceName, tSensors sensorNum, float encoderTicks, float flywheelRatio)
 {
 	deviceName.timeInterval = 0;
@@ -82,12 +82,10 @@ void rpmInit(rpmStruct &deviceName, tSensors sensorNum, float encoderTicks, floa
 
 
 /**
- * Calculate RPM calculation for a sensor / flywheel
- *
- * @param deviceName  instance of RPM structure
- *S
- * @return  RPM of flywheel
- */
+* Calculate RPM calculation for a sensor / flywheel
+* @param deviceName  instance of RPM structure
+* @return  RPM of flywheel
+*/
 int rpmCalculate(rpmStruct &deviceName)
 {
 	//Calculate the amount of ms since the last time this function was run

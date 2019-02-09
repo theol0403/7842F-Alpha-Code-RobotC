@@ -43,5 +43,5 @@ float raCalculate(raStruct &deviceName, float newValue)
 
 	deviceName.avg = tempAvg/deviceName.sampleNum;
 
- 	return deviceName.avg;
+	return deviceName.avg;
 }

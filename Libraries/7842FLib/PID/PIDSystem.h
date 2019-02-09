@@ -16,13 +16,13 @@ struct pidStruct
 	int integralOuter;
 
 	int Error;
-  int totalError;
+	int totalError;
 	int lastError;
 	int lastTime;
 	int lastIntegral;
-  float derivative;
+	float derivative;
 
-  EMAFilter raName;
+	EMAFilter raName;
 };
 
 
